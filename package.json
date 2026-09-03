@@ -1,0 +1,31 @@
+{
+  "name": "chengxuan-li.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "dev:fixtures": "node scripts/with-fixtures.mts dev",
+    "build": "astro build && node scripts/check-dist.mts",
+    "build:fixtures": "node scripts/with-fixtures.mts build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "validate": "npm run check && npm run test && npm run build",
+    "brand-assets": "node scripts/generate-brand-assets.mts"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.1",
+    "sharp": "0.35.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "^24.0.0",
+    "typescript": "6.0.3",
+    "vitest": "5.0.0"
+  }
+}

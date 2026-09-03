@@ -1,0 +1,7 @@
+# Normalize line endings so the same file hashes identically on every platform.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.pdf binary
+*.ico binary

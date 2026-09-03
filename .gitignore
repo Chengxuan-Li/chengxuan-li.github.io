@@ -1,0 +1,22 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+npm-debug.log*
+
+# Editor / OS / local tooling
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.claude/
+
+# Local environment
+.env
+.env.*
+
+# Source documents for content extraction are never committed
+# (see references/README.md). The directory itself is kept via .gitkeep.
+/references/archive/*
+!/references/archive/.gitkeep
