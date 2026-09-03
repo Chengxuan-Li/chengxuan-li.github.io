@@ -47,7 +47,7 @@ const ogImageUrl = new URL(ogImage, siteConfig.url).href;
     <meta property="og:site_name" content={siteConfig.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noIndex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
