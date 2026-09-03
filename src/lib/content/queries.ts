@@ -47,7 +47,7 @@ export function sortByFlexDateDesc<T>(items: readonly T[], getDate: (item: T) =>
 export function selectFeaturedProjects(content: SiteContent, limit = 4): ProjectEntry[] {
   return content.projects
     .filter((entry) => entry.data.featured)
-    .sort(byOrderThen((entry) => entry.data.home_order, byTitle))
+    .sort(byOrderThen<ProjectEntry>((entry) => entry.data.home_order, byTitle))
     .slice(0, limit);
 }
 
@@ -96,7 +96,7 @@ export function sortPublications(publications: readonly PublicationEntry[]): Pub
 export function selectFeaturedPublications(content: SiteContent, limit = 5): PublicationEntry[] {
   return content.publications
     .filter((entry) => entry.data.featured)
-    .sort(byOrderThen((entry) => entry.data.home_order, byTitle))
+    .sort(byOrderThen<PublicationEntry>((entry) => entry.data.home_order, byTitle))
     .slice(0, limit);
 }
 
