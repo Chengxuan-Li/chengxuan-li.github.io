@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsListItem from '../components/NewsListItem.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { getNewsRelations, groupNewsByYear } from '../lib/content/queries';
+import { siteConfig } from '../site.config';
+
+const content = await loadSiteContent();
+const groups = groupNewsByYear(content.news);
+---
+<BaseLayout title="News" description={`Talks, papers, software releases, awards, and milestones from ${siteConfig.name}, most recent first.`}>
+  <header class="page-head">
+    <h1>News</h1>
+    <p class="page-head__lede">Talks, papers, software releases, awards, and project milestones, most recent first.</p>
+  </header>
+  {groups.length === 0 ? (
+    <p class="empty-state">Updates will appear here as they are published.</p>
+  ) : (
+    groups.map((group) => (
+      <section class="news-year" aria-labelledby={`year-${group.year}`}>
+        <h2 id={`year-${group.year}`} class="news-year__heading">{group.year}</h2>
+        <ol class="news-list news-list--full">
+          {group.items.map((item) => <NewsListItem item={item} relations={getNewsRelations(content, item)} variant="full" />)}
+        </ol>
+      </section>
+    ))
+  )}
+</BaseLayout>
