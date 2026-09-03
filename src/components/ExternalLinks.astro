@@ -1,0 +1,27 @@
+---
+import { siteConfig } from '../site.config';
+
+interface Props {
+  variant?: 'hero' | 'footer' | 'cv';
+  includeCv?: boolean;
+}
+
+const { variant = 'hero', includeCv = false } = Astro.props;
+const { profiles } = siteConfig;
+
+const links: { label: string; href: string; external: boolean }[] = [];
+if (includeCv) links.push({ label: 'CV', href: '/cv/', external: false });
+if (profiles.github) links.push({ label: 'GitHub', href: profiles.github, external: true });
+if (profiles.scholar) links.push({ label: 'Scholar', href: profiles.scholar, external: true });
+if (profiles.linkedin) links.push({ label: 'LinkedIn', href: profiles.linkedin, external: true });
+if (profiles.email) links.push({ label: 'Email', href: `mailto:${profiles.email}`, external: false });
+---
+{links.length > 0 && (
+  <ul class:list={['links', `links--${variant}`]} aria-label="Profiles and contact">
+    {links.map((link) => (
+      <li>
+        <a href={link.href} rel={link.external ? 'me noopener' : undefined}>{link.label}</a>
+      </li>
+    ))}
+  </ul>
+)}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="6" fill="#0e5a70"/>
+  <path d="M8 16h48M8 26h48M8 36h48M8 46h48M16 8v48M26 8v48M36 8v48M46 8v48" stroke="#ffffff" stroke-opacity="0.14" stroke-width="1"/>
+  <text x="32" y="43" text-anchor="middle" font-family="'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif" font-size="30" font-weight="600" fill="#f7f6f2">CL</text>
+</svg>

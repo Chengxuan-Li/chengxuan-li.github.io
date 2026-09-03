@@ -1,0 +1,13 @@
+---
+import ExternalLinks from './ExternalLinks.astro';
+import { siteConfig } from '../site.config';
+
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p class="site-footer__identity"><span class="site-footer__name">{siteConfig.name}</span> · {siteConfig.affiliation}</p>
+    <ExternalLinks variant="footer" />
+    <p class="site-footer__copyright">© {year} {siteConfig.name}</p>
+  </div>
+</footer>

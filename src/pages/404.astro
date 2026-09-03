@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="The requested page does not exist." noIndex>
+  <header class="page-head">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p class="page-head__lede">The address may be out of date. The main sections are listed below.</p>
+  </header>
+  <ul class="link-list">
+    <li><a href="/">Home</a></li>
+    <li><a href="/projects/">Projects</a></li>
+    <li><a href="/cv/">CV</a></li>
+    <li><a href="/news/">News</a></li>
+  </ul>
+</BaseLayout>

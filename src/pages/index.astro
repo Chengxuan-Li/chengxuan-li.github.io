@@ -1,20 +1,18 @@
 ---
-// Temporary placeholder; replaced by the real home page in Task 8. Loading content here makes
-// `astro build` run schema + cross-reference validation even before the pages exist.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExternalLinks from '../components/ExternalLinks.astro';
 import { loadSiteContent } from '../lib/content/load';
-import { siteConfig } from '../site.config';
+import { roleLine, siteConfig } from '../site.config';
 
-const content = await loadSiteContent();
+// Loaded here so that content validation runs on every build; the remaining home sections use it in Task 8.
+await loadSiteContent();
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{siteConfig.name}</title>
-  </head>
-  <body>
-    <h1>{siteConfig.name}</h1>
-    <p>{content.projects.length} projects loaded.</p>
-  </body>
-</html>
+<BaseLayout title={`${siteConfig.name} — ${roleLine()}`} description={siteConfig.description} titleTemplate={false}>
+  <section class="hero" aria-labelledby="hero-name">
+    <h1 id="hero-name" class="hero__name">{siteConfig.name}</h1>
+    <p class="hero__role">{roleLine()}</p>
+    <p class="hero__affiliation">{siteConfig.affiliation}</p>
+    <p class="hero__positioning">{siteConfig.positioning}</p>
+    <ExternalLinks variant="hero" includeCv />
+  </section>
+</BaseLayout>

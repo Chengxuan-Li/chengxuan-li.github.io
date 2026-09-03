@@ -1,0 +1,16 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  level?: 2 | 3;
+  action?: { href: string; label: string };
+}
+
+const { id, title, level = 2, action } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+<div class="section-head">
+  <Heading id={id} class="section-title">{title}</Heading>
+  <span class="section-head__rule" aria-hidden="true"></span>
+  {action && <a class="section-action" href={action.href}>{action.label} →</a>}
+</div>
