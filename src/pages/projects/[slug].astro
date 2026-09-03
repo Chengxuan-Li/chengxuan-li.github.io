@@ -1,0 +1,102 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectMeta from '../../components/ProjectMeta.astro';
+import ResponsiveFigure from '../../components/ResponsiveFigure.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import PublicationListItem from '../../components/PublicationListItem.astro';
+import TalkListItem from '../../components/TalkListItem.astro';
+import NewsListItem from '../../components/NewsListItem.astro';
+import RelatedProjects from '../../components/RelatedProjects.astro';
+import { loadSiteContent } from '../../lib/content/load';
+import { getNewsRelations, getProjectRelations } from '../../lib/content/queries';
+import type { NewsEntry } from '../../lib/content/model';
+
+export const getStaticPaths = (async () => {
+  await loadSiteContent(); // validates every cross-reference before any project page is generated
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { project } = Astro.props as Props;
+const { data } = project;
+const content = await loadSiteContent();
+const relations = getProjectRelations(content, project.id);
+const { Content } = await render(project);
+
+const software = data.links.filter((link) => ['code', 'demo', 'docs', 'data'].includes(link.kind));
+const hasOutputs = relations.publications.length > 0 || software.length > 0 || relations.talks.length > 0;
+
+/** News links back to this very page are redundant, so drop the current project from each item's relations. */
+const activityRelations = (item: NewsEntry) => {
+  const itemRelations = getNewsRelations(content, item);
+  return { ...itemRelations, projects: itemRelations.projects.filter((related) => related.id !== project.id) };
+};
+
+let ogImage: string | undefined;
+if (data.hero_image) {
+  const preview = await getImage({ src: data.hero_image, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+  ogImage = preview.src;
+}
+---
+<BaseLayout title={data.title} description={data.summary} ogImage={ogImage} ogType="article">
+  <article class="project">
+    <header class="project__head">
+      <p class="eyebrow">Project</p>
+      <h1 class="project__title">{data.title}</h1>
+      <p class="project__lede">{data.positioning ?? data.summary}</p>
+      <ProjectMeta project={project} />
+    </header>
+
+    {data.hero_image && <ResponsiveFigure src={data.hero_image} alt={data.hero_alt} caption={data.hero_caption} loading="eager" />}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {hasOutputs && (
+      <section class="section project__outputs" aria-labelledby="outputs">
+        <SectionHeading id="outputs" title="Outputs" />
+        {relations.publications.length > 0 && (
+          <Fragment>
+            <h3>Publications</h3>
+            <ol class="pub-list">
+              {relations.publications.map((publication) => <PublicationListItem publication={publication} />)}
+            </ol>
+          </Fragment>
+        )}
+        {software.length > 0 && (
+          <Fragment>
+            <h3>Software</h3>
+            <ul class="link-list">
+              {software.map((link) => <li><a href={link.url}>{link.label}</a></li>)}
+            </ul>
+          </Fragment>
+        )}
+        {relations.talks.length > 0 && (
+          <Fragment>
+            <h3>Presentations</h3>
+            <ol class="cv-list">
+              {relations.talks.map((talk) => <TalkListItem talk={talk} />)}
+            </ol>
+          </Fragment>
+        )}
+      </section>
+    )}
+
+    {relations.news.length > 0 && (
+      <section class="section" aria-labelledby="activity">
+        <SectionHeading id="activity" title="Activity" action={{ href: '/news/', label: 'All news' }} />
+        <ol class="news-list news-list--compact">
+          {relations.news.map((item) => <NewsListItem item={item} relations={activityRelations(item)} variant="compact" />)}
+        </ol>
+      </section>
+    )}
+
+    <RelatedProjects projects={relations.related} />
+  </article>
+</BaseLayout>

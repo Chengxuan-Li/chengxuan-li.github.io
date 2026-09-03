@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { loadSiteContent } from '../../lib/content/load';
+import { sortProjectsForIndex } from '../../lib/content/queries';
+import { siteConfig } from '../../site.config';
+
+const content = await loadSiteContent();
+const projects = sortProjectsForIndex(content.projects);
+---
+<BaseLayout title="Projects" description={`Technical portfolio of ${siteConfig.name}. ${siteConfig.projectsIntro}`}>
+  <header class="page-head">
+    <h1>Projects</h1>
+    <p class="page-head__lede">{siteConfig.projectsIntro}</p>
+  </header>
+  {projects.length > 0 ? (
+    <div class="card-grid card-grid--index">
+      {projects.map((project) => <ProjectCard project={project} variant="index" headingLevel={2} />)}
+    </div>
+  ) : (
+    <p class="empty-state">Project case studies will appear here as they are published.</p>
+  )}
+</BaseLayout>

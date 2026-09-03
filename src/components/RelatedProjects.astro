@@ -1,0 +1,24 @@
+---
+import type { ProjectEntry } from '../lib/content/model';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  projects: ProjectEntry[];
+}
+
+const { projects } = Astro.props;
+const shown = projects.slice(0, 4);
+---
+{shown.length > 0 && (
+  <section class="section" aria-labelledby="related-projects">
+    <SectionHeading id="related-projects" title="Related projects" />
+    <ul class="related-list">
+      {shown.map((project) => (
+        <li>
+          <a href={`/projects/${project.id}/`}>{project.data.title}</a>
+          <p>{project.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
