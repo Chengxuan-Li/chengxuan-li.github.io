@@ -1,0 +1,24 @@
+---
+import type { EducationEntry } from '../lib/content/model';
+import { formatDateRange } from '../lib/content/format';
+
+interface Props {
+  education: EducationEntry;
+  variant?: 'compact' | 'full';
+}
+
+const { education, variant = 'compact' } = Astro.props;
+const { data } = education;
+const degree = data.field ? `${data.degree}, ${data.field}` : data.degree;
+---
+<li class="cv-item">
+  <p class="cv-item__when">{formatDateRange(data.start_date, data.end_date)}</p>
+  <div class="cv-item__what">
+    <p class="cv-item__title"><strong>{degree}</strong> · <span class="cv-item__org">{data.url ? <a href={data.url}>{data.institution}</a> : data.institution}</span>{data.location && <span class="cv-item__org"> · {data.location}</span>}</p>
+    {variant === 'full' && data.details.length > 0 && (
+      <ul class="cv-item__bullets">
+        {data.details.map((detail) => <li>{detail}</li>)}
+      </ul>
+    )}
+  </div>
+</li>

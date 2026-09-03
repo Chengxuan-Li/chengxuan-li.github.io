@@ -1,0 +1,45 @@
+---
+import type { ProjectEntry, PublicationEntry } from '../lib/content/model';
+import { PUBLICATION_STATUS_LABELS, splitAuthors } from '../lib/content/format';
+import { siteConfig } from '../site.config';
+
+interface Props {
+  publication: PublicationEntry;
+  /** Projects to link to; pass nothing on a project page to avoid a self-link. */
+  projects?: ProjectEntry[];
+}
+
+const { publication, projects = [] } = Astro.props;
+const { data } = publication;
+const authors = splitAuthors(data.authors, siteConfig.nameVariants);
+const doiHref = data.doi ? `https://doi.org/${data.doi}` : undefined;
+const primaryHref = data.links.paper ?? data.links.preprint ?? doiHref;
+const statusLabel = data.status === 'published' ? undefined : PUBLICATION_STATUS_LABELS[data.status];
+const venueLine = [data.venue, String(data.year)].filter(Boolean).join(', ');
+
+const links: { label: string; href: string }[] = [];
+if (data.links.paper) links.push({ label: 'Paper', href: data.links.paper });
+if (data.links.preprint) links.push({ label: 'Preprint', href: data.links.preprint });
+if (doiHref) links.push({ label: 'DOI', href: doiHref });
+if (data.links.code) links.push({ label: 'Code', href: data.links.code });
+if (data.links.slides) links.push({ label: 'Slides', href: data.links.slides });
+if (data.links.poster) links.push({ label: 'Poster', href: data.links.poster });
+for (const project of projects) {
+  links.push({ label: `Project: ${project.data.short_title ?? project.data.title}`, href: `/projects/${project.id}/` });
+}
+---
+<li class="pub" id={`pub-${publication.id}`}>
+  <p class="pub__authors">
+    {authors.map((author, index) => (
+      <Fragment><span class:list={{ pub__self: author.isSelf }}>{author.name}</span>{index < authors.length - 1 ? ', ' : ''}</Fragment>
+    ))}
+  </p>
+  <p class="pub__title">{primaryHref ? <a href={primaryHref}>{data.title}</a> : data.title}</p>
+  <p class="pub__venue">{venueLine}{statusLabel && <span class="pub__status"> · {statusLabel}</span>}</p>
+  {data.note && <p class="pub__note">{data.note}</p>}
+  {links.length > 0 && (
+    <ul class="pub__links">
+      {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+    </ul>
+  )}
+</li>

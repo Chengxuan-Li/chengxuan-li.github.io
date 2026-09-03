@@ -1,11 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ExternalLinks from '../components/ExternalLinks.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import NewsListItem from '../components/NewsListItem.astro';
+import ExperienceListItem from '../components/ExperienceListItem.astro';
+import PublicationListItem from '../components/PublicationListItem.astro';
+import EducationListItem from '../components/EducationListItem.astro';
 import { loadSiteContent } from '../lib/content/load';
+import {
+  getNewsRelations,
+  getPublicationProjects,
+  selectFeaturedExperiences,
+  selectFeaturedProjects,
+  selectFeaturedPublications,
+  selectLatestNews,
+  sortEducation,
+} from '../lib/content/queries';
 import { roleLine, siteConfig } from '../site.config';
 
-// Loaded here so that content validation runs on every build; the remaining home sections use it in Task 8.
-await loadSiteContent();
+const content = await loadSiteContent();
+const featuredProjects = selectFeaturedProjects(content, 4);
+const latest = selectLatestNews(content, 4);
+const experiences = selectFeaturedExperiences(content, 3);
+const publications = selectFeaturedPublications(content, 5);
+const education = sortEducation(content.education);
 ---
 <BaseLayout title={`${siteConfig.name} — ${roleLine()}`} description={siteConfig.description} titleTemplate={false}>
   <section class="hero" aria-labelledby="hero-name">
@@ -15,4 +34,55 @@ await loadSiteContent();
     <p class="hero__positioning">{siteConfig.positioning}</p>
     <ExternalLinks variant="hero" includeCv />
   </section>
+
+  {featuredProjects.length > 0 && (
+    <section class="section" aria-labelledby="selected-work">
+      <SectionHeading id="selected-work" title="Selected work" action={{ href: '/projects/', label: 'All projects' }} />
+      <div class="card-grid card-grid--featured">
+        {featuredProjects.map((project) => <ProjectCard project={project} variant="featured" headingLevel={3} />)}
+      </div>
+    </section>
+  )}
+
+  {latest.length > 0 && (
+    <section class="section" aria-labelledby="latest">
+      <SectionHeading id="latest" title="Latest" action={{ href: '/news/', label: 'All news' }} />
+      <ol class="news-list news-list--compact">
+        {latest.map((item) => <NewsListItem item={item} relations={getNewsRelations(content, item)} variant="compact" />)}
+      </ol>
+    </section>
+  )}
+
+  {experiences.length > 0 && (
+    <section class="section" aria-labelledby="selected-experience">
+      <SectionHeading id="selected-experience" title="Selected experience" action={{ href: '/cv/', label: 'Full CV' }} />
+      <ol class="cv-list">
+        {experiences.map((experience) => <ExperienceListItem experience={experience} variant="compact" />)}
+      </ol>
+    </section>
+  )}
+
+  {publications.length > 0 && (
+    <section class="section" aria-labelledby="selected-publications">
+      <SectionHeading
+        id="selected-publications"
+        title="Selected publications"
+        action={{ href: '/cv/#publications', label: 'All publications' }}
+      />
+      <ol class="pub-list">
+        {publications.map((publication) => (
+          <PublicationListItem publication={publication} projects={getPublicationProjects(content, publication)} />
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {education.length > 0 && (
+    <section class="section" aria-labelledby="education">
+      <SectionHeading id="education" title="Education" />
+      <ol class="cv-list">
+        {education.map((entry) => <EducationListItem education={entry} variant="compact" />)}
+      </ol>
+    </section>
+  )}
 </BaseLayout>

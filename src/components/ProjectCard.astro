@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import TagList from './TagList.astro';
+import type { ProjectEntry } from '../lib/content/model';
+import { formatDateRange, PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../lib/content/format';
+
+interface Props {
+  project: ProjectEntry;
+  /** `featured` (home: image, title, one sentence, ≤4 topics, secondary links) or `index` (adds dates, status, types, technologies). */
+  variant?: 'featured' | 'index';
+  headingLevel?: 2 | 3;
+}
+
+const { project, variant = 'index', headingLevel = 3 } = Astro.props;
+const { data } = project;
+const href = `/projects/${project.id}/`;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const isFeatured = variant === 'featured';
+const secondaryLinks = isFeatured ? data.links.filter((link) => ['paper', 'code', 'demo'].includes(link.kind)).slice(0, 3) : [];
+const topics = isFeatured ? data.topics.slice(0, 4) : data.topics;
+const dateRange = formatDateRange(data.start_date, data.end_date, { present: 'present' });
+---
+<article class:list={['project-card', `project-card--${variant}`]}>
+  <a class="project-card__visual" href={href} tabindex="-1" aria-hidden="true">
+    {data.hero_image ? (
+      <Image
+        src={data.hero_image}
+        alt=""
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 44em) 100vw, (max-width: 76em) 50vw, 36rem"
+        loading={isFeatured ? 'eager' : 'lazy'}
+      />
+    ) : (
+      <span class="project-card__fallback"><span>{data.short_title ?? data.title}</span></span>
+    )}
+  </a>
+  <div class="project-card__body">
+    <Heading class="project-card__title"><a href={href}>{data.title}</a></Heading>
+    {!isFeatured && <p class="project-card__meta">{dateRange} · {PROJECT_STATUS_LABELS[data.status]}</p>}
+    <p class="project-card__summary">{data.summary}</p>
+    {!isFeatured && data.types.length > 0 && (
+      <TagList items={data.types.map((type) => PROJECT_TYPE_LABELS[type])} variant="type" label="Project type" />
+    )}
+    <TagList items={topics} label="Topics" />
+    {!isFeatured && data.technologies.length > 0 && <p class="tech-line">{data.technologies.join(' · ')}</p>}
+    <div class="project-card__actions">
+      <a class="project-card__primary" href={href}>View project →</a>
+      {secondaryLinks.map((link) => <a class="project-card__secondary" href={link.url}>{link.label}</a>)}
+    </div>
+  </div>
+</article>
