@@ -1,0 +1,11 @@
+title: Fixture milestone with related project, publication, talk, and award links
+date: 2026-09-03
+type: milestone
+summary: Synthetic summary sentence to check the full news layout with every kind of related link.
+project_ids: [fixture-alpha]
+publication_ids: [fixture-long-citation]
+talk_ids: [fixture-talk]
+award_ids: [fixture-award]
+links:
+  - label: Event page
+    url: https://example.com/event

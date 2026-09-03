@@ -149,4 +149,11 @@ describe('assertValidContent', () => {
       /Site content failed validation \(2 issues\):\n- publications\/paper: project_ids references unknown projects id "ghost" \(known: \(none\)\)\n- publications\/paper: featured publications need a home_order/,
     );
   });
+
+  it('includes issues found outside the structured data, such as raw-source date checks', () => {
+    const extra = [{ collection: 'news' as const, id: 'item', message: 'date "2026-13-01" is not a real calendar date' }];
+    expect(() => assertValidContent(content(), extra)).toThrow(
+      /Site content failed validation \(1 issue\):\n- news\/item: date "2026-13-01" is not a real calendar date/,
+    );
+  });
 });

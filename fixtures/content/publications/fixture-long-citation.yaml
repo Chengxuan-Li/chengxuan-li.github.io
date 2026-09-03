@@ -1,0 +1,15 @@
+title: "Fixture publication with a long title: checking how multi-line citations wrap on narrow screens without breaking the layout"
+authors: [A. Author, B. Author, C. Li, D. Author, E. Author, F. Author, G. Author, H. Author]
+year: 2026
+month: 4
+status: published
+type: journal
+venue: Fixture Journal of Layout Testing
+doi: 10.1000/fixture.1
+links:
+  paper: https://example.com/fixture-paper
+  code: https://example.com/fixture-code
+project_ids: [fixture-alpha]
+featured: true
+home_order: 1
+note: Synthetic record.

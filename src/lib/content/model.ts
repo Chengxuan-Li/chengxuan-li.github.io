@@ -16,6 +16,8 @@ export interface Entry<TData> {
   id: string;
   data: TData;
   body?: string;
+  /** Source path relative to the project root, as reported by Astro's loaders. */
+  filePath?: string;
 }
 
 export type ProjectData = z.output<typeof projectBaseSchema> & { hero_image?: ImageMetadata };

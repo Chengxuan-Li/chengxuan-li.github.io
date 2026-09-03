@@ -1,0 +1,10 @@
+title: Fixture preprint
+authors: [B. Author, C. Li]
+year: 2025
+month: 11
+status: preprint
+type: preprint
+venue: null
+links:
+  preprint: https://example.com/fixture-preprint
+project_ids: [fixture-beta]

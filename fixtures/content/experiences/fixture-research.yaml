@@ -1,0 +1,12 @@
+organization: Fixture University
+role: Fixture Research Assistant
+type: research
+start_date: 2023-08
+end_date: null
+location: Fixture City, Country
+featured: true
+project_ids: [fixture-alpha, fixture-beta]
+summary: One-line synthetic summary shown on the home page.
+bullets:
+  - CV-only bullet one.
+  - CV-only bullet two with enough words to wrap on a phone screen and check the hanging layout.

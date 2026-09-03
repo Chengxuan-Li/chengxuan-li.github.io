@@ -1,0 +1,4 @@
+# Copy to src/content/skills/<slug>.yaml. One file per category, rendered under "Technical skills" on the CV.
+category: Programming languages
+items: [Python]
+# order: 1                     # (optional) position among categories

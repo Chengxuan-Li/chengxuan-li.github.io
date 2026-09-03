@@ -1,0 +1,10 @@
+# Copy to src/content/education/<slug>.yaml.
+institution: University name
+degree: Ph.D.
+# field: Field of study        # (optional)
+# start_date: 2023-08          # (optional)
+end_date: null                 # null while in progress; the completion date otherwise
+# location: City, Country      # (optional)
+# url: https://...             # (optional)
+details: []                    # CV-only lines (thesis title, advisor, honors) — verified facts only
+# cv_order: 1                  # (optional)

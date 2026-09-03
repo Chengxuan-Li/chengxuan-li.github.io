@@ -1,0 +1,9 @@
+title: Fixture talk title
+event: Fixture Conference 2026
+date: 2026-07-28
+type: conference
+location: Fixture City
+project_ids: [fixture-alpha]
+links:
+  slides: https://example.com/slides
+  event: https://example.com/event

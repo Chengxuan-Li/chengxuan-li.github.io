@@ -163,9 +163,12 @@ export function formatIssues(issues: ValidationIssue[]): string {
   return issues.map((issue) => `- ${issue.collection}/${issue.id}: ${issue.message}`).join('\n');
 }
 
-/** Throws a single, actionable error so `astro build` stops on the first broken content set. */
-export function assertValidContent(content: SiteContent): void {
-  const issues = validateContent(content);
+/**
+ * Throws a single, actionable error so `astro build` stops on the first broken content set.
+ * `extraIssues` lets callers add findings from outside the structured data (e.g. raw-source date checks).
+ */
+export function assertValidContent(content: SiteContent, extraIssues: ValidationIssue[] = []): void {
+  const issues = [...extraIssues, ...validateContent(content)];
   if (issues.length === 0) return;
   const count = `${issues.length} issue${issues.length === 1 ? '' : 's'}`;
   throw new Error(

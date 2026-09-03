@@ -1,0 +1,7 @@
+# Copy to src/content/awards/<slug>.yaml. The file name is the award id used by news items.
+title: Award name
+organization: Awarding body
+date: 2026                     # YYYY, YYYY-MM, or YYYY-MM-DD
+# description: One line on what it recognizes. (optional)
+project_ids: []
+# url: https://...             # (optional)

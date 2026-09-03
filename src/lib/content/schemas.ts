@@ -4,9 +4,15 @@ import { z } from 'astro/zod';
 /* Primitives                                                          */
 /* ------------------------------------------------------------------ */
 
-/** YAML turns an unquoted `2026-09-03` into a Date; normalize back to text so every date is validated the same way. */
+/**
+ * YAML turns an unquoted `2026-09-03` into a Date and a bare `2026` into a number; normalize both back to
+ * text so every date is validated the same way. (Calendar-invalid dates that YAML rolled over are caught
+ * separately from the raw source — see `rawdates.ts`.)
+ */
 function coerceDateInput(value: unknown): unknown {
-  return value instanceof Date ? value.toISOString().slice(0, 10) : value;
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  if (typeof value === 'number' && Number.isInteger(value)) return String(value);
+  return value;
 }
 
 export const FLEX_DATE_RE = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;

@@ -1,0 +1,14 @@
+# Copy to src/content/news/<YYYY-MM-DD>-<slug>.yaml. The file name is the news id.
+title: What happened, in one line
+date: 2026-09-03              # YYYY-MM-DD
+type: milestone               # publication | talk | award | project | software | conference | media | milestone | other
+# summary: One or two public-facing sentences. (optional)
+project_ids: []               # related project folder names
+publication_ids: []           # related publication file names
+talk_ids: []                  # related talk file names
+award_ids: []                 # related award file names
+links: []
+# links:
+#   - label: Event page
+#     url: https://...
+featured: true                # false keeps it off the home page "Latest" list

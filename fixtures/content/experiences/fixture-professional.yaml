@@ -1,0 +1,10 @@
+organization: Fixture Corporation
+role: Fixture Engineer
+type: professional
+start_date: 2021-06
+end_date: 2023-07
+location: Remote
+featured: true
+project_ids: [fixture-delta]
+summary: Synthetic professional role.
+bullets: [Bullet.]

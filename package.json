@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:fixtures": "node scripts/with-fixtures.mts dev",
-    "build": "astro build && node scripts/check-dist.mts",
+    "build": "astro build --force && node scripts/check-dist.mts",
     "build:fixtures": "node scripts/with-fixtures.mts build",
     "preview": "astro preview",
     "check": "astro check",
@@ -20,7 +20,8 @@
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
     "astro": "7.3.1",
-    "sharp": "0.35.4"
+    "sharp": "0.35.4",
+    "yaml": "2.9.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

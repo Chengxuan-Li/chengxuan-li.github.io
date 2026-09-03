@@ -1,0 +1,7 @@
+title: Fixture submitted manuscript without a venue
+authors: [C. Li, A. Author]
+year: 2027
+status: submitted
+project_ids: [fixture-alpha, fixture-beta]
+featured: true
+home_order: 2

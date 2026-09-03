@@ -27,6 +27,10 @@ describe('flexDate', () => {
   it('normalizes Date objects produced by YAML into YYYY-MM-DD', () => {
     expect(flexDate.parse(new Date(Date.UTC(2026, 8, 3)))).toBe('2026-09-03');
   });
+  it('accepts a bare year that YAML parsed as a number', () => {
+    expect(flexDate.parse(2026)).toBe('2026');
+    expect(flexDate.safeParse(2026.5).success).toBe(false);
+  });
 });
 
 describe('isoDate', () => {
