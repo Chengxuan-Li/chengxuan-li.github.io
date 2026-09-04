@@ -29,7 +29,7 @@ const multiple = bios.length > 1;
 </div>
 
 <script>
-  import { nextBioTabIndex } from '../lib/bio-tabs';
+  import { bioTabScrollDelta, nextBioTabIndex } from '../lib/bio-tabs';
 
   for (const root of document.querySelectorAll<HTMLElement>('[data-bio-tabs]')) {
     const list = root.querySelector<HTMLElement>('[data-bio-tab-list]');
@@ -53,7 +53,14 @@ const multiple = bios.length > 1;
         panels[index].tabIndex = 0;
         panels[index].hidden = !active;
       });
-      if (moveFocus) tabs[activeIndex].focus();
+      if (moveFocus) {
+        const activeTab = tabs[activeIndex];
+        activeTab.focus({ preventScroll: true });
+        const listBounds = list.getBoundingClientRect();
+        const tabBounds = activeTab.getBoundingClientRect();
+        const left = bioTabScrollDelta(listBounds.left, listBounds.right, tabBounds.left, tabBounds.right);
+        if (left !== 0) list.scrollBy({ left });
+      }
     };
 
     tabs.forEach((tab, index) => {

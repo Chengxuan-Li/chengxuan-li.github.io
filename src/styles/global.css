@@ -343,9 +343,7 @@ main.container {
 }
 
 .site-nav {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
+  margin-left: 0;
 }
 
 .site-nav ul {
@@ -370,6 +368,7 @@ main.container {
   background: transparent;
   color: var(--ink-2);
   cursor: pointer;
+  margin-left: auto;
   transition: color 150ms ease, border-color 150ms ease;
 }
 
@@ -1320,14 +1319,58 @@ main.container {
     flex-wrap: wrap;
   }
 
-  /* With five links the nav wraps onto two rows; keep the theme toggle on the first one. */
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .theme-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 0;
+  }
+
   .site-nav {
-    align-items: flex-start;
-    gap: 0.75rem;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar,
+  .bio-tabs[data-bio-tabs-ready] .bio-tabs__list::-webkit-scrollbar {
+    display: none;
   }
 
   .site-nav ul {
-    gap: 0.5rem 1.1rem;
+    width: max-content;
+    min-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: clamp(0.55rem, 3vw, 1rem);
+  }
+
+  .site-nav a {
+    white-space: nowrap;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+
+  .bio-tabs[data-bio-tabs-ready] .bio-tabs__list {
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .bio-tabs__tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
 }
 

@@ -7,3 +7,15 @@ export function nextBioTabIndex(current: number, key: string, count: number): nu
   if (key === 'End') return count - 1;
   return null;
 }
+
+/** Returns the horizontal distance needed to reveal a tab within its scroll container. */
+export function bioTabScrollDelta(
+  containerLeft: number,
+  containerRight: number,
+  tabLeft: number,
+  tabRight: number,
+): number {
+  if (tabLeft < containerLeft) return tabLeft - containerLeft;
+  if (tabRight > containerRight) return tabRight - containerRight;
+  return 0;
+}
