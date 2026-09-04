@@ -7,6 +7,7 @@ import ExperienceListItem from '../components/ExperienceListItem.astro';
 import PublicationListItem from '../components/PublicationListItem.astro';
 import TalkListItem from '../components/TalkListItem.astro';
 import AwardListItem from '../components/AwardListItem.astro';
+import BioTabs from '../components/BioTabs.astro';
 import { loadSiteContent } from '../lib/content/load';
 import { formatDateRange } from '../lib/content/format';
 import {
@@ -14,6 +15,7 @@ import {
   getPublicationProjects,
   groupExperiencesByType,
   sortAwards,
+  sortBios,
   sortEducation,
   sortProjectsForIndex,
   sortPublications,
@@ -23,6 +25,7 @@ import {
 import { roleLine, siteConfig } from '../site.config';
 
 const content = await loadSiteContent();
+const bios = sortBios(content.bios);
 const education = sortEducation(content.education);
 const experiences = groupExperiencesByType(content.experiences);
 const projects = sortProjectsForIndex(content.projects);
@@ -32,6 +35,7 @@ const awards = sortAwards(content.awards);
 const skills = sortSkills(content.skills);
 
 const sections = [
+  { id: 'bio', title: 'Bio', show: bios.length > 0 },
   { id: 'interests', title: 'Research interests', show: siteConfig.researchInterests !== null },
   { id: 'education', title: 'Education', show: education.length > 0 },
   { id: 'research-experience', title: 'Research experience', show: experiences.research.length > 0 },
@@ -65,6 +69,13 @@ const description = `Curriculum vitae of ${siteConfig.name}: education, research
   </header>
 
   {sections.length === 0 && <p class="empty-state">The full record will appear here as entries are published.</p>}
+
+  {bios.length > 0 && (
+    <section class="cv-section" aria-labelledby="bio">
+      <SectionHeading id="bio" title="Bio" />
+      <BioTabs bios={bios} />
+    </section>
+  )}
 
   {siteConfig.researchInterests && (
     <section class="cv-section" aria-labelledby="interests">

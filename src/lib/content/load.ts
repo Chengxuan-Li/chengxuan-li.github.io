@@ -37,7 +37,8 @@ async function auditRawDates(content: SiteContent): Promise<ValidationIssue[]> {
 }
 
 async function load(): Promise<SiteContent> {
-  const [projects, publications, news, experiences, education, talks, awards, skills] = await Promise.all([
+  const [bios, projects, publications, news, experiences, education, talks, awards, skills] = await Promise.all([
+    getCollection('bios'),
     getCollection('projects'),
     getCollection('publications'),
     getCollection('news'),
@@ -47,7 +48,7 @@ async function load(): Promise<SiteContent> {
     getCollection('awards'),
     getCollection('skills'),
   ]);
-  const content: SiteContent = { projects, publications, news, experiences, education, talks, awards, skills };
+  const content: SiteContent = { bios, projects, publications, news, experiences, education, talks, awards, skills };
   assertValidContent(content, await auditRawDates(content));
   return content;
 }

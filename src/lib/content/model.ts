@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import type { z } from 'astro/zod';
 import type {
   awardSchema,
+  bioSchema,
   educationSchema,
   experienceSchema,
   newsSchema,
@@ -30,6 +31,7 @@ export type EducationData = z.output<typeof educationSchema>;
 export type TalkData = z.output<typeof talkSchema>;
 export type AwardData = z.output<typeof awardSchema>;
 export type SkillGroupData = z.output<typeof skillGroupSchema>;
+export type BioData = z.output<typeof bioSchema>;
 
 export type ProjectEntry = Entry<ProjectData>;
 export type PublicationEntry = Entry<PublicationData>;
@@ -39,9 +41,11 @@ export type EducationEntry = Entry<EducationData>;
 export type TalkEntry = Entry<TalkData>;
 export type AwardEntry = Entry<AwardData>;
 export type SkillGroupEntry = Entry<SkillGroupData>;
+export type BioEntry = Entry<BioData>;
 
 /** Everything the site knows, loaded once per build. */
 export interface SiteContent {
+  bios: BioEntry[];
   projects: ProjectEntry[];
   publications: PublicationEntry[];
   news: NewsEntry[];
@@ -55,6 +59,7 @@ export interface SiteContent {
 export type CollectionName = keyof SiteContent;
 
 export const COLLECTION_NAMES = [
+  'bios',
   'projects',
   'publications',
   'news',

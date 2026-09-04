@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import * as queries from '../src/lib/content/queries';
 import {
   getNewsRelations,
   getProjectRelations,
@@ -20,6 +21,19 @@ import {
 import { award, content, education, experience, news, project, publication, skills, talk } from './helpers/fixtures';
 
 const ids = (entries: { id: string }[]) => entries.map((entry) => entry.id);
+
+describe('sortBios', () => {
+  it('orders file-derived ids using numeric-aware comparison', () => {
+    expect(queries).toHaveProperty('sortBios');
+    const bios = [
+      { id: '150-words', data: { title: '150 words version', content: 'Long.' } },
+      { id: '50-words', data: { title: '50 words version', content: 'Medium.' } },
+      { id: '1-sentence', data: { title: '1-sentence version', content: 'Short.' } },
+      { id: '100-words', data: { title: '100 words version', content: 'Longer.' } },
+    ];
+    expect(ids(queries.sortBios(bios))).toEqual(['1-sentence', '50-words', '100-words', '150-words']);
+  });
+});
 
 describe('sortByFlexDateDesc', () => {
   it('orders newest first across mixed precision', () => {

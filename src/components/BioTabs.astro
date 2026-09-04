@@ -1,0 +1,72 @@
+---
+import type { BioEntry } from '../lib/content/model';
+
+interface Props {
+  bios: BioEntry[];
+}
+
+const { bios } = Astro.props;
+const multiple = bios.length > 1;
+---
+
+<div class="bio-tabs" data-bio-tabs>
+  {multiple && (
+    <div class="bio-tabs__list" data-bio-tab-list aria-label="Biography length">
+      {bios.map((bio) => (
+        <button class="bio-tabs__tab" type="button" data-bio-tab>{bio.data.title}</button>
+      ))}
+    </div>
+  )}
+
+  <div class="bio-tabs__panels">
+    {bios.map((bio) => (
+      <article class="bio-tabs__panel" data-bio-panel>
+        {multiple && <h3 class="bio-tabs__fallback-title">{bio.data.title}</h3>}
+        <p>{bio.data.content}</p>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  import { nextBioTabIndex } from '../lib/bio-tabs';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-bio-tabs]')) {
+    const list = root.querySelector<HTMLElement>('[data-bio-tab-list]');
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-bio-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-bio-panel]')];
+    if (!list || tabs.length < 2 || tabs.length !== panels.length) continue;
+
+    list.setAttribute('role', 'tablist');
+
+    const activate = (activeIndex: number, moveFocus = false) => {
+      tabs.forEach((tab, index) => {
+        const active = index === activeIndex;
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('id', `bio-tab-${index}`);
+        tab.setAttribute('aria-controls', `bio-panel-${index}`);
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panels[index].setAttribute('role', 'tabpanel');
+        panels[index].setAttribute('id', `bio-panel-${index}`);
+        panels[index].setAttribute('aria-labelledby', `bio-tab-${index}`);
+        panels[index].tabIndex = 0;
+        panels[index].hidden = !active;
+      });
+      if (moveFocus) tabs[activeIndex].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        const nextIndex = nextBioTabIndex(index, event.key, tabs.length);
+        if (nextIndex === null) return;
+        event.preventDefault();
+        activate(nextIndex, true);
+      });
+    });
+
+    activate(0);
+    root.dataset.bioTabsReady = '';
+  }
+</script>

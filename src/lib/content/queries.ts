@@ -1,6 +1,7 @@
 import { flexDateSortKey } from './dates';
 import type {
   AwardEntry,
+  BioEntry,
   EducationEntry,
   ExperienceData,
   ExperienceEntry,
@@ -37,6 +38,11 @@ function recencyKey(start: string | undefined, end: string | null | undefined): 
 }
 
 /* ---------------- generic ---------------- */
+
+/** Bio variants follow their file-derived ids, with numeric portions ordered as numbers. */
+export function sortBios(bios: readonly BioEntry[]): BioEntry[] {
+  return [...bios].sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true, sensitivity: 'base' }));
+}
 
 export function sortByFlexDateDesc<T>(items: readonly T[], getDate: (item: T) => string): T[] {
   return [...items].sort((a, b) => dateDesc(getDate(a), getDate(b)));

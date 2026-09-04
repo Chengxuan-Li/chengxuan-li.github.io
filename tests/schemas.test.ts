@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'astro/zod';
+import * as schemas from '../src/lib/content/schemas';
 import {
   awardSchema,
   educationSchema,
@@ -16,6 +17,22 @@ import {
   skillGroupSchema,
   talkSchema,
 } from '../src/lib/content/schemas';
+
+describe('bioSchema', () => {
+  it('accepts exactly a non-empty title and content', () => {
+    expect(schemas).toHaveProperty('bioSchema');
+    const bioSchema = schemas.bioSchema;
+    expect(
+      bioSchema.parse({
+        title: '50 words version',
+        content: 'Chengxuan Li is a researcher.',
+      }),
+    ).toEqual({ title: '50 words version', content: 'Chengxuan Li is a researcher.' });
+    expect(bioSchema.safeParse({ title: ' ', content: 'Biography' }).success).toBe(false);
+    expect(bioSchema.safeParse({ title: 'Short version', content: '' }).success).toBe(false);
+    expect(bioSchema.safeParse({ title: 'Short version', content: 'Biography', order: 1 }).success).toBe(false);
+  });
+});
 
 describe('flexDate', () => {
   it.each(['2026', '2026-09', '2026-09-03', '2024-02-29'])('accepts %s', (value) => {

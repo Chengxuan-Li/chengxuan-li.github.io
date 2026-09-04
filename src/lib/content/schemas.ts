@@ -69,6 +69,15 @@ const text = z.string().trim().min(1, { message: 'Must not be empty' });
 const orderInt = z.number().int().positive({ message: 'Order values are positive integers (1 = first)' });
 
 /* ------------------------------------------------------------------ */
+/* Bios                                                                */
+/* ------------------------------------------------------------------ */
+
+export const bioSchema = z.strictObject({
+  title: text,
+  content: text,
+});
+
+/* ------------------------------------------------------------------ */
 /* Projects                                                            */
 /* ------------------------------------------------------------------ */
 

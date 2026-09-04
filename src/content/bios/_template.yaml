@@ -1,0 +1,4 @@
+# Copy to src/content/bios/<version>.yaml. The file name is the record id and controls tab order.
+title: 50 words version
+content: >-
+  Write a verified biography here.

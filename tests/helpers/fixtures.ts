@@ -1,5 +1,6 @@
 import type {
   AwardEntry,
+  BioEntry,
   EducationEntry,
   ExperienceEntry,
   NewsEntry,
@@ -30,6 +31,10 @@ export function project(id: string, data: Partial<ProjectEntry['data']> = {}): P
       ...data,
     },
   };
+}
+
+export function bio(id: string, data: Partial<BioEntry['data']> = {}): BioEntry {
+  return { id, data: { title: `${id} version`, content: `Biography ${id}.`, ...data } };
 }
 
 export function publication(id: string, data: Partial<PublicationEntry['data']> = {}): PublicationEntry {
@@ -108,6 +113,7 @@ export function skills(id: string, data: Partial<SkillGroupEntry['data']> = {}):
 
 export function content(partial: Partial<SiteContent> = {}): SiteContent {
   return {
+    bios: [],
     projects: [],
     publications: [],
     news: [],

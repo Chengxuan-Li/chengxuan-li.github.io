@@ -50,6 +50,7 @@ ordering value, or a DOI reused by two papers fails the build with a message nam
 
 ```text
 src/content/
+├── bios/<version>.yaml         title + biography text; each record becomes a CV tab
 ├── projects/<slug>/index.md   Markdown case study + frontmatter; images sit next to index.md
 ├── publications/<id>.yaml
 ├── news/<YYYY-MM-DD>-<slug>.yaml
@@ -149,6 +150,9 @@ related to that project, because its publications and talks already appear under
 
 ### Update CV data
 
+- Bios: copy `src/content/bios/_template.yaml` to `src/content/bios/<version>.yaml` and fill the strict
+  `title` and `content` fields. Every non-underscore YAML file becomes a version tab at the top of `/cv/`;
+  file-derived ids are ordered with numeric awareness (`1-sentence`, `50-words`, `100-words`, …).
 - Education, experience, talks, awards, and skills each have a folder with a `_template.yaml`.
   Experience `type` selects the CV section; `cv_order` pins a position, otherwise current roles sort first.
 - Publications: one YAML file per paper, listed in full on `/publications/` and on the CV. `status` and

@@ -4,6 +4,7 @@ import { z } from 'astro/zod';
 import { entryId } from './lib/content/entry-id';
 import {
   awardSchema,
+  bioSchema,
   educationSchema,
   experienceSchema,
   newsSchema,
@@ -34,6 +35,7 @@ const projects = defineCollection({
     }),
 });
 
+const bios = defineCollection({ loader: yaml('bios'), schema: bioSchema });
 const publications = defineCollection({ loader: yaml('publications'), schema: publicationSchema });
 const news = defineCollection({ loader: yaml('news'), schema: newsSchema });
 const experiences = defineCollection({ loader: yaml('experiences'), schema: experienceSchema });
@@ -42,4 +44,4 @@ const talks = defineCollection({ loader: yaml('talks'), schema: talkSchema });
 const awards = defineCollection({ loader: yaml('awards'), schema: awardSchema });
 const skills = defineCollection({ loader: yaml('skills'), schema: skillGroupSchema });
 
-export const collections = { projects, publications, news, experiences, education, talks, awards, skills };
+export const collections = { bios, projects, publications, news, experiences, education, talks, awards, skills };
