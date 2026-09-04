@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+// Latin subsets of the two self-hosted fonts, preloaded so text renders in Geist on first paint.
+import geistLatinUrl from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import geistMonoLatinUrl from '@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { siteConfig } from '../site.config';
@@ -48,6 +51,8 @@ const ogImageUrl = new URL(ogImage, siteConfig.url).href;
       })();
     </script>
     <title>{fullTitle}</title>
+    <link rel="preload" href={geistLatinUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={geistMonoLatinUrl} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     {noIndex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
