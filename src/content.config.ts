@@ -1,5 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 import { entryId } from './lib/content/entry-id';
 import {
   awardSchema,
@@ -29,7 +30,7 @@ const projects = defineCollection({
   schema: ({ image }) =>
     projectBaseSchema.extend({
       hero_image: image().optional(),
-      video: projectVideoSchema(image()).optional(),
+      videos: z.array(projectVideoSchema(image())).min(1).optional(),
     }),
 });
 

@@ -53,7 +53,12 @@ if (data.hero_image) {
 
     <div class="prose">
       <Content />
-      {data.video && <ProjectVideo video={data.video} />}
+      {data.videos && (
+        <section class="project-videos" aria-labelledby="project-videos">
+          <h2 id="project-videos">Platform Demonstrations</h2>
+          {data.videos.map((video) => <ProjectVideo video={video} />)}
+        </section>
+      )}
     </div>
 
     {hasOutputs && (

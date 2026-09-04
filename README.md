@@ -79,7 +79,7 @@ Link fields differ by record type — these are the only accepted keys:
 | Publication | `links:` map with `paper`, `preprint`, `code`, `slides`, `poster`; plus a bare `doi:` (a DOI is rendered as a link but does not make the title clickable) |
 | Talk | `links:` map with `slides`, `video`, `event`, `abstract` |
 | Award | a single top-level `url:` |
-| Project | `links:` list of `{ label, url, kind }`, `kind` ∈ `code`, `demo`, `paper`, `docs`, `data`, `other`; optional `video:` with an external HTTPS YouTube, Vimeo, or direct `.mp4` URL |
+| Project | `links:` list of `{ label, url, kind }`, `kind` ∈ `code`, `demo`, `paper`, `docs`, `data`, `other`; optional `videos:` list with external HTTPS YouTube, Vimeo, or direct `.mp4` URLs |
 | News item | `links:` list of `{ label, url }` |
 | Experience, education | a single optional `url:` |
 
@@ -100,8 +100,8 @@ Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `wo
 3. Write the case study body: Problem, System / Method, My Contribution, Technical Details, Results.
    Put every project image (thumbnail, hero, inline figure, or video poster) next to `index.md`; reference
    inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the header figure. Images are
-   optimized at build time. Videos stay external: use the optional strict `video` record with an HTTPS
-   YouTube, Vimeo, or direct `.mp4` URL, a required accessible title, and optional caption/poster.
+   optimized at build time. Videos stay external: use the optional strict `videos` list with HTTPS
+   YouTube, Vimeo, or direct `.mp4` URLs, required visible and accessible titles, and optional captions/posters.
 4. Run `npm run build`; the page appears at `/projects/<slug>/` and in the Projects index and CV.
 
 ### How `/news/` is assembled

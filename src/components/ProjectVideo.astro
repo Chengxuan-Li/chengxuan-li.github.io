@@ -11,6 +11,7 @@ const source = resolveExternalVideoUrl(video.url);
 if (!source) throw new Error(`Unsupported project video URL: ${video.url}`);
 ---
 <figure class="project-media">
+  <h3>{video.title}</h3>
   {source.kind === 'embed' ? (
     <iframe
       src={source.url}

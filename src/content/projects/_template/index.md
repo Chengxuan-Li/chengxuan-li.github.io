@@ -17,11 +17,11 @@ technologies: [Python]
 # hero_image: ./hero.png            # (optional) image placed next to this file; 1600px wide or more
 # hero_alt: What the figure shows.  # required when hero_image is informative; leave "" if decorative
 # hero_caption: Caption under the hero figure. (optional)
-# video:                             # optional external video shown after the case-study body
-#   url: https://youtu.be/...        # HTTPS YouTube, Vimeo, or direct .mp4 URL; never store video files here
-#   title: Accessible video title
-#   caption: Caption under the video. # optional
-#   poster: ./video-poster.png       # optional co-located image used for direct .mp4 playback
+# videos:                            # optional external videos shown after the case-study body
+#   - url: https://youtu.be/...      # HTTPS YouTube, Vimeo, or direct .mp4 URL; never store video files here
+#     title: Visible and accessible video title
+#     caption: Caption under the video. # optional
+#     poster: ./video-poster.png     # optional co-located image used for direct .mp4 playback
 related_project_ids: []             # other project folder names (2–4 at most are shown)
 links: []
 # links:

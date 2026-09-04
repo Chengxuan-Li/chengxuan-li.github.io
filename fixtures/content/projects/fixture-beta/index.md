@@ -11,10 +11,10 @@ topics: [Simulation fixtures]
 technologies: [C++]
 hero_image: ./hero.png
 hero_alt: Synthetic image.
-video:
-  url: https://example.com/fixture-video.mp4
-  title: Synthetic direct video used to test native playback.
-  poster: ./hero.png
+videos:
+  - url: https://example.com/fixture-video.mp4
+    title: Synthetic direct video used to test native playback.
+    poster: ./hero.png
 related_project_ids: [fixture-alpha]
 links:
   - label: Code

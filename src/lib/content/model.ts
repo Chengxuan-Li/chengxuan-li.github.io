@@ -22,7 +22,7 @@ export interface Entry<TData> {
 }
 
 export type ProjectVideoData = z.output<typeof projectVideoBaseSchema> & { poster?: ImageMetadata };
-export type ProjectData = z.output<typeof projectBaseSchema> & { hero_image?: ImageMetadata; video?: ProjectVideoData };
+export type ProjectData = z.output<typeof projectBaseSchema> & { hero_image?: ImageMetadata; videos?: ProjectVideoData[] };
 export type PublicationData = z.output<typeof publicationSchema>;
 export type NewsData = z.output<typeof newsSchema>;
 export type ExperienceData = z.output<typeof experienceSchema>;
