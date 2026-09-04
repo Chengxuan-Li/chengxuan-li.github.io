@@ -2,3 +2,8 @@ institution: Architectural Association
 degree: BA (Hons)
 end_date: 2022-06
 location: London, UK
+details: [
+  "Renewables energy systems and building energy modeling",
+  "Building physics and energy performance simulation",
+  "Environmental and sustainable buildings"
+]

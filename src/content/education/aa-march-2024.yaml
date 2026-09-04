@@ -2,3 +2,8 @@ institution: Architectural Association
 degree: M.Arch
 end_date: 2024-06
 location: London, UK
+details: [
+  "Energy engineering and benchmarking",
+  "Net-zero building operations and optimization",
+  "Post-Occupancy Evaluation (POE)"
+]
