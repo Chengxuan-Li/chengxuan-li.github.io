@@ -1,6 +1,7 @@
 # CV content handoff — Chengxuan Li
 
-**Date:** 2026-09-04  
+**Date:** 2026-09-04
+
 **Purpose:** Generate or tailor CVs, résumés, bios, and application materials from the public factual content in this repository.
 
 ## Start here
