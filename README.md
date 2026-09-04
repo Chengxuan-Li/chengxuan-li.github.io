@@ -60,6 +60,10 @@ src/content/
   talks, activity) are generated.
 - Site-wide facts (name, role, affiliation, profile links, CV PDF path, meta description) live in
   `src/site.config.ts`. A `null` profile link or `cvPdf` simply omits that link or button.
+- Colour theme: the site follows the browser's `prefers-color-scheme` by default. The sun/moon button in
+  the header overrides it and stores the choice in `localStorage` (`theme`); choosing the theme the browser
+  already uses clears the override. Logic in `src/lib/theme.ts`, wiring in `SiteHeader.astro`, and a
+  pre-paint inline script in `BaseLayout.astro`.
 
 ### Add or edit a project
 

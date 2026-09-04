@@ -20,6 +20,10 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
   <div class="container site-header__inner">
     <a class="wordmark" href="/">{siteConfig.name}</a>
     <nav class="site-nav" aria-label="Primary">
+      <button class="theme-toggle" type="button" aria-label="Switch colour theme">
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      </button>
       <ul>
         {items.map((item) => (
           <li>
@@ -30,3 +34,56 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     </nav>
   </div>
 </header>
+
+<script>
+  import { readStoredTheme, resolveTheme, STORAGE_KEY, toggleLabel, toggleTheme, type Theme } from '../lib/theme';
+
+  const root = document.documentElement;
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const THEME_COLORS: Record<Theme, string> = { light: '#f7f6f2', dark: '#121416' };
+
+  function stored(): Theme | null {
+    try {
+      return readStoredTheme(localStorage.getItem(STORAGE_KEY));
+    } catch {
+      return null;
+    }
+  }
+
+  function current(): Theme {
+    return resolveTheme(stored(), media.matches);
+  }
+
+  /** Reflect the resolved theme in the button label and the browser chrome colour. */
+  function sync(): void {
+    const theme = current();
+    button?.setAttribute('aria-label', toggleLabel(theme));
+    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
+      meta.setAttribute('content', THEME_COLORS[theme]);
+    }
+  }
+
+  function applyStored(value: Theme | null): void {
+    if (value) root.setAttribute('data-theme', value);
+    else root.removeAttribute('data-theme');
+    sync();
+  }
+
+  button?.addEventListener('click', () => {
+    const next = toggleTheme(current(), media.matches);
+    try {
+      if (next.store) localStorage.setItem(STORAGE_KEY, next.store);
+      else localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Storage may be unavailable (private mode); the theme still switches for this page view.
+    }
+    applyStored(next.store);
+  });
+
+  media.addEventListener('change', sync); // automatic mode follows the system live
+  window.addEventListener('storage', (event) => {
+    if (event.key === null || event.key === STORAGE_KEY) applyStored(stored()); // keep other tabs in step
+  });
+  sync();
+</script>

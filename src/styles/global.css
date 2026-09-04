@@ -33,8 +33,12 @@
   --gutter: clamp(1rem, 4vw, 2.5rem);
 }
 
+/*
+ * Dark tokens apply when the browser prefers dark and no manual "light" override is set, and always
+ * when the toggle stored "dark". Keep the two blocks identical.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #121416;
     --paper-2: #1a1d21;
     --ink: #e6e3dc;
@@ -48,6 +52,30 @@
     --on-accent: #0f1a1e;
     --focus: #f2a33a;
   }
+}
+
+:root[data-theme="dark"] {
+  --paper: #121416;
+  --paper-2: #1a1d21;
+  --ink: #e6e3dc;
+  --ink-2: #aeb4bd;
+  --ink-3: #8b939d;
+  --rule: #2b3037;
+  --rule-strong: #3e444c;
+  --accent: #7cc4d6;
+  --accent-ink: #a5dbe8;
+  --accent-soft: #16303a;
+  --on-accent: #0f1a1e;
+  --focus: #f2a33a;
+}
+
+/* Form controls and scrollbars follow the chosen theme rather than the system one. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 /* ==========================================================================
@@ -298,6 +326,12 @@ main.container {
   color: var(--accent-ink);
 }
 
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
 .site-nav ul {
   list-style: none;
   display: flex;
@@ -305,6 +339,60 @@ main.container {
   gap: 1.5rem;
   padding: 0;
   margin: 0;
+}
+
+/* Theme toggle: hidden until the inline head script confirms JS is running. */
+.theme-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+:root[data-js] .theme-toggle {
+  display: inline-flex;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.theme-toggle__icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Show the icon of the theme a click will switch to: moon while light, sun while dark. */
+.theme-toggle__icon--sun {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle__icon--sun {
+    display: block;
+  }
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--sun {
+  display: block;
 }
 
 .site-nav a {
@@ -1065,11 +1153,17 @@ main.container {
 }
 
 @media (prefers-color-scheme: dark) {
-  .astro-code,
-  .astro-code span {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
     color: var(--shiki-dark) !important;
     background-color: var(--shiki-dark-bg) !important;
   }
+}
+
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
 }
 
 /* ==========================================================================
