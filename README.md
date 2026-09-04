@@ -1,8 +1,9 @@
 # chengxuan-li.github.io
 
 Source of the personal research and engineering site published at <https://chengxuan-li.github.io/>.
-The site is a static [Astro](https://astro.build) build: one structured content model rendered as four views —
-Home (curated synthesis), Projects (technical case studies), CV (complete record), and News (activity stream).
+The site is a static [Astro](https://astro.build) build: one structured content model rendered as five views —
+Home (curated synthesis), Projects (technical case studies), Publications, CV (complete record), and News
+(activity stream).
 
 ## Development
 
@@ -37,8 +38,8 @@ After a deployment, check `https://chengxuan-li.github.io/`, `/projects/`, `/cv/
 
 All published facts live in `src/content/` and are validated at build time (schemas in
 `src/lib/content/schemas.ts`, cross-reference rules in `src/lib/content/validate.ts`, a raw-source date check in
-`src/lib/content/rawdates.ts`). A broken reference, malformed or impossible date, invalid URL, or duplicate
-ordering value fails the build with a message naming the record.
+`src/lib/content/rawdates.ts`). A broken reference, malformed or impossible date, invalid URL, duplicate
+ordering value, or a DOI reused by two papers fails the build with a message naming the record.
 
 ```text
 src/content/
@@ -78,9 +79,32 @@ src/content/
    for the header figure. Images are optimized at build time.
 4. Run `npm run build`; the page appears at `/projects/<slug>/` and in the Projects index and CV.
 
-### Add a news item
+### How `/news/` is assembled
 
-1. Copy `src/content/news/_template.yaml` to `src/content/news/<YYYY-MM-DD>-<slug>.yaml`.
+`/news/` is a **view**, not a collection to maintain by hand. `src/lib/content/activity.ts` builds one
+reverse-chronological stream from the records that already exist:
+
+| Source | Enters the stream | Date used |
+| --- | --- | --- |
+| Publications | Yes, unless `status: in-preparation` | `date`, else `year`+`month`, else `year` |
+| Awards | Yes | `date` |
+| Talks | Yes | `date` |
+| Manual news items | Yes | `date` |
+| Projects | **No** — write a manual news item for a milestone worth announcing | — |
+| Education, experience | **No** — same; add a manual news item if you want one | — |
+
+So a paper, award, or talk is written **once**, in its own collection, and its title, date, and links stay
+consistent everywhere. Never copy such a record into `src/content/news/`.
+
+The home page "Latest" section shows the four newest stream entries; a manual news item with
+`featured: false` is kept off it. A project page's "Activity" section lists only awards and manual news
+related to that project, because its publications and talks already appear under Outputs.
+
+### Add a news item (irregular events only)
+
+1. Copy `src/content/news/_template.yaml` to `src/content/news/<YYYY-MM-DD>-<slug>.yaml`, for a software
+   release, media coverage, a project or education milestone, or anything else that is not a publication,
+   award, or talk.
 2. Set `title`, `date` (`YYYY-MM-DD`, or `YYYY-MM` when only the month is known), `type`, an optional
    `summary`, and the ids of related projects, publications, talks, or awards. Unknown ids fail the build.
 3. The item appears on `/news/` under its year and, unless `featured: false`, among the four newest items
@@ -90,8 +114,10 @@ src/content/
 
 - Education, experience, talks, awards, and skills each have a folder with a `_template.yaml`.
   Experience `type` selects the CV section; `cv_order` pins a position, otherwise current roles sort first.
-- Publications: one YAML file per paper. `status` and `venue` must reflect the real state (`venue: null`
-  until known). Set `featured: true` + `home_order` for the home page selection.
+- Publications: one YAML file per paper, listed in full on `/publications/` and on the CV. `status` and
+  `venue` must reflect the real state (`venue: null` until known). Set `featured: true` + `home_order` for
+  the home page selection. Add `date` when the exact publication day is known; it positions the paper in
+  the news stream.
 - `researchInterests` in `src/site.config.ts` fills the one-line interests section; leave it `null` to omit.
 - PDF CV: copy an approved public PDF to `public/cv/` and set `cvPdf: '/cv/<file>.pdf'` in
   `src/site.config.ts`. Never link files from `references/archive/`.
