@@ -54,7 +54,7 @@ export const siteConfig: SiteConfig = {
   profiles: {
     github: 'https://github.com/Chengxuan-Li',
     scholar: null,
-    linkedin: null,
+    linkedin: 'https://www.linkedin.com/in/chengxl/',
     email: 'cl2749@cornell.edu',
   },
   cvPdf: null,
