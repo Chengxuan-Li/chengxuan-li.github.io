@@ -210,6 +210,19 @@ describe('publicationSchema', () => {
     });
     expect(parsed.links.paper).toBe('https://example.com/paper');
   });
+  it('accepts submitted abstract records with stored abstract text', () => {
+    const parsed = publicationSchema.parse({
+      ...base,
+      month: 9,
+      type: 'abstract',
+      abstract: 'A submitted abstract whose body is stored for future use.',
+    });
+    expect(parsed).toMatchObject({
+      month: 9,
+      type: 'abstract',
+      abstract: 'A submitted abstract whose body is stored for future use.',
+    });
+  });
   it.each([
     ['no authors', { ...base, authors: [] }],
     ['missing status', { title: 'Paper', authors: ['A'], year: 2026 }],

@@ -6,7 +6,7 @@ authors: # in publication order, as printed
 year: 2026
 # month: 5                    # (optional) 1–12
 status: submitted             # published | in-press | accepted | submitted | preprint | in-preparation
-type: journal                 # journal | conference | workshop | preprint | thesis | report | other
+type: journal                 # journal | conference | workshop | preprint | thesis | report | abstract | other
 venue: null                   # journal or conference name, or null until known
 # doi: 10.1000/xyz123         # (optional) bare DOI
 links: {}                     # the first link below (paper, then preprint, code, slides, poster) makes
@@ -21,3 +21,5 @@ project_ids: []               # project folder names this paper belongs to
 featured: false               # true to list under "Selected publications" on the home page (then set home_order)
 # home_order: 1
 # note: Equal contribution.   # (optional) shown after the citation
+# abstract: >-                # (optional) stored for future use; not currently displayed
+#   Full abstract text.

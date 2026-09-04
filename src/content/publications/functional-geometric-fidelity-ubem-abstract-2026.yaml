@@ -1,0 +1,18 @@
+title: "Lost in aggregation? Guidance on functional geometric fidelity in Urban Building Energy Models (UBEMs)"
+authors: [Chengxuan Li, Timur Dogan]
+year: 2026
+month: 9
+status: submitted
+type: abstract
+venue: null
+links: {}
+project_ids: []
+featured: false
+abstract: >-
+  Urban Building Energy Models (UBEMs) are assembled from GIS, remote-sensing, and other urban-scale geospatial datasets, yet the geometric information available for building energy simulation remains fundamentally incomplete. High-fidelity 3D geometry is uncommon; surrounding context for detailed shading may be incomplete or computationally expensive to resolve; internal thermal zoning is generally unavailable; and attic and basement characteristics are rarely observed. Simulation-ready models therefore rely extensively on inferred floors and floor heights, synthetic zoning, approximated fenestration, and simplified or neglected transition spaces. Paradoxically, this imputed detail is often collapsed again when zone- and floor-level results are aggregated to building or urban-scale quantities for validation and decision-making.
+
+  We examine this problem through four functional axes of geometric fidelity. Geometric representation (G) comprises G0, flat-roof footprint extrusion; G1, roof-aware extrusion with simplified inferred roofs; G2, simplified LiDAR-drape or reconstruction-derived geometry; and G3, detailed reconstructed reference geometry. Shading, window, and context representation (S) comprises S0, no explicit context with WWR-controlled surface-centered windows; S1, coarse extruded context with simplified or façade-distributed windows; S2, coarse extruded context with real window locations; and S3, voxel-raytraced shading incorporating detailed buildings, vegetation, and real window locations. Thermal zoning (Z) comprises Z0, a geometry-less single thermal node; Z1, shoebox zoning; Z2, floor-sliced zoning; Z3, floor-sliced ASHRAE 90.1 Appendix G perimeter-core zoning; and Z4, individual-space zoning with inter-zone heat transfer. Attic/basement representation (B) comprises B0, collapsed direct boundary conditions; B1, equivalent resistance/U-value boundaries; B2, lumped intermediate thermal nodes; and B3, explicit attic, basement, or crawlspace thermal zones.
+
+  A constrained factorial experiment is constructed over feasible combinations of these fidelity levels using canonical building typologies paired with representative typical-weather and urban-context conditions, and evaluated in EnergyPlus. Configurations are compared against high-fidelity reference representations across annual energy use, ideal zone heating and cooling demand, hourly temperature and load profiles, peak demand, and computational cost. Performance is assessed from individual buildings to block-, feeder-, and urban-scale aggregates to determine whether simplification errors persist, cancel, or amplify with aggregation.
+
+  The study seeks to identify which geometric functions require high fidelity for which outputs, providing systematic guidelines for physics-targeted geometric simplification according to physical process, output metric, and scale of analysis.

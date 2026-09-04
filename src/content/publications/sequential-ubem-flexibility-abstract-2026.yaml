@@ -1,0 +1,18 @@
+title: "Sequential coordination of precomputed Urban Building Energy Model (UBEM) responses enables scalable feeder-level flexibility assessment"
+authors: [Chengxuan Li, Timur Dogan]
+year: 2026
+month: 9
+status: submitted
+type: abstract
+venue: null
+links: {}
+project_ids: []
+featured: false
+abstract: >-
+  The increasing uptake of heat pumps, electric water heaters, stationary energy storage, and other controllable electric end uses is creating substantial new demand-side flexibility in buildings. However, the flexibility physically available across a building stock may differ considerably from what can be practically accessed and coordinated through existing building systems control and energy management system infrastructure. At the urban scale, this gap is further shaped by heterogeneous building characteristics, equipment types, occupancy patterns, and rebound following demand response (DR) events. Urban building energy modeling (UBEM) has been proven to be an effective tool for accounting for these variations across large building stocks at a robustly scalable computational cost, but repeatedly co-simulating or optimizing thousands of interacting building models during dispatch can still become computationally prohibitive.
+
+  This study proposes a simulation-to-coordination framework for assessing feeder-level demand flexibility in a mid-sized U.S. county comprising approximately 40,000 buildings across 87 feeder branches. Baseline operation and DR strategies are simulated offline for individual buildings, including thermostat setbacks, preconditioning, and modified equipment schedules. The resulting changes in power demand, indoor temperature, shifted energy, and post-event rebound are retained as a building-level response library.
+
+  Control-access scenarios are then applied to represent current and prospective adoption of remotely controllable technologies, distinguishing physically available flexibility from practically addressable flexibility. Using the precomputed response library, three DR coordination scenarios are compared. A uniform event-based formulation applies deterministic, rule-based DR actions across all eligible buildings, representing conventional programmatic DR without building-specific optimization. A global optimization benchmark jointly selects one admissible response trajectory for each participating building to minimize feeder peak demand subject to control and response-availability constraints, providing an upper-bound estimate under fully informed centralized coordination. A sequential coordination formulation instead optimizes each building response against the cumulatively modified feeder-load trajectory before updating the aggregate profile, approximating the global scheduling problem through a greedy, building-wise procedure. The three formulations are compared in terms of feeder peak reduction, shifted energy, rebound, comfort impacts, and computational cost.
+
+  The framework separates physical, accessible, and coordinated flexibility while retaining the heterogeneous response characteristics captured by UBEM. By combining offline building simulation with feeder-level response aggregation, the study evaluates how much latent flexibility can be mobilized under present and future control-access scenarios, how much additional value is gained through building-specific coordination, and whether sequential coordination can approximate the globally optimized benchmark without repeated city-scale co-simulation.

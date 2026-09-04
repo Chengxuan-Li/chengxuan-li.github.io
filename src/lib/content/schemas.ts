@@ -151,7 +151,7 @@ export const projectBaseSchema = z.strictObject({
 /* ------------------------------------------------------------------ */
 
 export const PUBLICATION_STATUSES = ['published', 'in-press', 'accepted', 'submitted', 'preprint', 'in-preparation'] as const;
-export const PUBLICATION_TYPES = ['journal', 'conference', 'workshop', 'preprint', 'thesis', 'report', 'other'] as const;
+export const PUBLICATION_TYPES = ['journal', 'conference', 'workshop', 'preprint', 'thesis', 'report', 'abstract', 'other'] as const;
 
 export const publicationSchema = z.strictObject({
   title: text,
@@ -182,6 +182,8 @@ export const publicationSchema = z.strictObject({
   home_order: orderInt.optional(),
   /** Free-form note shown after the citation, e.g. "Equal contribution". */
   note: text.optional(),
+  /** Full abstract text retained in content records but not currently rendered. */
+  abstract: text.optional(),
 });
 
 /* ------------------------------------------------------------------ */

@@ -1,0 +1,18 @@
+title: "Exploration of the fidelity ladder for attic and basement representation in 5R1C Urban Building Energy Models (UBEMs)"
+authors: [Chengxuan Li, Timur Dogan]
+year: 2026
+month: 9
+status: submitted
+type: abstract
+venue: null
+links: {}
+project_ids: []
+featured: false
+abstract: >-
+  Lower-order thermal models provide a computationally efficient representation of building thermal dynamics and are widely adopted in urban building energy modeling (UBEM). However, their treatment of opaque envelope boundaries often simplifies the effects of unconditioned attics, basements, crawlspaces, and ground-contact surfaces. These simplifications may be particularly consequential for single-family dwellings, which comprise approximately 69% of U.S. housing units and account for more than 80% of residential site energy consumption. In such buildings, unconditioned attic and foundation spaces can constitute substantial portions of the thermal envelope and introduce intermediate temperatures, delayed heat transfer, and additional thermal storage. Their omission may therefore affect hourly energy use, peak demand, and transient building response. The additional model fidelity required to capture these effects while retaining UBEM scalability remains unclear.
+
+  This study develops and compares a hierarchy of reduced-order representations for attic and basement heat transfer as modular extensions to a conventional 5R1C conditioned-zone model. Four representation families are evaluated against a baseline 5R1C formulation: (1) effective boundary condition representations that modify prescribed boundary temperatures or equivalent thermal properties; (2) algebraic resistance networks that explicitly resolve intermediate attic or basement temperatures without additional dynamic states; (3) dynamic buffer-zone models using physically parameterized resistance-capacitance states to represent thermal storage and delayed response; and (4) linear time-invariant (LTI) models identified from detailed EnergyPlus simulations to reproduce boundary temperature or heat-flow dynamics.
+
+  All representations interface with the same 5R1C core through attic-to-zone and foundation-to-zone heat flow, enabling consistent comparison across modeling approaches. A synthetic test suite is constructed from around 20,000 single-family building geometries in a northeastern U.S. county, with controlled variation of construction vintage, envelope properties, attic and foundation configurations, and climatic conditions. Performance is evaluated against detailed EnergyPlus simulations using boundary heat-flow and conditioned-zone temperature errors, HVAC-load and peak-demand errors, dynamic-response metrics including temporal lag and frequency-domain gain and phase error, and computational and parameterization complexity.
+
+  The resulting accuracy-complexity frontier identifies the minimum representation required to recover dominant attic and ground-contact dynamics and evaluates whether simple physically interpretable extensions can achieve most of the benefit of higher-order or data-identified approaches while preserving the scalability required for residential UBEM.

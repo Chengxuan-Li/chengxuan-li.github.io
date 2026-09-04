@@ -84,6 +84,9 @@ Link fields differ by record type — these are the only accepted keys:
 | Experience, education | a single optional `url:` |
 
 Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `workshop`, `panel`, `other`.
+Publication `type` accepts `journal`, `conference`, `workshop`, `preprint`, `thesis`, `report`, `abstract`,
+`other`. An optional top-level `abstract` field stores full abstract text for future use; the site does not
+currently render that text.
 - Typography: Geist Sans (text) and Geist Mono (labels, dates, navigation), self-hosted from the
   `@fontsource-variable/geist*` packages (SIL Open Font License). Only the Latin subsets are fetched, from
   the site's own origin; no external font requests are made.
