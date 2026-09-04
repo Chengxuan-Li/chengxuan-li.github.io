@@ -3,25 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ExternalLinks from '../components/ExternalLinks.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import NewsListItem from '../components/NewsListItem.astro';
+import ActivityListItem from '../components/ActivityListItem.astro';
 import ExperienceListItem from '../components/ExperienceListItem.astro';
 import PublicationListItem from '../components/PublicationListItem.astro';
 import EducationListItem from '../components/EducationListItem.astro';
 import { loadSiteContent } from '../lib/content/load';
+import { selectLatestActivity } from '../lib/content/activity';
 import {
-  getNewsRelations,
   getPublicationProjects,
   selectFeaturedExperiences,
   selectFeaturedProjects,
   selectFeaturedPublications,
-  selectLatestNews,
   sortEducation,
 } from '../lib/content/queries';
 import { roleLine, siteConfig } from '../site.config';
 
 const content = await loadSiteContent();
 const featuredProjects = selectFeaturedProjects(content, 4);
-const latest = selectLatestNews(content, 4);
+const latest = selectLatestActivity(content, 4);
 const experiences = selectFeaturedExperiences(content, 3);
 const publications = selectFeaturedPublications(content, 5);
 const education = sortEducation(content.education);
@@ -48,7 +47,7 @@ const education = sortEducation(content.education);
     <section class="section" aria-labelledby="latest">
       <SectionHeading id="latest" title="Latest" action={{ href: '/news/', label: 'All news' }} />
       <ol class="news-list news-list--compact">
-        {latest.map((item) => <NewsListItem item={item} relations={getNewsRelations(content, item)} variant="compact" />)}
+        {latest.map((entry) => <ActivityListItem entry={entry} variant="compact" />)}
       </ol>
     </section>
   )}
@@ -67,7 +66,7 @@ const education = sortEducation(content.education);
       <SectionHeading
         id="selected-publications"
         title="Selected publications"
-        action={{ href: '/cv/#publications', label: 'All publications' }}
+        action={{ href: '/publications/', label: 'All publications' }}
       />
       <ol class="pub-list">
         {publications.map((publication) => (

@@ -119,6 +119,8 @@ export const publicationSchema = z.object({
   authors: z.array(text).min(1, { message: 'List at least one author' }),
   year: z.number().int().min(1900).max(2100),
   month: z.number().int().min(1).max(12).optional(),
+  /** Full publication date when known; drives the position in the news stream. Falls back to year/month. */
+  date: flexDate.optional(),
   status: z.enum(PUBLICATION_STATUSES),
   type: z.enum(PUBLICATION_TYPES).default('other'),
   venue: text.nullable().default(null),
@@ -206,7 +208,7 @@ export const educationSchema = z.object({
   cv_order: orderInt.optional(),
 });
 
-export const TALK_TYPES = ['invited', 'conference', 'seminar', 'poster', 'workshop', 'panel', 'other'] as const;
+export const TALK_TYPES = ['invited', 'conference', 'seminar', 'webinar', 'poster', 'workshop', 'panel', 'other'] as const;
 
 export const talkSchema = z.object({
   title: text,

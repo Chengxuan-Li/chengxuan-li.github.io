@@ -28,9 +28,13 @@ export function formatDateRange(
   return startText === endText ? startText : `${startText} ${EN_DASH} ${endText}`;
 }
 
-/** "03 Sep" — the day column of the news timeline; just "May" when only the month is known. */
+/**
+ * "03 Sep" — the day column of the news timeline; just "May" when only the month is known, and an empty
+ * string for a year-only date (the year heading above the entry already says it).
+ */
 export function formatDayMonth(value: string): string {
-  const { month = 1, day } = parseFlexDate(value);
+  const { month, day } = parseFlexDate(value);
+  if (month === undefined) return '';
   const monthName = MONTHS[month - 1];
   return day === undefined ? monthName : `${String(day).padStart(2, '0')} ${monthName}`;
 }
@@ -100,6 +104,7 @@ export const TALK_TYPE_LABELS: Record<TalkData['type'], string> = {
   invited: 'Invited talk',
   conference: 'Conference talk',
   seminar: 'Seminar',
+  webinar: 'Webinar',
   poster: 'Poster',
   workshop: 'Workshop',
   panel: 'Panel',

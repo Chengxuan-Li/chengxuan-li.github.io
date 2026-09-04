@@ -1,3 +1,10 @@
+# The /news/ page is generated from the other collections: every publication, award, and talk already
+# appears there automatically, using its own title, date, and links. Do NOT copy those records here.
+#
+# This collection is only for events that fit none of those categories, for example a software release,
+# media coverage, a project milestone, or an education milestone worth announcing. Projects never produce
+# news entries on their own; write one here if a project milestone deserves an announcement.
+#
 # Copy to src/content/news/<YYYY-MM-DD>-<slug>.yaml (or <YYYY-MM>-<slug>.yaml when only the month is known).
 # The file name is the news id.
 title: What happened, in one line

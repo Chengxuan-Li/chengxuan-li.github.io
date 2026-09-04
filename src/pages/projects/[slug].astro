@@ -8,11 +8,11 @@ import ResponsiveFigure from '../../components/ResponsiveFigure.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import PublicationListItem from '../../components/PublicationListItem.astro';
 import TalkListItem from '../../components/TalkListItem.astro';
-import NewsListItem from '../../components/NewsListItem.astro';
+import ActivityListItem from '../../components/ActivityListItem.astro';
 import RelatedProjects from '../../components/RelatedProjects.astro';
 import { loadSiteContent } from '../../lib/content/load';
-import { getNewsRelations, getProjectRelations } from '../../lib/content/queries';
-import type { NewsEntry } from '../../lib/content/model';
+import { getProjectActivity } from '../../lib/content/activity';
+import { getProjectRelations } from '../../lib/content/queries';
 
 export const getStaticPaths = (async () => {
   await loadSiteContent(); // validates every cross-reference before any project page is generated
@@ -26,16 +26,12 @@ const { project } = Astro.props as Props;
 const { data } = project;
 const content = await loadSiteContent();
 const relations = getProjectRelations(content, project.id);
+// Awards and hand-written news only: publications and talks already appear under Outputs above.
+const activity = getProjectActivity(content, project.id);
 const { Content } = await render(project);
 
 const software = data.links.filter((link) => ['code', 'demo', 'docs', 'data'].includes(link.kind));
 const hasOutputs = relations.publications.length > 0 || software.length > 0 || relations.talks.length > 0;
-
-/** News links back to this very page are redundant, so drop the current project from each item's relations. */
-const activityRelations = (item: NewsEntry) => {
-  const itemRelations = getNewsRelations(content, item);
-  return { ...itemRelations, projects: itemRelations.projects.filter((related) => related.id !== project.id) };
-};
 
 let ogImage: string | undefined;
 if (data.hero_image) {
@@ -88,11 +84,11 @@ if (data.hero_image) {
       </section>
     )}
 
-    {relations.news.length > 0 && (
+    {activity.length > 0 && (
       <section class="section" aria-labelledby="activity">
         <SectionHeading id="activity" title="Activity" action={{ href: '/news/', label: 'All news' }} />
         <ol class="news-list news-list--compact">
-          {relations.news.map((item) => <NewsListItem item={item} relations={activityRelations(item)} variant="compact" />)}
+          {activity.map((entry) => <ActivityListItem entry={entry} variant="compact" />)}
         </ol>
       </section>
     )}

@@ -1,0 +1,43 @@
+---
+import type { ActivityEntry } from '../lib/content/activity';
+import { formatDayMonth, formatMonthYear } from '../lib/content/format';
+
+interface Props {
+  entry: ActivityEntry;
+  /** `compact` for the home page and project activity lists; `full` for the news page. */
+  variant?: 'compact' | 'full';
+}
+
+const { entry, variant = 'compact' } = Astro.props;
+// Year-only dates render no day column: the year heading above the entry already carries that information.
+const dayMonth = formatDayMonth(entry.date);
+---
+{variant === 'compact' ? (
+  <li class="news-item news-item--compact">
+    <time class="news-item__date" datetime={entry.date}>{formatMonthYear(entry.date)}</time>
+    <div class="news-item__body">
+      <p class="news-item__title">{entry.title}</p>
+      {entry.links.length > 0 && (
+        <ul class="news-item__links">
+          {entry.links.map((link) => <li><a href={link.href}>{link.label} →</a></li>)}
+        </ul>
+      )}
+    </div>
+  </li>
+) : (
+  <li class="news-item news-item--full">
+    <div class="news-item__when">
+      {dayMonth && <time datetime={entry.date}>{dayMonth}</time>}
+      <span class="news-item__type">{entry.label}</span>
+    </div>
+    <div class="news-item__body">
+      <h3 class="news-item__title">{entry.title}</h3>
+      {entry.summary && <p class="news-item__summary">{entry.summary}</p>}
+      {entry.links.length > 0 && (
+        <ul class="news-item__links">
+          {entry.links.map((link) => <li><a href={link.href}>{link.label} →</a></li>)}
+        </ul>
+      )}
+    </div>
+  </li>
+)}
