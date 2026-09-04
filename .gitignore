@@ -10,7 +10,6 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
-.claude/
 
 # Local environment
 .env
