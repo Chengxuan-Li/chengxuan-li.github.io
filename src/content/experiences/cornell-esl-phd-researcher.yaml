@@ -7,7 +7,10 @@ location: Ithaca, NY
 featured: true
 cv_order: 1
 project_ids: [inverse-calibration]
-summary: Load profile inference and inverse model calibration, advised by Prof. Timur Dogan, Prof. Oliver Gao, and Prof. Jacob Mays.
+summary: Research on data-driven, physics-based, and hybrid modeling methods for urban energy systems, advised by Prof. Timur Dogan, Prof. Oliver Gao, and Prof. Jacob Mays.
 bullets:
-  - Develop load profile inference methods using machine learning, optimization, and statistical modeling.
-  - Research time-series-based inverse modeling and surrogate-learning workflows for model calibration.
+  - Develop machine-learning, optimization, statistical, and physics-informed methods for energy-demand inference, model calibration, and predictive modeling.
+  - Research inverse modeling and surrogate-learning workflows for calibrating reduced-order and physics-based building energy models from measured data.
+  - Develop scalable simulation and analysis methods for urban building energy modeling, electrification, demand response, and load flexibility.
+  - Investigate time-series, system-identification, and reduced-order modeling approaches for representing building and energy-system dynamics.
+  - Build computational workflows linking physical simulation, observational data, uncertainty analysis, and large-scale model evaluation.

@@ -4,4 +4,8 @@ field: Systems Engineering, Minor in Electrical and Computer Engineering
 start_date: 2024-08
 end_date: null
 location: Ithaca, NY
-details: [Minor in Electrical and Computer Engineering]
+details:
+  - Research focused on machine learning, scientific computing, simulation, computational optimization for energy and infrastructure systems.
+  - Courseworks spanning deep learning, computer vision, signal processing, Monte Carlo simulation, power systems, and applied optimization.
+  - Minor in Electrical and Computer Engineering, with emphasis on power-system modeling, analysis, and grid operations.
+  - Research applications include urban energy systems, smart-meter analytics, demand response, and scalable physics-based simulation.

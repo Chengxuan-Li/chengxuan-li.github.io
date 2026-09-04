@@ -1,3 +1,16 @@
-category: Machine learning
-items: [PyTorch, scikit-learn, statsmodels, pandas, SQL, DuckDB]
+category: Machine learning & data science
+items:
+  - PyTorch
+  - scikit-learn
+  - statsmodels
+  - pandas
+  - NumPy
+  - supervised and unsupervised learning
+  - surrogate modeling
+  - inverse modeling
+  - physics-informed learning
+  - dimensionality reduction
+  - clustering
+  - classification
+  - regression
 order: 2

@@ -1,10 +1,15 @@
-category: Electrical systems
+category: Power & electrical systems
 items:
-  - AC power flow (NR/FDLF)
+  - AC power flow
+  - Newton–Raphson / FDLF
   - Contingency analysis
   - State estimation
   - Economic dispatch
-  - Optimal power flow (OPF)
+  - Optimal power flow
   - Static security assessment
-  - Demand-response and load flexibility assessment
+  - distribution-system load analysis
+  - feeder and transformer load modeling
+  - demand-response and load-flexibility assessment
+  - DER integration
+  - electrification and heat-pump impact assessment
 order: 5

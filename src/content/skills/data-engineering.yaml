@@ -1,0 +1,10 @@
+category: Data engineering
+items:
+  - SQL
+  - DuckDB
+  - structured and time-series data pipelines
+  - large-scale tabular processing
+  - smart-meter / AMI data processing
+  - SCADA data processing
+  - geospatial-data integration
+order: 7

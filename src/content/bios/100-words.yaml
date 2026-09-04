@@ -1,9 +1,9 @@
 title: 100 words version
 content: >-
   Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University, with a minor in Electrical and
-  Computer Engineering. His work focuses on machine learning, inverse modeling, surrogate learning, and simulation
-  for urban energy systems. At Cornell’s Environmental Systems Lab, he develops load-profile inference methods and
-  calibration workflows for urban building energy models. As Lead Developer of EnergyAtlas.io, he designs software
-  that integrates building models, geospatial data, smart-meter observations, and physical simulation into a
-  city-scale digital twin. His broader research addresses building-energy demand, demand response, load flexibility,
-  scalable urban simulation, and practical tools for building- and city-scale decarbonization planning.
+  Computer Engineering. His research combines machine learning, scientific computing, simulation, and optimization
+  for urban energy and power systems. At Cornell’s Environmental Systems Lab, he develops data-driven and
+  physics-informed methods for load inference, model calibration, smart-meter analytics, demand response, and
+  urban-scale energy simulation. He is also Lead Developer of EnergyAtlas.io, a city-scale digital twin and energy
+  modeling platform integrating building models, geospatial data, utility observations, and physical simulation to
+  support analysis of building demand, electrification, grid flexibility, and urban decarbonization.

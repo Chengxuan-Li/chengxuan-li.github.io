@@ -6,10 +6,13 @@ end_date: null
 location: Ithaca, NY
 url: https://energyatlas.io/
 featured: true
-cv_order: 2
+cv_order: 3
 project_ids: [energyatlas]
-summary: Leading development of a city-scale utility digital twin and energy simulation platform in C#/.NET.
+summary: Lead development of a city-scale energy digital twin and simulation platform in C#/.NET for building, utility, and urban energy analysis.
 bullets:
-  - Lead development of a city-scale utility digital twin and energy simulation platform in C#/.NET.
-  - Design core simulation, geometry, data, and visualization architecture integrating building models, geospatial data, smart-meter observations, and physical simulation.
-  - Build scalable pipelines for LiDAR, shading analysis, time-series processing, and large-scale urban simulations.
+  - Design and develop the core software architecture for building-energy simulation, geospatial modeling, time-series processing, and large-scale urban analysis.
+  - Develop scalable reduced-order building energy simulation and calibration workflows integrating physical models with smart-meter and other observational data.
+  - Build data pipelines for building geometry, LiDAR, weather, schedules, utility data, and other heterogeneous urban datasets.
+  - Develop computational methods for solar and shading analysis, geometric processing, model parameterization, and city-scale simulation.
+  - Design software infrastructure for large-scale scenario analysis of electrification, energy demand, peak loads, demand response, and grid flexibility.
+  - Develop APIs, Python interfaces, data models, and visualization workflows supporting reproducible analysis and integration with external research and planning tools.

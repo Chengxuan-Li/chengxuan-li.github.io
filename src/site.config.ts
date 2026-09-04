@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
   positioning:
     'Researcher and engineer building machine-learning, inverse-modeling, and simulation tools for urban energy systems, from load profile inference and model calibration to city-scale digital twins.',
   researchInterests:
-    'Load profile inference; inverse modeling and surrogate learning for model calibration; urban building energy modeling; demand response and load flexibility in power systems.',
+    'Machine learning and AI for engineering; inverse modeling, system identification, and surrogate learning; physics-informed and physics-supervised learning; time-series modeling and load-profile inference; urban building energy modeling and reduced-order simulation; smart-meter, AMI, and grid-data analytics; demand response and load flexibility; building electrification and heat-pump adoption; distributed energy resource integration; feeder- and distribution-system modeling; scientific computing, optimization, and scalable digital twins for energy systems.',
   projectsIntro:
     'Urban building energy modeling, load inference and model calibration, and the software that runs them at city scale.',
   description:

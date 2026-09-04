@@ -1,3 +1,12 @@
-category: Scientific computing
-items: [Optimization, Surrogate modeling, Monte Carlo simulation, Time-series analysis, Signal processing]
-order: 4
+category: Scientific computing & optimization
+items:
+  - Numerical methods
+  - optimization
+  - Monte Carlo simulation
+  - uncertainty analysis
+  - sensitivity analysis
+  - reduced-order modeling
+  - system identification
+  - time-series analysis
+  - signal processing
+order: 3

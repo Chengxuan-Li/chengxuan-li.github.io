@@ -1,0 +1,16 @@
+organization: Environmental Systems Lab, Cornell University, in collaboration with Avangrid / NYSEG
+role: PhD Researcher, Grid Innovations
+type: research
+start_date: 2025-03
+end_date: null
+location: null
+featured: true
+cv_order: 2
+project_ids: []
+summary: Research on data-driven modeling and flexibility assessment for electric distribution systems using utility operational and customer-load data.
+bullets:
+  - Develop processing and analysis pipelines for smart-meter, AMI, SCADA, and related utility datasets across building, transformer, feeder, and distribution-system scales.
+  - Model and predict feeder- and transformer-level load profiles, load-duration behavior, peak demand, and temporal demand patterns.
+  - Develop methods for aggregating and translating customer-level demand data into distribution-grid planning and operational metrics.
+  - Assess demand-response potential and grid flexibility under increasing heat-pump penetration, building electrification, and distributed energy resource integration.
+  - Investigate the effects of load growth, load shifting, DER adoption, and coordinated demand response on feeder peaks, transformer loading, and distribution-system flexibility.

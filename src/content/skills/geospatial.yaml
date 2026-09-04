@@ -1,3 +1,11 @@
 category: Geospatial
-items: [GeoPandas, Shapely, NetTopologySuite]
-order: 3
+items:
+  - GeoPandas
+  - Shapely
+  - NetTopologySuite
+  - geospatial analysis
+  - spatial joins and indexing
+  - building geometry processing
+  - LiDAR processing
+  - solar and shading analysis
+order: 6
