@@ -507,7 +507,8 @@ main.container {
 .hero__positioning {
   font-size: var(--step-1);
   line-height: 1.4;
-  max-width: 40ch;
+  width: 100%;
+  max-width: none;
   margin: 1.75rem 0 1.5rem;
   text-wrap: pretty;
 }

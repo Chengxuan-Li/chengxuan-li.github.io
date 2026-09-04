@@ -42,9 +42,9 @@ export const siteConfig: SiteConfig = {
   fields: ['AI', 'Software', 'Energy Systems'],
   affiliation: 'Cornell University',
   affiliationUrl: null,
-  // Grounded in references/extracted/cv-2026-09.md (experience bullets and skills).
+  // Homepage summary supplied by the site owner; adapted from the one-sentence bio.
   positioning:
-    'Researcher and engineer building machine-learning, inverse-modeling, and simulation tools for urban energy systems, from load profile inference and model calibration to city-scale digital twins.',
+    'I develop physics-informed and hybrid machine-learning methods for energy simulation, power-system analysis, and grid infrastructure optimization under electrification.',
   researchInterests:
     'Machine learning and AI for engineering; inverse modeling, system identification, and surrogate learning; physics-informed and physics-supervised learning; time-series modeling and load-profile inference; urban building energy modeling and reduced-order simulation; smart-meter, AMI, and grid-data analytics; demand response and load flexibility; building electrification and heat-pump adoption; distributed energy resource integration; feeder- and distribution-system modeling; scientific computing, optimization, and scalable digital twins for energy systems.',
   projectsIntro:
