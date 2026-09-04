@@ -18,7 +18,9 @@ import { getProjectRelations } from '../../lib/content/queries';
 export const getStaticPaths = (async () => {
   await loadSiteContent(); // validates every cross-reference before any project page is generated
   const projects = await getCollection('projects');
-  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+  return projects
+    .filter((project) => project.data.published)
+    .map((project) => ({ params: { slug: project.id }, props: { project } }));
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;

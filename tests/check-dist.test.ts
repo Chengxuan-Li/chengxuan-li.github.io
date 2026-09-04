@@ -88,6 +88,13 @@ describe('checkDist', () => {
     ]);
   });
 
+  it('reports a generated route for an unpublished project', async () => {
+    await validDist(root);
+    await write(root, 'projects/hidden/index.html', page('<a href="/">Home</a>', '/projects/hidden/'));
+    const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
+    expect(issues).toContain('unexpected project route /projects/hidden/');
+  });
+
   it('reports the repository-name prefix, broken references, and missing or foreign canonicals', async () => {
     await validDist(root);
     await write(
@@ -114,11 +121,12 @@ describe('checkDist', () => {
 });
 
 describe('readProjectIds', () => {
-  it('reads folder and file ids and ignores _ prefixes', async () => {
+  it('reads published folder and file ids while ignoring disabled records and _ prefixes', async () => {
     const root = await mkdtemp(path.join(os.tmpdir(), 'content-'));
     await write(root, 'projects/alpha/index.md', '---\n---\n');
     await write(root, 'projects/_template/index.md', '---\n---\n');
     await write(root, 'projects/beta.md', '---\n---\n');
+    await write(root, 'projects/hidden/index.md', '---\npublished: false\n---\n');
     await write(root, 'projects/_draft.md', '---\n---\n');
     await write(root, 'projects/notes/readme.txt', 'x');
     expect(await readProjectIds(root)).toEqual(['alpha', 'beta']);

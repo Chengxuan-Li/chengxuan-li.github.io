@@ -4,6 +4,7 @@ short_title: "Placeholder: Grid Flexibility"
 summary: Placeholder for the building-to-feeder coordination and demand-response theme. Replace with a verified case study or delete this folder.
 status: active
 start_date: 2026
+published: false
 featured: true
 home_order: 3
 types: [research]

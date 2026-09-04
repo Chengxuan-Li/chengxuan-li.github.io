@@ -19,6 +19,7 @@ export function project(id: string, data: Partial<ProjectEntry['data']> = {}): P
       status: 'active',
       start_date: '2024-01',
       end_date: null,
+      published: true,
       featured: false,
       types: [],
       topics: [],

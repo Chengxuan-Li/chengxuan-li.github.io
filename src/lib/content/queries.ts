@@ -46,18 +46,20 @@ export function sortByFlexDateDesc<T>(items: readonly T[], getDate: (item: T) =>
 
 export function selectFeaturedProjects(content: SiteContent, limit = 4): ProjectEntry[] {
   return content.projects
-    .filter((entry) => entry.data.featured)
+    .filter((entry) => entry.data.published && entry.data.featured)
     .sort(byOrderThen<ProjectEntry>((entry) => entry.data.home_order, byTitle))
     .slice(0, limit);
 }
 
 /** Projects index: most recently started first, then title. */
 export function sortProjectsForIndex(projects: readonly ProjectEntry[]): ProjectEntry[] {
-  return [...projects].sort((a, b) => dateDesc(a.data.start_date, b.data.start_date) || byTitle(a, b));
+  return projects
+    .filter((entry) => entry.data.published)
+    .sort((a, b) => dateDesc(a.data.start_date, b.data.start_date) || byTitle(a, b));
 }
 
 export function getProjectById(content: SiteContent, id: string): ProjectEntry | undefined {
-  return content.projects.find((entry) => entry.id === id);
+  return content.projects.find((entry) => entry.id === id && entry.data.published);
 }
 
 /** Resolves ids in the given order, skipping unknown ids (validation has already reported them). */

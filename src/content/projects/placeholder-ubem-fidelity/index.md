@@ -4,6 +4,7 @@ short_title: "Placeholder: UBEM Fidelity"
 summary: Placeholder for the geometric-representation and simulation-fidelity theme. Replace with a verified case study or delete this folder.
 status: active
 start_date: 2026
+published: false
 featured: true
 home_order: 4
 types: [research]

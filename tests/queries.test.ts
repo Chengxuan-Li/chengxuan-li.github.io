@@ -39,6 +39,7 @@ describe('selectFeaturedProjects', () => {
       projects: [
         project('c', { featured: true, home_order: 3 }),
         project('a', { featured: true, home_order: 1 }),
+        project('hidden', { published: false, featured: true, home_order: 1 }),
         project('x'),
         project('b', { featured: true, home_order: 2 }),
       ],
@@ -54,6 +55,7 @@ describe('sortProjectsForIndex', () => {
       project('old', { start_date: '2022-05', title: 'Zeta' }),
       project('new', { start_date: '2025', title: 'Beta' }),
       project('new2', { start_date: '2025', title: 'Alpha' }),
+      project('hidden', { published: false, start_date: '2026', title: 'Hidden' }),
     ];
     expect(ids(sortProjectsForIndex(projects))).toEqual(['new2', 'new', 'old']);
   });
@@ -116,8 +118,8 @@ describe('publications', () => {
 
   it('getPublicationProjects resolves projects in declared order', () => {
     const site = content({
-      projects: [project('a'), project('b')],
-      publications: [publication('p', { project_ids: ['b', 'a'] })],
+      projects: [project('a'), project('b'), project('hidden', { published: false })],
+      publications: [publication('p', { project_ids: ['hidden', 'b', 'a'] })],
     });
     expect(ids(getPublicationProjects(site, site.publications[0]))).toEqual(['b', 'a']);
   });

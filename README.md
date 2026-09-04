@@ -100,6 +100,8 @@ currently render that text.
 1. Copy `src/content/projects/_template/index.md` to `src/content/projects/<slug>/index.md`.
 2. Fill the frontmatter (`title`, `summary`, `status`, `start_date`, `end_date`, `types`, `topics`, …). Set
    `featured: true` and a unique `home_order` to show it on the home page (about four projects fit).
+   Set `published: false` to keep the project and its assets in the repository while hiding its cards,
+   cross-links, and generated route; remove the field or set it to `true` to publish it again.
 3. Write the case study body: Problem, System / Method, My Contribution, Technical Details, Results.
    Put every project image (thumbnail, hero, inline figure, or video poster) next to `index.md`; reference
    inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the header figure. Images are

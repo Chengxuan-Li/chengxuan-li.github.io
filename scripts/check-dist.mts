@@ -1,6 +1,6 @@
 /**
  * Post-build checks for the static output in dist/:
- *   - every required route exists (/, /projects/, /cv/, /news/, every /projects/<id>/, 404.html, sitemap, robots)
+ *   - every required route exists (/, /projects/, /cv/, /news/, every published /projects/<id>/, 404.html, sitemap, robots)
  *   - every root-relative href/src/srcset target in the HTML resolves to a file in dist/
  *   - no page carries the repository name as a path prefix (this is a user site with no base path)
  *   - every indexable page has a canonical URL on the site origin
@@ -9,6 +9,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { parse } from 'yaml';
 
 export const SITE_URL = 'https://chengxuan-li.github.io';
 export const FORBIDDEN_PREFIX = '/chengxuan-li.github.io/';
@@ -87,6 +88,18 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
       issues.push(`missing route ${route} (expected ${path.relative(distDir, file).split(path.sep).join('/')})`);
     }
   }
+  const projectsDir = path.join(distDir, 'projects');
+  if (await isDirectory(projectsDir)) {
+    const generatedProjectIds = (await readdir(projectsDir, { withFileTypes: true }))
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
+    for (const id of generatedProjectIds) {
+      if (!projectIds.includes(id) && (await isFile(path.join(projectsDir, id, 'index.html')))) {
+        issues.push(`unexpected project route /projects/${id}/`);
+      }
+    }
+  }
   for (const file of STATIC_FILES) {
     if (!(await isFile(path.join(distDir, file)))) issues.push(`missing file ${file}`);
   }
@@ -123,14 +136,27 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
   return { issues, pagesChecked: pages.length };
 }
 
-/** Project ids: folders under `<contentRoot>/projects` containing `index.md`, or top-level `*.md` files, ignoring `_` prefixes. */
+async function isPublishedProject(file: string): Promise<boolean> {
+  const source = await readFile(file, 'utf8');
+  const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(source)?.[1];
+  if (frontmatter === undefined) return true;
+  const data = parse(frontmatter) as { published?: unknown } | null;
+  return data?.published !== false;
+}
+
+/** Published project ids from folders containing `index.md` or top-level `*.md` files, ignoring `_` prefixes. */
 export async function readProjectIds(contentRoot: string): Promise<string[]> {
   const dir = path.join(contentRoot, 'projects');
   const ids: string[] = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     if (entry.name.startsWith('_')) continue;
-    if (entry.isDirectory() && (await isFile(path.join(dir, entry.name, 'index.md')))) ids.push(entry.name);
-    else if (entry.isFile() && entry.name.endsWith('.md')) ids.push(entry.name.replace(/\.md$/, ''));
+    if (entry.isDirectory()) {
+      const file = path.join(dir, entry.name, 'index.md');
+      if ((await isFile(file)) && (await isPublishedProject(file))) ids.push(entry.name);
+    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+      const file = path.join(dir, entry.name);
+      if (await isPublishedProject(file)) ids.push(entry.name.replace(/\.md$/, ''));
+    }
   }
   return ids.sort();
 }

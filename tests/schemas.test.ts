@@ -83,6 +83,11 @@ describe('projectBaseSchema', () => {
     });
     expect(parsed.home_order).toBeUndefined();
   });
+  it('defaults projects to published and accepts explicit hiding', () => {
+    const base = { title: 'T', summary: 'S', start_date: '2025-01' };
+    expect(projectBaseSchema.parse(base).published).toBe(true);
+    expect(projectBaseSchema.parse({ ...base, published: false }).published).toBe(false);
+  });
   it('accepts a full record', () => {
     const parsed = projectBaseSchema.parse({
       title: 'T',

@@ -132,6 +132,7 @@ export const projectBaseSchema = z.strictObject({
   status: z.enum(PROJECT_STATUSES).default('active'),
   start_date: flexDate,
   end_date: flexDate.nullable().default(null),
+  published: z.boolean().default(true),
   featured: z.boolean().default(false),
   home_order: orderInt.optional(),
   types: z.array(z.enum(PROJECT_TYPES)).default([]),

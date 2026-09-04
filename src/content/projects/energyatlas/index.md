@@ -7,6 +7,7 @@ status: active
 start_date: 2025-01
 end_date: null
 featured: true
+published: true
 home_order: 1
 types: [simulation, software, engineering]
 topics: [Energy Modeling, Machine Learning, Optimization, Digital twin, Smart-meter data, SCADA, AMI, Load forecasting]
