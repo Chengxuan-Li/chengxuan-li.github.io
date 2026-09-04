@@ -44,6 +44,15 @@ Nothing in it is served by the website.
 5. Promote reviewed facts into `src/content/` (see the root `README.md`). Wording may be tightened for the web;
    meaning may not change. Facts may exist in `extracted/` without appearing on the site.
 
+## Content that does not come from the archive
+
+The site owner also supplies facts directly — by editing `src/content/` or by instruction in conversation —
+without a source document. That is a valid provenance (it is the owner's own knowledge), but it still needs
+a trail, so record it in `extracted/` as a `source_types: [direct]` file listing what was supplied and when
+(see `user-supplied-2026-09.md`). Verify anything externally checkable (a DOI, a venue, a URL) before it
+goes live: a record once arrived carrying another paper's DOI, link, and page range because it had been
+copied from a neighbouring file.
+
 ## Rules
 
 - Never publish a fact that is not supported by an extraction, existing repository content, or an explicit

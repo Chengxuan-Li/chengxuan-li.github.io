@@ -5796,3 +5796,15 @@ Write the final report per spec §32 with: architecture used; exact routes imple
   every id from the file path alone, so an incomplete file fails schema validation with a message naming it.
   `validateContent` also rejects a DOI reused by two publications, after a pasted record carried another
   paper's DOI, link, and page range. `TALK_TYPES` gained `webinar`.
+- **Clickable news titles and strict records (2026-09-04, user request):** each stream entry gained an
+  optional `href` — a publication's or talk's first link (fixed priority, so YAML key order cannot change
+  it), an award's `url`, or a manual item's first link; a bare `doi` deliberately does not make a title
+  clickable. Discovering that a talk link written as `watch:` had been silently discarded, every record
+  schema became strict (`z.strictObject`), so an unknown or mistyped key now fails the build naming the file
+  and the key. That immediately caught a real typo (`organizaton`) and a dropped required field in two award
+  records.
+- **Docs refresh (2026-09-04):** README gained the repository layout, the accepted link fields per record
+  type, the strict-key and id-from-path rules, and the `github-pages` environment gotcha that blocked the
+  first deploy. `references/README.md` now covers content supplied directly by the owner rather than through
+  the archive, recorded in `references/extracted/user-supplied-2026-09.md`. `docs/handoff/` holds the
+  current-state handoff.

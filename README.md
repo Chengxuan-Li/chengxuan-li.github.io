@@ -28,11 +28,18 @@ Pushes to `main` run `.github/workflows/deploy-pages.yml`, which installs depend
 `npm test`, and `npm run build`, uploads `dist/` as the Pages artifact, and deploys it with the official
 `actions/deploy-pages` action. The workflow can also be started manually from the Actions tab.
 
-One-time repository setting: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+Two one-time repository settings:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. **Settings → Environments → `github-pages` → Deployment branches**: allow `main`. GitHub creates this
+   environment automatically and seeds it with whatever branch was default at the time, so a deploy from
+   `main` is rejected with *"Branch main is not allowed to deploy to github-pages due to environment
+   protection rules"* until `main` is added (or the restriction removed).
+
 The site is a *user* site, so it is served from the domain root; never configure a `base` path.
 
-After a deployment, check `https://chengxuan-li.github.io/`, `/projects/`, `/cv/`, `/news/`, and one
-`/projects/<slug>/` directly by URL.
+After a deployment, check `https://chengxuan-li.github.io/`, `/projects/`, `/publications/`, `/cv/`,
+`/news/`, and one `/projects/<slug>/` directly by URL.
 
 ## Content model
 
@@ -53,7 +60,10 @@ src/content/
 └── skills/<id>.yaml           one category per file
 ```
 
-- The file or folder name is the record's id: lowercase words joined by single hyphens.
+- The file or folder name is the record's id: lowercase words joined by single hyphens. Ids come from the
+  path alone (`src/lib/content/entry-id.ts`), so a `slug:` field inside a record does **not** rename it.
+- **Unknown fields are rejected.** Every record schema is strict, so a mistyped key fails the build naming
+  the file and the key (`organizaton`, `links: watch`, …) instead of being silently dropped.
 - Every collection folder holds a `_template.*` file (or `_template/` folder) documenting every field.
   Files and folders starting with `_` are ignored by the build.
 - Relationships are declared one way: publications, news items, talks, awards, and experiences list the
@@ -61,6 +71,19 @@ src/content/
   talks, activity) are generated.
 - Site-wide facts (name, role, affiliation, profile links, CV PDF path, meta description) live in
   `src/site.config.ts`. A `null` profile link or `cvPdf` simply omits that link or button.
+
+Link fields differ by record type — these are the only accepted keys:
+
+| Record | Link fields |
+| --- | --- |
+| Publication | `links:` map with `paper`, `preprint`, `code`, `slides`, `poster`; plus a bare `doi:` (a DOI is rendered as a link but does not make the title clickable) |
+| Talk | `links:` map with `slides`, `video`, `event`, `abstract` |
+| Award | a single top-level `url:` |
+| Project | `links:` list of `{ label, url, kind }`, `kind` ∈ `code`, `demo`, `paper`, `docs`, `data`, `other` |
+| News item | `links:` list of `{ label, url }` |
+| Experience, education | a single optional `url:` |
+
+Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `workshop`, `panel`, `other`.
 - Typography: Geist Sans (text) and Geist Mono (labels, dates, navigation), self-hosted from the
   `@fontsource-variable/geist*` packages (SIL Open Font License). Only the Latin subsets are fetched, from
   the site's own origin; no external font requests are made.
@@ -126,6 +149,29 @@ related to that project, because its publications and talks already appear under
 - `researchInterests` in `src/site.config.ts` fills the one-line interests section; leave it `null` to omit.
 - PDF CV: copy an approved public PDF to `public/cv/` and set `cvPdf: '/cv/<file>.pdf'` in
   `src/site.config.ts`. Never link files from `references/archive/`.
+
+## Repository layout
+
+```text
+.github/workflows/deploy-pages.yml   build + deploy to GitHub Pages
+docs/specs/                          the original implementation brief
+docs/plans/                          the implementation plan and its deviation log
+docs/handoff/                        current-state handoff for a new maintainer or agent
+references/                          source documents and their tracked extractions
+fixtures/content/                    synthetic records for layout checks (never real facts)
+scripts/                             check-dist, brand-assets, with-fixtures (Node .mts)
+src/site.config.ts                   verified site-wide facts and toggles
+src/content.config.ts                collection definitions (loaders + schemas)
+src/content/                         the published content (see above)
+src/lib/content/                     schemas, validation, queries, formatting, the activity stream
+src/lib/theme.ts                     light/dark toggle logic
+src/components/ src/layouts/ src/pages/ src/styles/
+tests/                               Vitest unit tests mirroring src/lib
+```
+
+`src/lib/content/` is where the model lives: `schemas.ts` (field shapes) → `validate.ts` (cross-record
+rules) → `queries.ts` / `activity.ts` (selection and ordering) → `load.ts` (the single entry point pages
+call). Components never read collections directly.
 
 ## Reference material
 
