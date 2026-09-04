@@ -42,17 +42,20 @@ export const siteConfig: SiteConfig = {
   fields: ['AI', 'Software', 'Energy Systems'],
   affiliation: 'Cornell University',
   affiliationUrl: null,
-  // Derived from the implementation spec's own description of the site owner; refine once a verified bio exists.
-  positioning: 'Researcher and engineer working across AI, software, simulation, and energy systems.',
-  researchInterests: null,
-  projectsIntro: 'Research and engineering work across AI, software, simulation, and energy systems.',
+  // Grounded in references/extracted/cv-2026-09.md (experience bullets and skills).
+  positioning:
+    'Researcher and engineer building machine-learning, inverse-modeling, and simulation tools for urban energy systems, from load profile inference and model calibration to city-scale digital twins.',
+  researchInterests:
+    'Load profile inference; inverse modeling and surrogate learning for model calibration; urban building energy modeling; demand response and load flexibility in power systems.',
+  projectsIntro:
+    'Urban building energy modeling, load inference and model calibration, and the software that runs them at city scale.',
   description:
-    'Chengxuan Li, PhD Researcher at Cornell University, working across AI, software, simulation, and energy systems. Projects, publications, CV, and news.',
+    'Chengxuan Li, PhD researcher at Cornell University building machine-learning, inverse-modeling, and simulation tools for urban energy systems. Projects, publications, CV, and news.',
   profiles: {
     github: 'https://github.com/Chengxuan-Li',
     scholar: null,
     linkedin: null,
-    email: null,
+    email: 'cl2749@cornell.edu',
   },
   cvPdf: null,
   ogImage: '/images/og/default.png',

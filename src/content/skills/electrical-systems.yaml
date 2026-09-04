@@ -1,0 +1,10 @@
+category: Electrical systems
+items:
+  - AC power flow (NR/FDLF)
+  - Contingency analysis
+  - State estimation
+  - Economic dispatch
+  - Optimal power flow (OPF)
+  - Static security assessment
+  - Demand-response and load flexibility assessment
+order: 5

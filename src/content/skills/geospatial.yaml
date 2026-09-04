@@ -1,0 +1,3 @@
+category: Geospatial
+items: [GeoPandas, Shapely, NetTopologySuite]
+order: 3

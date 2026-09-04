@@ -1,0 +1,13 @@
+organization: Environmental Systems Lab, Cornell University
+role: PhD Researcher
+type: research
+start_date: 2024-08
+end_date: null
+location: Ithaca, NY
+featured: true
+cv_order: 1
+project_ids: [inverse-calibration]
+summary: Load profile inference and inverse model calibration, advised by Prof. Timur Dogan, Prof. Oliver Gao, and Prof. Jacob Mays.
+bullets:
+  - Develop load profile inference methods using machine learning, optimization, and statistical modeling.
+  - Research time-series-based inverse modeling and surrogate-learning workflows for model calibration.
