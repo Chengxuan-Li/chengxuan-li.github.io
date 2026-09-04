@@ -7,6 +7,8 @@ status: published
 type: conference
 venue: Building Simulation 2025, 19th Conference of IBPSA
 doi: 10.26868/25222708.2025.1336
+links:
+  paper: https://publications.ibpsa.org/conference/paper/?id=bs2025_1336
 project_ids: []
 featured: true
 home_order: 3

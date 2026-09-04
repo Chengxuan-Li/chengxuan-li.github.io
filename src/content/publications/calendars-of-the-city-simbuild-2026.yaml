@@ -6,6 +6,8 @@ status: published
 type: conference
 venue: IBPSA-USA SimBuild 2026
 doi: 10.26868/30680611.2026.1321
+links:
+  paper: https://publications.ibpsa.org/conference/paper/?id=simbuild2026_1321
 project_ids: []
 featured: true
 home_order: 2
