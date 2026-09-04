@@ -1,6 +1,6 @@
 ---
 import type { ProjectEntry, PublicationEntry } from '../lib/content/model';
-import { PUBLICATION_STATUS_LABELS, splitAuthors } from '../lib/content/format';
+import { formatVenueLine, PUBLICATION_STATUS_LABELS, splitAuthors } from '../lib/content/format';
 import { siteConfig } from '../site.config';
 
 interface Props {
@@ -15,7 +15,7 @@ const authors = splitAuthors(data.authors, siteConfig.nameVariants);
 const doiHref = data.doi ? `https://doi.org/${data.doi}` : undefined;
 const primaryHref = data.links.paper ?? data.links.preprint ?? doiHref;
 const statusLabel = data.status === 'published' ? undefined : PUBLICATION_STATUS_LABELS[data.status];
-const venueLine = [data.venue, String(data.year)].filter(Boolean).join(', ');
+const venueLine = formatVenueLine(data.venue, data.year);
 
 const links: { label: string; href: string }[] = [];
 if (data.links.paper) links.push({ label: 'Paper', href: data.links.paper });

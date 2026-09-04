@@ -4,6 +4,7 @@ import {
   formatDayMonth,
   formatFlexDate,
   formatMonthYear,
+  formatVenueLine,
   isExternalUrl,
   NEWS_TYPE_LABELS,
   PUBLICATION_STATUS_LABELS,
@@ -39,6 +40,24 @@ describe('news dates', () => {
     expect(formatDayMonth('2026')).toBe('');
     expect(formatMonthYear('2026-09-03')).toBe('Sep 2026');
     expect(formatMonthYear('2026-05')).toBe('May 2026');
+  });
+});
+
+describe('formatVenueLine', () => {
+  it('appends the year only when the venue does not already carry it', () => {
+    expect(formatVenueLine('Journal of Building Performance Simulation', 2025)).toBe(
+      'Journal of Building Performance Simulation, 2025',
+    );
+    expect(formatVenueLine('IBPSA-USA SimBuild 2026', 2026)).toBe('IBPSA-USA SimBuild 2026');
+    expect(formatVenueLine('Building Simulation 2025, 19th Conference of IBPSA', 2025)).toBe(
+      'Building Simulation 2025, 19th Conference of IBPSA',
+    );
+  });
+  it('falls back to the year alone when there is no venue', () => {
+    expect(formatVenueLine(null, 2027)).toBe('2027');
+  });
+  it('does not treat a longer number as the year', () => {
+    expect(formatVenueLine('Workshop 20255', 2025)).toBe('Workshop 20255, 2025');
   });
 });
 

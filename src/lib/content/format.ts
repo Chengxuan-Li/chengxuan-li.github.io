@@ -44,6 +44,16 @@ export function formatMonthYear(value: string): string {
   return formatFlexDate(value, 'month');
 }
 
+/**
+ * "Journal of Building Performance Simulation, 2025", but "IBPSA-USA SimBuild 2026" unchanged — many
+ * conference names already end in their year, and repeating it reads as a typo.
+ */
+export function formatVenueLine(venue: string | null | undefined, year: number): string {
+  if (!venue) return String(year);
+  const carriesYear = new RegExp(`(?<!\\d)${year}(?!\\d)`).test(venue);
+  return carriesYear ? venue : `${venue}, ${year}`;
+}
+
 function normalizeName(name: string): string {
   return name.toLowerCase().replace(/[.,]/g, ' ').replace(/\s+/g, ' ').trim();
 }
