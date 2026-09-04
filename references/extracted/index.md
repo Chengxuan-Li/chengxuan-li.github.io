@@ -4,4 +4,4 @@ One row per extraction record in this directory. Keep it in sync when adding or 
 
 | Record | Source file(s) | Scope | Status | Notes |
 | --- | --- | --- | --- | --- |
-| _(none yet)_ | — | — | — | `references/archive/` was empty when the site was first implemented (2026-09-03). |
+| [cv-2026-09](cv-2026-09.md) | `cv-content-ref.docx` (archive) | contact, title, skills, experience, publications, awards, education | extracted | DOIs completed via Crossref on 2026-09-03; author comments flag skills, experience, and publications for revision. |
