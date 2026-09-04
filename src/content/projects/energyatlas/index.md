@@ -19,12 +19,18 @@ videos:
   - url: https://www.energyatlas.io/assets/video/ArchetypeCombined.mp4
     title: Urban Digital Twin Builder
     caption: Combines tax records, parcels, zoning data, LiDAR, permits, and meter information in one workflow. Automated format conversion and attribute joins support localized archetypes and usage schedules, producing detailed urban models from individual buildings to city scale.
+    autoplay: true
+    fit: cover
   - url: https://www.energyatlas.io/assets/video/ResultSelection.mp4
     title: City-Scale Energy Simulation
     caption: Runs hourly, ISO-compliant 5R1C simulations 150 times faster than traditional baselines. The workflow forecasts energy demand and carbon emissions at building and district scales with minimal data requirements.
+    autoplay: true
+    fit: cover
   - url: https://www.energyatlas.io/assets/video/RadiationCesiumView.mp4
     title: Renewables Integration
     caption: Models rooftop photovoltaics with voxel shading and ray marching, alongside geothermal systems and district-scale energy networks. The resulting views show how on-site and off-site resources contribute to urban energy supply.
+    autoplay: true
+    fit: cover
 related_project_ids: [inverse-calibration]
 links:
   - label: Website

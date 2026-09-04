@@ -131,14 +131,27 @@ describe('projectVideoBaseSchema', () => {
       url: 'https://vimeo.com/123456789',
       title: 'Project demonstration',
       caption: 'A short walkthrough.',
+      autoplay: false,
+      fit: 'contain',
     });
+  });
+
+  it('accepts autoplay and cover cropping for a direct MP4', () => {
+    expect(
+      projectVideoBaseSchema.parse({
+        url: 'https://media.example.com/demo.mp4',
+        title: 'Project demonstration',
+        autoplay: true,
+        fit: 'cover',
+      }),
+    ).toMatchObject({ autoplay: true, fit: 'cover' });
   });
 
   it.each([
     ['unsupported host', { url: 'https://example.com/watch/123', title: 'Demo' }],
     ['insecure direct file', { url: 'http://example.com/demo.mp4', title: 'Demo' }],
     ['missing title', { url: 'https://example.com/demo.mp4' }],
-    ['unknown key', { url: 'https://example.com/demo.mp4', title: 'Demo', autoplay: true }],
+    ['unknown key', { url: 'https://example.com/demo.mp4', title: 'Demo', playsinline: true }],
   ])('rejects %s', (_label, input) => {
     expect(projectVideoBaseSchema.safeParse(input).success).toBe(false);
   });
@@ -165,6 +178,19 @@ describe('projectVideoSchema', () => {
     });
     expect(result.success).toBe(false);
     if (!result.success) expect(result.error.issues[0]?.path).toEqual(['poster']);
+  });
+
+  it.each([
+    ['autoplay', { autoplay: true }],
+    ['cover cropping', { fit: 'cover' }],
+  ])('rejects %s for a hosted embed that cannot honor it', (_label, options) => {
+    expect(
+      schema.safeParse({
+        url: 'https://vimeo.com/123456789',
+        title: 'Project demonstration',
+        ...options,
+      }).success,
+    ).toBe(false);
   });
 });
 

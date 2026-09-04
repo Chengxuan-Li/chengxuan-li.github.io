@@ -91,6 +91,8 @@ export const projectVideoBaseSchema = z.strictObject({
     }),
   title: text,
   caption: text.optional(),
+  autoplay: z.boolean().default(false),
+  fit: z.enum(['contain', 'cover']).default('contain'),
 });
 
 export function projectVideoSchema<TPoster extends z.ZodType>(posterSchema: TPoster) {
@@ -101,6 +103,20 @@ export function projectVideoSchema<TPoster extends z.ZodType>(posterSchema: TPos
       {
         message: 'Poster images are only supported for direct MP4 video URLs',
         path: ['poster'],
+      },
+    )
+    .refine(
+      (video) => !video.autoplay || resolveExternalVideoUrl(video.url)?.kind === 'file',
+      {
+        message: 'Autoplay is only supported for direct MP4 video URLs',
+        path: ['autoplay'],
+      },
+    )
+    .refine(
+      (video) => video.fit !== 'cover' || resolveExternalVideoUrl(video.url)?.kind === 'file',
+      {
+        message: 'Cover cropping is only supported for direct MP4 video URLs',
+        path: ['fit'],
       },
     );
 }

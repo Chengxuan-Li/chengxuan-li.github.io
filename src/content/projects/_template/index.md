@@ -22,6 +22,8 @@ technologies: [Python]
 #     title: Visible and accessible video title
 #     caption: Caption under the video. # optional
 #     poster: ./video-poster.png     # optional co-located image used for direct .mp4 playback
+#     autoplay: false               # direct .mp4 only; plays muted while visible and pauses off-screen
+#     fit: contain                  # direct .mp4 only; use cover to fill and crop the 16:9 frame
 related_project_ids: []             # other project folder names (2–4 at most are shown)
 links: []
 # links:

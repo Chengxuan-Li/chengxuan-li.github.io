@@ -102,6 +102,8 @@ Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `wo
    inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the header figure. Images are
    optimized at build time. Videos stay external: use the optional strict `videos` list with HTTPS
    YouTube, Vimeo, or direct `.mp4` URLs, required visible and accessible titles, and optional captions/posters.
+   Direct MP4 records may set `autoplay: true` for muted, viewport-aware looping and `fit: cover` for a
+   centered crop inside the 16:9 player; both options are rejected for hosted embeds.
 4. Run `npm run build`; the page appears at `/projects/<slug>/` and in the Projects index and CV.
 
 ### How `/news/` is assembled

@@ -15,6 +15,8 @@ videos:
   - url: https://example.com/fixture-video.mp4
     title: Synthetic direct video used to test native playback.
     poster: ./hero.png
+    autoplay: true
+    fit: cover
 related_project_ids: [fixture-alpha]
 links:
   - label: Code
