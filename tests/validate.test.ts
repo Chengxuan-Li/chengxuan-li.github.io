@@ -80,6 +80,21 @@ describe('validateContent', () => {
     ]);
   });
 
+  it('flags two publications that claim the same DOI', () => {
+    const site = content({
+      publications: [
+        publication('a', { doi: '10.1000/xyz123' }),
+        publication('b', { doi: '10.1000/xyz123' }),
+        publication('c', { doi: '10.1000/other' }),
+        publication('d'),
+      ],
+    });
+    expect(validateContent(site).map((issue) => `${issue.collection}/${issue.id}: ${issue.message}`)).toEqual([
+      'publications/a: doi 10.1000/xyz123 is also used by b',
+      'publications/b: doi 10.1000/xyz123 is also used by a',
+    ]);
+  });
+
   it('flags duplicate home_order among featured projects only', () => {
     const site = content({
       projects: [

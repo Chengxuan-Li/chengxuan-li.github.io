@@ -1,5 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { entryId } from './lib/content/entry-id';
 import {
   awardSchema,
   educationSchema,
@@ -17,8 +18,10 @@ const CONTENT_ROOT = process.env.SITE_CONTENT_ROOT ?? 'src/content';
 /** Files or folders starting with `_` (templates, drafts) are never loaded. */
 const IGNORE = ['!**/_*', '!**/_*/**'];
 
-const markdown = (dir: string) => glob({ pattern: ['**/*.md', ...IGNORE], base: `./${CONTENT_ROOT}/${dir}` });
-const yaml = (dir: string) => glob({ pattern: ['**/*.{yaml,yml}', ...IGNORE], base: `./${CONTENT_ROOT}/${dir}` });
+const markdown = (dir: string) =>
+  glob({ pattern: ['**/*.md', ...IGNORE], base: `./${CONTENT_ROOT}/${dir}`, generateId: entryId });
+const yaml = (dir: string) =>
+  glob({ pattern: ['**/*.{yaml,yml}', ...IGNORE], base: `./${CONTENT_ROOT}/${dir}`, generateId: entryId });
 
 const projects = defineCollection({
   loader: markdown('projects'),

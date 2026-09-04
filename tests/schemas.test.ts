@@ -202,6 +202,10 @@ describe('talkSchema, awardSchema, skillGroupSchema', () => {
       items: ['Python'],
     });
   });
+  it('accepts every talk type, including webinars', () => {
+    expect(talkSchema.parse({ title: 'T', event: 'E', date: '2026-02', type: 'webinar' }).type).toBe('webinar');
+    expect(talkSchema.safeParse({ title: 'T', event: 'E', date: '2026-02', type: 'Webinar' }).success).toBe(false);
+  });
   it('reject empty skill lists and bad talk links', () => {
     expect(skillGroupSchema.safeParse({ category: 'Languages', items: [] }).success).toBe(false);
     expect(talkSchema.safeParse({ title: 'T', event: 'E', date: '2025-05', links: { slides: 'nope' } }).success).toBe(false);

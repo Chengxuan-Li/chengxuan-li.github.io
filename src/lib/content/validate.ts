@@ -67,6 +67,26 @@ export function validateContent(content: SiteContent): ValidationIssue[] {
     }
   };
 
+  /** Catches values copied from one record to another, such as a DOI pasted along with a template. */
+  const checkUniqueValue = (
+    collection: CollectionName,
+    field: string,
+    entries: { id: string; value: string | undefined }[],
+  ) => {
+    const owners = new Map<string, string[]>();
+    for (const entry of entries) {
+      if (entry.value === undefined) continue;
+      owners.set(entry.value, [...(owners.get(entry.value) ?? []), entry.id]);
+    }
+    for (const entry of entries) {
+      if (entry.value === undefined) continue;
+      const others = (owners.get(entry.value) ?? []).filter((id) => id !== entry.id);
+      if (others.length > 0) {
+        issues.push({ collection, id: entry.id, message: `${field} ${entry.value} is also used by ${others.join(', ')}` });
+      }
+    }
+  };
+
   const checkUniqueOrder = (
     collection: CollectionName,
     field: string,
@@ -108,6 +128,11 @@ export function validateContent(content: SiteContent): ValidationIssue[] {
       issues.push({ collection: 'publications', id: entry.id, message: 'featured publications need a home_order' });
     }
   }
+  checkUniqueValue(
+    'publications',
+    'doi',
+    content.publications.map((entry) => ({ id: entry.id, value: entry.data.doi })),
+  );
   checkUniqueOrder(
     'publications',
     'home_order',
