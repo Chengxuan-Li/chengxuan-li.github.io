@@ -202,6 +202,27 @@ describe('talkSchema, awardSchema, skillGroupSchema', () => {
       items: ['Python'],
     });
   });
+  it('rejects an unknown link key instead of silently dropping it', () => {
+    const talkWithTypo = { title: 'T', event: 'E', date: '2026-02', links: { watch: 'https://example.com/v' } };
+    expect(talkSchema.safeParse(talkWithTypo).success).toBe(false);
+    expect(talkSchema.parse({ title: 'T', event: 'E', date: '2026-02', links: { video: 'https://example.com/v' } }).links.video)
+      .toBe('https://example.com/v');
+    expect(
+      publicationSchema.safeParse({
+        title: 'P',
+        authors: ['A'],
+        year: 2026,
+        status: 'published',
+        links: { pdf: 'https://example.com/p' },
+      }).success,
+    ).toBe(false);
+  });
+
+  it('rejects an unknown top-level field, so a mistyped key is not ignored', () => {
+    expect(talkSchema.safeParse({ title: 'T', event: 'E', date: '2026-02', locatio: 'Ithaca' }).success).toBe(false);
+    expect(awardSchema.safeParse({ title: 'A', organization: 'O', date: '2025', ur: 'https://example.com' }).success).toBe(false);
+  });
+
   it('accepts every talk type, including webinars', () => {
     expect(talkSchema.parse({ title: 'T', event: 'E', date: '2026-02', type: 'webinar' }).type).toBe('webinar');
     expect(talkSchema.safeParse({ title: 'T', event: 'E', date: '2026-02', type: 'Webinar' }).success).toBe(false);

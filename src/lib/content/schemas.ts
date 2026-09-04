@@ -75,14 +75,14 @@ export const PROJECT_STATUSES = ['active', 'completed', 'paused', 'archived'] as
 export const PROJECT_TYPES = ['research', 'software', 'simulation', 'engineering', 'teaching'] as const;
 export const PROJECT_LINK_KINDS = ['code', 'demo', 'paper', 'docs', 'data', 'other'] as const;
 
-export const projectLinkSchema = z.object({
+export const projectLinkSchema = z.strictObject({
   label: text,
   url: httpUrl,
   kind: z.enum(PROJECT_LINK_KINDS).default('other'),
 });
 
 /** Frontmatter of `src/content/projects/<slug>/index.md`. `hero_image` is added in `content.config.ts` via `image()`. */
-export const projectBaseSchema = z.object({
+export const projectBaseSchema = z.strictObject({
   title: text,
   short_title: text.optional(),
   /** One sentence for cards. */
@@ -113,7 +113,7 @@ export const projectBaseSchema = z.object({
 export const PUBLICATION_STATUSES = ['published', 'in-press', 'accepted', 'submitted', 'preprint', 'in-preparation'] as const;
 export const PUBLICATION_TYPES = ['journal', 'conference', 'workshop', 'preprint', 'thesis', 'report', 'other'] as const;
 
-export const publicationSchema = z.object({
+export const publicationSchema = z.strictObject({
   title: text,
   /** Author names in publication order, exactly as they appear on the paper. */
   authors: z.array(text).min(1, { message: 'List at least one author' }),
@@ -129,7 +129,7 @@ export const publicationSchema = z.object({
     .regex(/^10\.\d{4,9}\/\S+$/, { message: 'Expected a bare DOI such as 10.1000/xyz123' })
     .optional(),
   links: z
-    .object({
+    .strictObject({
       paper: httpUrl.optional(),
       preprint: httpUrl.optional(),
       code: httpUrl.optional(),
@@ -160,7 +160,7 @@ export const NEWS_TYPES = [
   'other',
 ] as const;
 
-export const newsSchema = z.object({
+export const newsSchema = z.strictObject({
   title: text,
   /** Full date when known; month precision (e.g. an award announced in "May 2026") is accepted. */
   date: monthDate,
@@ -170,7 +170,7 @@ export const newsSchema = z.object({
   publication_ids: idList,
   talk_ids: idList,
   award_ids: idList,
-  links: z.array(z.object({ label: text, url: httpUrl })).default([]),
+  links: z.array(z.strictObject({ label: text, url: httpUrl })).default([]),
   /** `false` keeps the item off the home page "Latest" list. */
   featured: z.boolean().default(true),
 });
@@ -181,7 +181,7 @@ export const newsSchema = z.object({
 
 export const EXPERIENCE_TYPES = ['research', 'professional', 'teaching', 'service'] as const;
 
-export const experienceSchema = z.object({
+export const experienceSchema = z.strictObject({
   organization: text,
   role: text,
   type: z.enum(EXPERIENCE_TYPES).default('professional'),
@@ -196,7 +196,7 @@ export const experienceSchema = z.object({
   bullets: z.array(text).default([]),
 });
 
-export const educationSchema = z.object({
+export const educationSchema = z.strictObject({
   institution: text,
   degree: text,
   field: text.optional(),
@@ -210,7 +210,7 @@ export const educationSchema = z.object({
 
 export const TALK_TYPES = ['invited', 'conference', 'seminar', 'webinar', 'poster', 'workshop', 'panel', 'other'] as const;
 
-export const talkSchema = z.object({
+export const talkSchema = z.strictObject({
   title: text,
   event: text,
   date: flexDate,
@@ -218,7 +218,7 @@ export const talkSchema = z.object({
   location: text.optional(),
   project_ids: idList,
   links: z
-    .object({
+    .strictObject({
       slides: httpUrl.optional(),
       video: httpUrl.optional(),
       event: httpUrl.optional(),
@@ -227,7 +227,7 @@ export const talkSchema = z.object({
     .default({}),
 });
 
-export const awardSchema = z.object({
+export const awardSchema = z.strictObject({
   title: text,
   organization: text,
   date: flexDate,
@@ -236,7 +236,7 @@ export const awardSchema = z.object({
   url: httpUrl.optional(),
 });
 
-export const skillGroupSchema = z.object({
+export const skillGroupSchema = z.strictObject({
   category: text,
   items: z.array(text).min(1, { message: 'List at least one skill' }),
   order: orderInt.optional(),
