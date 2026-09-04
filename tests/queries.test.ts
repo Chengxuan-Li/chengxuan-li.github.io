@@ -5,6 +5,7 @@ import {
   getPublicationProjects,
   groupExperiencesByType,
   groupNewsByYear,
+  groupPublicationsByYear,
   selectFeaturedExperiences,
   selectFeaturedProjects,
   selectFeaturedPublications,
@@ -100,6 +101,17 @@ describe('publications', () => {
     });
     expect(ids(selectFeaturedPublications(site))).toEqual(['p2', 'p1']);
     expect(ids(selectFeaturedPublications(site, 1))).toEqual(['p2']);
+  });
+
+  it('groupPublicationsByYear groups newest year first, ordered inside each year', () => {
+    const pubs = [
+      publication('p1', { year: 2024 }),
+      publication('p2', { year: 2026, month: 2, title: 'B' }),
+      publication('p3', { year: 2026, month: 9, title: 'A' }),
+    ];
+    const groups = groupPublicationsByYear(pubs);
+    expect(groups.map((group) => group.year)).toEqual([2026, 2024]);
+    expect(ids(groups[0].items)).toEqual(['p3', 'p2']);
   });
 
   it('getPublicationProjects resolves projects in declared order', () => {

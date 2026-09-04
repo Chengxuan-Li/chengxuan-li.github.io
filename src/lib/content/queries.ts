@@ -104,6 +104,17 @@ export function getPublicationProjects(content: SiteContent, publication: Public
   return getProjectsByIds(content, publication.data.project_ids);
 }
 
+/** Publications grouped for the /publications/ page: newest year first, sorted inside each year. */
+export function groupPublicationsByYear(
+  publications: readonly PublicationEntry[],
+): { year: number; items: PublicationEntry[] }[] {
+  const groups = new Map<number, PublicationEntry[]>();
+  for (const entry of sortPublications(publications)) {
+    groups.set(entry.data.year, [...(groups.get(entry.data.year) ?? []), entry]);
+  }
+  return [...groups.entries()].sort((a, b) => b[0] - a[0]).map(([year, items]) => ({ year, items }));
+}
+
 /* ---------------- experiences, education, talks, awards, skills ---------------- */
 
 export function sortExperiences(experiences: readonly ExperienceEntry[]): ExperienceEntry[] {

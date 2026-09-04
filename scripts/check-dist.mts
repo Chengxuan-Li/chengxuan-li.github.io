@@ -12,7 +12,7 @@ import { pathToFileURL } from 'node:url';
 
 export const SITE_URL = 'https://chengxuan-li.github.io';
 export const FORBIDDEN_PREFIX = '/chengxuan-li.github.io/';
-export const STATIC_ROUTES = ['/', '/projects/', '/cv/', '/news/'];
+export const STATIC_ROUTES = ['/', '/projects/', '/publications/', '/cv/', '/news/'];
 export const STATIC_FILES = ['404.html', 'sitemap-index.xml', 'robots.txt'];
 
 export interface CheckOptions {

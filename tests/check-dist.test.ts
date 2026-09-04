@@ -29,6 +29,7 @@ async function validDist(root: string): Promise<void> {
     'projects/alpha/index.html',
     page('<a href="/cv/#publications">CV</a><a href="https://example.com">ext</a>', '/projects/alpha/'),
   );
+  await write(root, 'publications/index.html', page('<a href="/cv/">CV</a>', '/publications/'));
   await write(root, 'cv/index.html', page('<a href="/news/">News</a>', '/cv/'));
   await write(root, 'news/index.html', page('<a href="/">Home</a>', '/news/'));
   await write(root, '404.html', page('<a href="/">Home</a>', null));
@@ -66,7 +67,7 @@ describe('checkDist', () => {
   it('passes a complete build', async () => {
     await validDist(root);
     const result = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
-    expect(result).toEqual({ issues: [], pagesChecked: 6 });
+    expect(result).toEqual({ issues: [], pagesChecked: 7 });
   });
 
   it('reports missing routes and files', async () => {

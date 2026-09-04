@@ -123,7 +123,7 @@ const description = `Curriculum vitae of ${siteConfig.name}: education, research
 
   {publications.length > 0 && (
     <section class="cv-section" aria-labelledby="publications">
-      <SectionHeading id="publications" title="Publications" />
+      <SectionHeading id="publications" title="Publications" action={{ href: '/publications/', label: 'Publications page' }} />
       <ol class="pub-list">
         {publications.map((publication) => (
           <PublicationListItem publication={publication} projects={getPublicationProjects(content, publication)} />
