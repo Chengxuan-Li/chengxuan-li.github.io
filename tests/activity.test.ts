@@ -108,6 +108,66 @@ describe('buildActivityStream', () => {
   });
 });
 
+describe('entry.href (what the title links to)', () => {
+  const hrefOf = (site: ReturnType<typeof content>, key: string) =>
+    buildActivityStream(site).find((entry) => entry.key === key)?.href;
+
+  it('uses the first publication link by priority, not YAML key order', () => {
+    const site = content({
+      publications: [
+        publication('both', { links: { code: 'https://example.com/code', paper: 'https://example.com/paper' } }),
+        publication('preprint-only', { links: { preprint: 'https://example.com/preprint' } }),
+        publication('code-only', { links: { code: 'https://example.com/code' } }),
+      ],
+    });
+    expect(hrefOf(site, 'publication:both')).toBe('https://example.com/paper');
+    expect(hrefOf(site, 'publication:preprint-only')).toBe('https://example.com/preprint');
+    expect(hrefOf(site, 'publication:code-only')).toBe('https://example.com/code');
+  });
+
+  it('leaves a publication unlinked when it has no links, even with a DOI', () => {
+    const site = content({ publications: [publication('bare', { doi: '10.1000/xyz123' })] });
+    expect(hrefOf(site, 'publication:bare')).toBeUndefined();
+  });
+
+  it('uses an award url when present', () => {
+    const site = content({
+      awards: [award('linked', { url: 'https://example.com/award' }), award('bare')],
+    });
+    expect(hrefOf(site, 'award:linked')).toBe('https://example.com/award');
+    expect(hrefOf(site, 'award:bare')).toBeUndefined();
+  });
+
+  it('uses the first talk link by priority', () => {
+    const site = content({
+      talks: [
+        talk('slides', { links: { event: 'https://example.com/event', slides: 'https://example.com/slides' } }),
+        talk('event-only', { links: { event: 'https://example.com/event' } }),
+        talk('bare'),
+      ],
+    });
+    expect(hrefOf(site, 'talk:slides')).toBe('https://example.com/slides');
+    expect(hrefOf(site, 'talk:event-only')).toBe('https://example.com/event');
+    expect(hrefOf(site, 'talk:bare')).toBeUndefined();
+  });
+
+  it('uses the first link of a manual news item', () => {
+    const site = content({
+      news: [
+        news('linked', {
+          links: [
+            { label: 'Release', url: 'https://example.com/release' },
+            { label: 'Docs', url: 'https://example.com/docs' },
+          ],
+        }),
+        news('bare'),
+      ],
+    });
+    expect(hrefOf(site, 'news:linked')).toBe('https://example.com/release');
+    expect(hrefOf(site, 'news:bare')).toBeUndefined();
+  });
+});
+
 describe('selectLatestActivity', () => {
   const site = content({
     awards: [award('a1', { date: '2026-05' }), award('a2', { date: '2026-04' })],

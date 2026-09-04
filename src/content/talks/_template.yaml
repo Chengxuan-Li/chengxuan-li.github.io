@@ -5,7 +5,8 @@ date: 2026-05                  # YYYY, YYYY-MM, or YYYY-MM-DD
 type: conference               # invited | conference | seminar | webinar | poster | workshop | panel | other
 # location: City, Country      # (optional)
 project_ids: []
-links: {}
+links: {}                      # the first link below (slides, then video, event, abstract) makes
+                               # the talk title clickable on the news page
 # links:
 #   slides: https://...
 #   video: https://...

@@ -16,7 +16,7 @@ const dayMonth = formatDayMonth(entry.date);
   <li class="news-item news-item--compact">
     <time class="news-item__date" datetime={entry.date}>{formatMonthYear(entry.date)}</time>
     <div class="news-item__body">
-      <p class="news-item__title">{entry.title}</p>
+      <p class="news-item__title">{entry.href ? <a href={entry.href}>{entry.title}</a> : entry.title}</p>
       {entry.links.length > 0 && (
         <ul class="news-item__links">
           {entry.links.map((link) => <li><a href={link.href}>{link.label} →</a></li>)}
@@ -31,7 +31,7 @@ const dayMonth = formatDayMonth(entry.date);
       <span class="news-item__type">{entry.label}</span>
     </div>
     <div class="news-item__body">
-      <h3 class="news-item__title">{entry.title}</h3>
+      <h3 class="news-item__title">{entry.href ? <a href={entry.href}>{entry.title}</a> : entry.title}</h3>
       {entry.summary && <p class="news-item__summary">{entry.summary}</p>}
       {entry.links.length > 0 && (
         <ul class="news-item__links">

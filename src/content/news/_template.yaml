@@ -15,7 +15,7 @@ project_ids: []               # related project folder names
 publication_ids: []           # related publication file names
 talk_ids: []                  # related talk file names
 award_ids: []                 # related award file names
-links: []
+links: []                     # the first link below makes the title clickable on the news page
 # links:
 #   - label: Event page
 #     url: https://...

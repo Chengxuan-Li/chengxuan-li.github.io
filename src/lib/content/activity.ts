@@ -29,6 +29,12 @@ export interface ActivityEntry {
   label: string;
   title: string;
   summary?: string;
+  /**
+   * Where the entry's title points, when the record offers somewhere to go: a publication's or talk's
+   * first link (by the priority order below, so YAML key order cannot change it), an award's `url`, or a
+   * manual item's first link. Undefined leaves the title as plain text.
+   */
+  href?: string;
   links: ActivityLink[];
   projectIds: string[];
   /** Manual news can opt out of the home page with `featured: false`; derived entries never do. */
@@ -69,6 +75,8 @@ function fromPublication(content: SiteContent, entry: PublicationEntry): Activit
     date: publicationDate(data),
     label: 'Publication',
     title: data.title,
+    // The DOI is deliberately not a fallback: only an entry under `links` makes the title clickable.
+    href: data.links.paper ?? data.links.preprint ?? data.links.code ?? data.links.slides ?? data.links.poster,
     summary: joinParts([data.venue, data.status === 'published' ? null : PUBLICATION_STATUS_LABELS[data.status]]),
     links: [...links, ...projectLinks(content, data.project_ids)],
     projectIds: [...data.project_ids],
@@ -85,6 +93,7 @@ function fromAward(content: SiteContent, entry: AwardEntry): ActivityEntry {
     date: data.date,
     label: 'Award',
     title: data.title,
+    href: data.url,
     summary: joinParts([data.organization, data.description]),
     links: [
       ...(data.url ? [{ label: 'Details', href: data.url }] : []),
@@ -109,6 +118,7 @@ function fromTalk(content: SiteContent, entry: TalkEntry): ActivityEntry {
     date: data.date,
     label: TALK_TYPE_LABELS[data.type],
     title: data.title,
+    href: data.links.slides ?? data.links.video ?? data.links.event ?? data.links.abstract,
     summary: joinParts([TALK_TYPE_LABELS[data.type], joinParts([data.event, data.location], ', ')]),
     links: [...links, ...projectLinks(content, data.project_ids)],
     projectIds: [...data.project_ids],
@@ -135,6 +145,7 @@ function fromNews(content: SiteContent, entry: NewsEntry): ActivityEntry {
     date: data.date,
     label: NEWS_TYPE_LABELS[data.type],
     title: data.title,
+    href: data.links[0]?.url,
     summary: data.summary,
     links: [...links, ...projectLinks(content, data.project_ids)],
     projectIds: [...data.project_ids],

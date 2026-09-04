@@ -96,6 +96,11 @@ reverse-chronological stream from the records that already exist:
 So a paper, award, or talk is written **once**, in its own collection, and its title, date, and links stay
 consistent everywhere. Never copy such a record into `src/content/news/`.
 
+An entry's **title becomes a link** when its record offers a destination — a publication's or talk's first
+entry under `links` (tried in a fixed order: `paper`, `preprint`, `code`, `slides`, `poster` for papers;
+`slides`, `video`, `event`, `abstract` for talks), an award's `url`, or a manual item's first link. A
+publication with only a `doi` and no `links` keeps a plain-text title; its DOI is still listed beneath.
+
 The home page "Latest" section shows the four newest stream entries; a manual news item with
 `featured: false` is kept off it. A project page's "Activity" section lists only awards and manual news
 related to that project, because its publications and talks already appear under Outputs.
