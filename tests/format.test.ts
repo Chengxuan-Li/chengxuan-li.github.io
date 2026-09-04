@@ -35,7 +35,9 @@ describe('formatDateRange', () => {
 describe('news dates', () => {
   it('formats day-month and month-year', () => {
     expect(formatDayMonth('2026-09-03')).toBe('03 Sep');
+    expect(formatDayMonth('2026-05')).toBe('May');
     expect(formatMonthYear('2026-09-03')).toBe('Sep 2026');
+    expect(formatMonthYear('2026-05')).toBe('May 2026');
   });
 });
 

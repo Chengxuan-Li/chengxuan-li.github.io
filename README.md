@@ -74,8 +74,8 @@ src/content/
 ### Add a news item
 
 1. Copy `src/content/news/_template.yaml` to `src/content/news/<YYYY-MM-DD>-<slug>.yaml`.
-2. Set `title`, `date`, `type`, an optional `summary`, and the ids of related projects, publications, talks,
-   or awards. Unknown ids fail the build.
+2. Set `title`, `date` (`YYYY-MM-DD`, or `YYYY-MM` when only the month is known), `type`, an optional
+   `summary`, and the ids of related projects, publications, talks, or awards. Unknown ids fail the build.
 3. The item appears on `/news/` under its year and, unless `featured: false`, among the four newest items
    on the home page and on the related project pages.
 

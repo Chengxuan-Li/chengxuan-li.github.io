@@ -159,8 +159,10 @@ describe('newsSchema', () => {
       featured: true,
     });
   });
-  it('rejects month-only dates and malformed links', () => {
-    expect(newsSchema.safeParse({ title: 'N', date: '2026-09' }).success).toBe(false);
+  it('accepts month precision but rejects year-only dates and malformed links', () => {
+    expect(newsSchema.parse({ title: 'N', date: '2026-09' }).date).toBe('2026-09');
+    expect(newsSchema.safeParse({ title: 'N', date: '2026' }).success).toBe(false);
+    expect(newsSchema.safeParse({ title: 'N', date: '2026-13' }).success).toBe(false);
     expect(newsSchema.safeParse({ title: 'N', date: '2026-09-03', links: [{ label: 'x' }] }).success).toBe(false);
   });
 });

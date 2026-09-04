@@ -38,6 +38,14 @@ export const flexDate = z.preprocess(
   z.string().refine(isValidFlexDate, { message: 'Expected a date written as YYYY, YYYY-MM, or YYYY-MM-DD' }),
 );
 
+/** `YYYY-MM` or `YYYY-MM-DD` — dated activity needs at least month precision. */
+export const monthDate = z.preprocess(
+  coerceDateInput,
+  z.string().refine((value) => /^\d{4}-\d{2}(?:-\d{2})?$/.test(value) && isValidFlexDate(value), {
+    message: 'Expected a date written as YYYY-MM or YYYY-MM-DD',
+  }),
+);
+
 /** A full `YYYY-MM-DD` date. */
 export const isoDate = z.preprocess(
   coerceDateInput,
@@ -152,7 +160,8 @@ export const NEWS_TYPES = [
 
 export const newsSchema = z.object({
   title: text,
-  date: isoDate,
+  /** Full date when known; month precision (e.g. an award announced in "May 2026") is accepted. */
+  date: monthDate,
   type: z.enum(NEWS_TYPES).default('other'),
   summary: text.optional(),
   project_ids: idList,

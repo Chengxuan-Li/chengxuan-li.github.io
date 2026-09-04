@@ -28,10 +28,11 @@ export function formatDateRange(
   return startText === endText ? startText : `${startText} ${EN_DASH} ${endText}`;
 }
 
-/** "03 Sep" — the day column of the news timeline. */
-export function formatDayMonth(isoDay: string): string {
-  const { month = 1, day = 1 } = parseFlexDate(isoDay);
-  return `${String(day).padStart(2, '0')} ${MONTHS[month - 1]}`;
+/** "03 Sep" — the day column of the news timeline; just "May" when only the month is known. */
+export function formatDayMonth(value: string): string {
+  const { month = 1, day } = parseFlexDate(value);
+  const monthName = MONTHS[month - 1];
+  return day === undefined ? monthName : `${String(day).padStart(2, '0')} ${monthName}`;
 }
 
 /** "Sep 2026" — the compact "Latest" list on the home page. */
