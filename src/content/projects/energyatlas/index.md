@@ -8,10 +8,10 @@ start_date: 2025-01
 end_date: null
 featured: true
 home_order: 1
-types: [software, simulation, research]
-topics: [Urban building energy modeling, Digital twins, Geospatial data, Smart-meter data]
-technologies: [C#, .NET]
-affiliation: EnergyAtlas.io, Ithaca, NY
+types: [simulation, software, engineering]
+topics: [Energy Modeling, Machine Learning, Optimization, Digital twin, Smart-meter data, SCADA, AMI, Load forecasting]
+technologies: [C#, ASP.NET, Python, DuckDB]
+affiliation: Environmental Systems Lab
 related_project_ids: [inverse-calibration]
 links:
   - label: Website
