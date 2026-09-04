@@ -102,6 +102,10 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
@@ -230,6 +234,7 @@ p {
 }
 
 main.container {
+  flex: 1 0 auto;
   min-height: 50vh;
   padding-bottom: 2rem;
 }
