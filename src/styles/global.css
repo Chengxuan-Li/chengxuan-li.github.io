@@ -599,8 +599,6 @@ main.container {
   display: block;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: var(--paper-2);
-  border: 1px solid var(--rule);
 }
 
 .project-card__visual img {
@@ -1006,7 +1004,6 @@ main.container {
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid var(--rule);
 }
 
 .figure figcaption {
@@ -1100,7 +1097,6 @@ main.container {
   max-width: 100%;
   height: auto;
   margin: 1.5rem 0;
-  border: 1px solid var(--rule);
 }
 
 .prose figure {
