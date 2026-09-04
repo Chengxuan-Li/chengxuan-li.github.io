@@ -52,10 +52,10 @@ export async function listHtmlFiles(dir: string): Promise<string[]> {
   return files.sort();
 }
 
-/** Root-relative targets of href/src/srcset/content attributes, with site-absolute URLs normalized and query/hash stripped. */
+/** Root-relative targets of href/src/srcset/poster/content attributes, with site-absolute URLs normalized and query/hash stripped. */
 export function extractLocalRefs(html: string, siteUrl: string = SITE_URL): string[] {
   const refs = new Set<string>();
-  const attribute = /\s(?:href|src|srcset|content)=["']([^"']*)["']/g;
+  const attribute = /\s(?:href|src|srcset|poster|content)=["']([^"']*)["']/g;
   for (const match of html.matchAll(attribute)) {
     const raw = match[1];
     const isSrcset = /\s\d+[wx](,|$)/.test(raw);

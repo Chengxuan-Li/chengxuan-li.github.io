@@ -7,6 +7,7 @@ import {
   experienceSchema,
   newsSchema,
   projectBaseSchema,
+  projectVideoSchema,
   publicationSchema,
   skillGroupSchema,
   talkSchema,
@@ -25,7 +26,11 @@ const yaml = (dir: string) =>
 
 const projects = defineCollection({
   loader: markdown('projects'),
-  schema: ({ image }) => projectBaseSchema.extend({ hero_image: image().optional() }),
+  schema: ({ image }) =>
+    projectBaseSchema.extend({
+      hero_image: image().optional(),
+      video: projectVideoSchema(image()).optional(),
+    }),
 });
 
 const publications = defineCollection({ loader: yaml('publications'), schema: publicationSchema });

@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { resolveExternalVideoUrl } from './video';
 
 /* ------------------------------------------------------------------ */
 /* Primitives                                                          */
@@ -80,6 +81,29 @@ export const projectLinkSchema = z.strictObject({
   url: httpUrl,
   kind: z.enum(PROJECT_LINK_KINDS).default('other'),
 });
+
+export const projectVideoBaseSchema = z.strictObject({
+  url: z
+    .string()
+    .trim()
+    .refine((value) => resolveExternalVideoUrl(value) !== null, {
+      message: 'Expected an HTTPS YouTube, Vimeo, or direct MP4 URL',
+    }),
+  title: text,
+  caption: text.optional(),
+});
+
+export function projectVideoSchema<TPoster extends z.ZodType>(posterSchema: TPoster) {
+  return projectVideoBaseSchema
+    .extend({ poster: posterSchema.optional() })
+    .refine(
+      (video) => video.poster === undefined || resolveExternalVideoUrl(video.url)?.kind === 'file',
+      {
+        message: 'Poster images are only supported for direct MP4 video URLs',
+        path: ['poster'],
+      },
+    );
+}
 
 /** Frontmatter of `src/content/projects/<slug>/index.md`. `hero_image` is added in `content.config.ts` via `image()`. */
 export const projectBaseSchema = z.strictObject({

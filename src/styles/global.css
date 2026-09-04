@@ -1113,6 +1113,27 @@ main.container {
   color: var(--ink-2);
 }
 
+.prose .project-media img {
+  margin: 0;
+}
+
+.prose .project-media video,
+.prose .project-media iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+}
+
+.prose .project-media iframe {
+  height: auto;
+}
+
+.prose .project-media figcaption {
+  margin-top: 0.5rem;
+}
+
 .prose table {
   display: block;
   overflow-x: auto;

@@ -5,6 +5,7 @@ import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectMeta from '../../components/ProjectMeta.astro';
 import ResponsiveFigure from '../../components/ResponsiveFigure.astro';
+import ProjectVideo from '../../components/ProjectVideo.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import PublicationListItem from '../../components/PublicationListItem.astro';
 import TalkListItem from '../../components/TalkListItem.astro';
@@ -52,6 +53,7 @@ if (data.hero_image) {
 
     <div class="prose">
       <Content />
+      {data.video && <ProjectVideo video={data.video} />}
     </div>
 
     {hasOutputs && (

@@ -1,0 +1,30 @@
+---
+import type { ProjectVideoData } from '../lib/content/model';
+import { resolveExternalVideoUrl } from '../lib/content/video';
+
+interface Props {
+  video: ProjectVideoData;
+}
+
+const { video } = Astro.props;
+const source = resolveExternalVideoUrl(video.url);
+if (!source) throw new Error(`Unsupported project video URL: ${video.url}`);
+---
+<figure class="project-media">
+  {source.kind === 'embed' ? (
+    <iframe
+      src={source.url}
+      title={video.title}
+      loading="lazy"
+      allow="fullscreen; picture-in-picture"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  ) : (
+    <video controls playsinline preload="metadata" poster={video.poster?.src} aria-label={video.title}>
+      <source src={source.url} type={source.mimeType} />
+      <p>Your browser cannot play this video. <a href={source.url}>Open the video.</a></p>
+    </video>
+  )}
+  {video.caption && <figcaption>{video.caption}</figcaption>}
+</figure>

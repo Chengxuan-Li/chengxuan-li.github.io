@@ -45,6 +45,11 @@ describe('extractLocalRefs', () => {
     const html = `<a href="/projects/?x=1#top">a</a><img src="${SITE}/images/og/default.png"><img srcset="/_astro/a.webp 480w, /_astro/b.webp 800w"><a href="https://example.com/">e</a><a href="mailto:x@y.z">m</a><a href="//cdn.example/x">p</a><a href="#top">f</a><meta content="width=device-width">`;
     expect(extractLocalRefs(html, SITE)).toEqual(['/_astro/a.webp', '/_astro/b.webp', '/images/og/default.png', '/projects/']);
   });
+
+  it('collects a generated local video poster while ignoring an external source', () => {
+    const html = '<video poster="/_astro/video-poster.hash.png"><source src="https://media.example.com/demo.mp4" type="video/mp4"></video>';
+    expect(extractLocalRefs(html, SITE)).toEqual(['/_astro/video-poster.hash.png']);
+  });
 });
 
 describe('routeToFile', () => {

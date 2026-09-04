@@ -15,6 +15,10 @@ affiliation: Fixture University
 hero_image: ./hero.png
 hero_alt: Synthetic diagram used to test figure layout.
 hero_caption: Figure 1. Synthetic hero image generated for layout checks.
+video:
+  url: https://youtu.be/fixture0001
+  title: Synthetic project video used to test the external embed layout.
+  caption: Synthetic caption for the external video fixture.
 related_project_ids: [fixture-beta, fixture-gamma]
 links:
   - label: Code

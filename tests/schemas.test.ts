@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { z } from 'astro/zod';
 import {
   awardSchema,
   educationSchema,
@@ -8,6 +9,8 @@ import {
   isoDate,
   newsSchema,
   projectBaseSchema,
+  projectVideoBaseSchema,
+  projectVideoSchema,
   publicationSchema,
   recordId,
   skillGroupSchema,
@@ -113,6 +116,55 @@ describe('projectBaseSchema', () => {
     ['bad related id', { title: 'T', summary: 'S', start_date: '2025-01', related_project_ids: ['Bad Id'] }],
   ])('rejects %s', (_label, input) => {
     expect(projectBaseSchema.safeParse(input).success).toBe(false);
+  });
+});
+
+describe('projectVideoBaseSchema', () => {
+  it('accepts a supported external video with accessible text', () => {
+    expect(
+      projectVideoBaseSchema.parse({
+        url: 'https://vimeo.com/123456789',
+        title: 'Project demonstration',
+        caption: 'A short walkthrough.',
+      }),
+    ).toEqual({
+      url: 'https://vimeo.com/123456789',
+      title: 'Project demonstration',
+      caption: 'A short walkthrough.',
+    });
+  });
+
+  it.each([
+    ['unsupported host', { url: 'https://example.com/watch/123', title: 'Demo' }],
+    ['insecure direct file', { url: 'http://example.com/demo.mp4', title: 'Demo' }],
+    ['missing title', { url: 'https://example.com/demo.mp4' }],
+    ['unknown key', { url: 'https://example.com/demo.mp4', title: 'Demo', autoplay: true }],
+  ])('rejects %s', (_label, input) => {
+    expect(projectVideoBaseSchema.safeParse(input).success).toBe(false);
+  });
+});
+
+describe('projectVideoSchema', () => {
+  const schema = projectVideoSchema(z.string());
+
+  it('accepts a co-located poster for a direct MP4 video', () => {
+    expect(
+      schema.safeParse({
+        url: 'https://media.example.com/demo.mp4',
+        title: 'Project demonstration',
+        poster: './video-poster.png',
+      }).success,
+    ).toBe(true);
+  });
+
+  it('rejects a poster for a hosted video that cannot use it', () => {
+    const result = schema.safeParse({
+      url: 'https://vimeo.com/123456789',
+      title: 'Project demonstration',
+      poster: './video-poster.png',
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.error.issues[0]?.path).toEqual(['poster']);
   });
 });
 
