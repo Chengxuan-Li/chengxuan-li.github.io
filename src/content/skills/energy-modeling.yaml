@@ -1,13 +1,25 @@
-category: Energy modeling & simulation
+category:
+  en: Energy modeling & simulation
+  zh: 能源建模与仿真
 items:
-  - Urban building energy modeling
-  - reduced-order thermal models
-  - RC-network models
-  - building load simulation
-  - model calibration
-  - parameter estimation
-  - load-profile modeling
-  - load-duration analysis
-  - building electrification
-  - demand-response simulation
+  - en: Urban building energy modeling
+    zh: 城市建筑能耗建模（UBEM）
+  - en: reduced-order thermal models
+    zh: 降阶热模型
+  - en: RC-network models
+    zh: RC 网络模型
+  - en: building load simulation
+    zh: 建筑负荷仿真
+  - en: model calibration
+    zh: 模型校准
+  - en: parameter estimation
+    zh: 参数估计
+  - en: load-profile modeling
+    zh: 负荷曲线建模
+  - en: load-duration analysis
+    zh: 负荷持续曲线分析
+  - en: building electrification
+    zh: 建筑电气化
+  - en: demand-response simulation
+    zh: 需求响应仿真
 order: 4

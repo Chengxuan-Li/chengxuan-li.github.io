@@ -1,9 +1,15 @@
 institution: Architectural Association
-degree: BA (Hons)
+degree:
+  en: BA (Hons)
+  zh: 荣誉文学学士
 end_date: 2022-06
-location: London, UK
-details: [
-  "Renewables energy systems and building energy modeling",
-  "Building physics and energy performance simulation",
-  "Environmental and sustainable buildings"
-]
+location:
+  en: London, UK
+  zh: 英国伦敦
+details:
+  - en: Renewables energy systems and building energy modeling
+    zh: 可再生能源系统与建筑能耗建模
+  - en: Building physics and energy performance simulation
+    zh: 建筑物理与能效仿真
+  - en: Environmental and sustainable buildings
+    zh: 环境与可持续建筑

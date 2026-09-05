@@ -1,3 +1,5 @@
-category: Programming
+category:
+  en: Programming
+  zh: 编程
 items: [Python, C#, .NET / ASP.NET, C++, SQL]
 order: 1

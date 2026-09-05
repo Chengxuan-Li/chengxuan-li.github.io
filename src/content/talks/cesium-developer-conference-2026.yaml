@@ -2,7 +2,9 @@ title: "City-scale digital twins for building energy modeling and carbon reducti
 event: "Cesium Developer Conference 2026"
 date: 2026-06
 type: conference
-location: "Philadelphia, PA"
+location:
+  en: "Philadelphia, PA"
+  zh: 美国宾夕法尼亚州费城
 project_ids: [energyatlas]
 links:
   video: https://youtu.be/Ro-Bmdrd3LI?si=juQdGL6CxXeEeuCZ

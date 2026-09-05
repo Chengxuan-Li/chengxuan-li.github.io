@@ -1,9 +1,15 @@
 institution: Architectural Association
-degree: M.Arch
+degree:
+  en: M.Arch
+  zh: 建筑学硕士
 end_date: 2024-06
-location: London, UK
-details: [
-  "Energy engineering and benchmarking",
-  "Net-zero building operations and optimization",
-  "Post-Occupancy Evaluation (POE)"
-]
+location:
+  en: London, UK
+  zh: 英国伦敦
+details:
+  - en: Energy engineering and benchmarking
+    zh: 能源工程与能耗基准分析
+  - en: Net-zero building operations and optimization
+    zh: 净零建筑运行与优化
+  - en: Post-Occupancy Evaluation (POE)
+    zh: 使用后评估（POE）

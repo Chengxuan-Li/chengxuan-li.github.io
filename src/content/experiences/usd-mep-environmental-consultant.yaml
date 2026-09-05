@@ -1,12 +1,19 @@
 organization: Urban Systems Design MEP Engineers
-role: Environmental Engineering Consultant
+role:
+  en: Environmental Engineering Consultant
+  zh: 环境工程顾问
 type: professional
 start_date: 2023-07
 end_date: 2023-09
-location: London, UK
+location:
+  en: London, UK
+  zh: 英国伦敦
 featured: false
 cv_order: 4
 project_ids: []
-summary: Sustainability assessment of Google workplace properties with CBRE GWS.
+summary:
+  en: Sustainability assessment of Google workplace properties with CBRE GWS.
+  zh: 与 CBRE GWS 合作，对 Google 办公物业开展可持续性评估。
 bullets:
-  - Conduct sustainability assessment with CBRE GWS for 13+ Google workplace properties in the Americas.
+  - en: Conduct sustainability assessment with CBRE GWS for 13+ Google workplace properties in the Americas.
+    zh: 与 CBRE GWS 合作，为美洲地区 13 处以上 Google 办公物业开展可持续性评估。

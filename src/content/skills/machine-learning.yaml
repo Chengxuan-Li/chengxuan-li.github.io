@@ -1,16 +1,26 @@
-category: Machine learning & data science
+category:
+  en: Machine learning & data science
+  zh: 机器学习与数据科学
 items:
   - PyTorch
   - scikit-learn
   - statsmodels
   - pandas
   - NumPy
-  - supervised and unsupervised learning
-  - surrogate modeling
-  - inverse modeling
-  - physics-informed learning
-  - dimensionality reduction
-  - clustering
-  - classification
-  - regression
+  - en: supervised and unsupervised learning
+    zh: 有监督与无监督学习
+  - en: surrogate modeling
+    zh: 代理建模（surrogate modeling）
+  - en: inverse modeling
+    zh: 逆向建模（inverse modeling）
+  - en: physics-informed learning
+    zh: 物理信息学习（physics-informed learning）
+  - en: dimensionality reduction
+    zh: 降维
+  - en: clustering
+    zh: 聚类
+  - en: classification
+    zh: 分类
+  - en: regression
+    zh: 回归
 order: 2

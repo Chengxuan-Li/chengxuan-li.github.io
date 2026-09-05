@@ -1,16 +1,29 @@
-organization: Environmental Systems Lab, Cornell University
-role: PhD Researcher
+organization:
+  en: Environmental Systems Lab, Cornell University
+  zh: 康奈尔大学 Environmental Systems Lab
+role:
+  en: PhD Researcher
+  zh: 博士研究员
 type: research
 start_date: 2024-08
 end_date: null
-location: Ithaca, NY
+location:
+  en: Ithaca, NY
+  zh: 美国纽约州伊萨卡
 featured: true
 cv_order: 1
 project_ids: [inverse-calibration]
-summary: Research on data-driven, physics-based, and hybrid modeling methods for urban energy systems, advised by Prof. Timur Dogan, Prof. Oliver Gao, and Prof. Jacob Mays.
+summary:
+  en: Research on data-driven, physics-based, and hybrid modeling methods for urban energy systems, advised by Prof. Timur Dogan, Prof. Oliver Gao, and Prof. Jacob Mays.
+  zh: 研究面向城市能源系统的数据驱动、基于物理以及混合建模方法，导师为 Timur Dogan 教授、Oliver Gao 教授与 Jacob Mays 教授。
 bullets:
-  - Develop machine-learning, optimization, statistical, and physics-informed methods for energy-demand inference, model calibration, and predictive modeling.
-  - Research inverse modeling and surrogate-learning workflows for calibrating reduced-order and physics-based building energy models from measured data.
-  - Develop scalable simulation and analysis methods for urban building energy modeling, electrification, demand response, and load flexibility.
-  - Investigate time-series, system-identification, and reduced-order modeling approaches for representing building and energy-system dynamics.
-  - Build computational workflows linking physical simulation, observational data, uncertainty analysis, and large-scale model evaluation.
+  - en: Develop machine-learning, optimization, statistical, and physics-informed methods for energy-demand inference, model calibration, and predictive modeling.
+    zh: 开发机器学习、优化、统计与物理信息（physics-informed）方法，用于能源需求推断、模型校准与预测建模。
+  - en: Research inverse modeling and surrogate-learning workflows for calibrating reduced-order and physics-based building energy models from measured data.
+    zh: 研究逆向建模（inverse modeling）与代理学习（surrogate learning）流程，利用实测数据校准降阶与基于物理的建筑能耗模型。
+  - en: Develop scalable simulation and analysis methods for urban building energy modeling, electrification, demand response, and load flexibility.
+    zh: 开发可扩展的仿真与分析方法，服务于城市建筑能耗建模（UBEM）、电气化、需求响应与负荷灵活性研究。
+  - en: Investigate time-series, system-identification, and reduced-order modeling approaches for representing building and energy-system dynamics.
+    zh: 探索时间序列、系统辨识（system identification）与降阶建模方法，以刻画建筑与能源系统的动态特性。
+  - en: Build computational workflows linking physical simulation, observational data, uncertainty analysis, and large-scale model evaluation.
+    zh: 构建计算流程，将物理仿真、观测数据、不确定性分析与大规模模型评估相衔接。

@@ -1,12 +1,23 @@
-category: Scientific computing & optimization
+category:
+  en: Scientific computing & optimization
+  zh: 科学计算与优化
 items:
-  - Numerical methods
-  - optimization
-  - Monte Carlo simulation
-  - uncertainty analysis
-  - sensitivity analysis
-  - reduced-order modeling
-  - system identification
-  - time-series analysis
-  - signal processing
+  - en: Numerical methods
+    zh: 数值方法
+  - en: optimization
+    zh: 优化
+  - en: Monte Carlo simulation
+    zh: 蒙特卡洛仿真
+  - en: uncertainty analysis
+    zh: 不确定性分析
+  - en: sensitivity analysis
+    zh: 敏感性分析
+  - en: reduced-order modeling
+    zh: 降阶建模
+  - en: system identification
+    zh: 系统辨识（system identification）
+  - en: time-series analysis
+    zh: 时间序列分析
+  - en: signal processing
+    zh: 信号处理
 order: 3

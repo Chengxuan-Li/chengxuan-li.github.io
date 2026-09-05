@@ -1,18 +1,30 @@
 organization: EnergyAtlas.io
-role: Lead Developer
+role:
+  en: Lead Developer
+  zh: 首席开发者
 type: professional
 start_date: 2025-01
 end_date: null
-location: Ithaca, NY
+location:
+  en: Ithaca, NY
+  zh: 美国纽约州伊萨卡
 url: https://energyatlas.io/
 featured: true
 cv_order: 3
 project_ids: [energyatlas]
-summary: Lead development of a city-scale energy digital twin and simulation platform in C#/.NET for building, utility, and urban energy analysis.
+summary:
+  en: Lead development of a city-scale energy digital twin and simulation platform in C#/.NET for building, utility, and urban energy analysis.
+  zh: 主导开发基于 C#/.NET 的城市尺度能源数字孪生与仿真平台，服务于建筑、公用事业与城市能源分析。
 bullets:
-  - Design and develop the core software architecture for building-energy simulation, geospatial modeling, time-series processing, and large-scale urban analysis.
-  - Develop scalable reduced-order building energy simulation and calibration workflows integrating physical models with smart-meter and other observational data.
-  - Build data pipelines for building geometry, LiDAR, weather, schedules, utility data, and other heterogeneous urban datasets.
-  - Develop computational methods for solar and shading analysis, geometric processing, model parameterization, and city-scale simulation.
-  - Design software infrastructure for large-scale scenario analysis of electrification, energy demand, peak loads, demand response, and grid flexibility.
-  - Develop APIs, Python interfaces, data models, and visualization workflows supporting reproducible analysis and integration with external research and planning tools.
+  - en: Design and develop the core software architecture for building-energy simulation, geospatial modeling, time-series processing, and large-scale urban analysis.
+    zh: 设计并开发核心软件架构，涵盖建筑能耗仿真、地理空间建模、时间序列处理与大规模城市分析。
+  - en: Develop scalable reduced-order building energy simulation and calibration workflows integrating physical models with smart-meter and other observational data.
+    zh: 开发可扩展的降阶建筑能耗仿真与校准流程，将物理模型与智能电表等观测数据相结合。
+  - en: Build data pipelines for building geometry, LiDAR, weather, schedules, utility data, and other heterogeneous urban datasets.
+    zh: 构建数据管线，处理建筑几何、LiDAR、气象、使用作息、公用事业数据等异构城市数据集。
+  - en: Develop computational methods for solar and shading analysis, geometric processing, model parameterization, and city-scale simulation.
+    zh: 开发用于太阳辐射与遮阳分析、几何处理、模型参数化及城市尺度仿真的计算方法。
+  - en: Design software infrastructure for large-scale scenario analysis of electrification, energy demand, peak loads, demand response, and grid flexibility.
+    zh: 设计软件基础架构，支持电气化、能源需求、峰值负荷、需求响应与电网灵活性的大规模情景分析。
+  - en: Develop APIs, Python interfaces, data models, and visualization workflows supporting reproducible analysis and integration with external research and planning tools.
+    zh: 开发 API、Python 接口、数据模型与可视化流程，支持可复现分析并与外部研究和规划工具集成。

@@ -1,15 +1,29 @@
-category: Power & electrical systems
+category:
+  en: Power & electrical systems
+  zh: 电力与电气系统
 items:
-  - AC power flow
-  - Newton–Raphson / FDLF
-  - Contingency analysis
-  - State estimation
-  - Economic dispatch
-  - Optimal power flow
-  - Static security assessment
-  - distribution-system load analysis
-  - feeder and transformer load modeling
-  - demand-response and load-flexibility assessment
-  - DER integration
-  - electrification and heat-pump impact assessment
+  - en: AC power flow
+    zh: 交流潮流计算
+  - en: Newton–Raphson / FDLF
+    zh: 牛顿–拉夫逊法 / FDLF
+  - en: Contingency analysis
+    zh: 预想事故分析（contingency analysis）
+  - en: State estimation
+    zh: 状态估计
+  - en: Economic dispatch
+    zh: 经济调度
+  - en: Optimal power flow
+    zh: 最优潮流（OPF）
+  - en: Static security assessment
+    zh: 静态安全评估
+  - en: distribution-system load analysis
+    zh: 配电系统负荷分析
+  - en: feeder and transformer load modeling
+    zh: 馈线与变压器负荷建模
+  - en: demand-response and load-flexibility assessment
+    zh: 需求响应与负荷灵活性评估
+  - en: DER integration
+    zh: 分布式能源（DER）接入
+  - en: electrification and heat-pump impact assessment
+    zh: 电气化与热泵影响评估
 order: 5

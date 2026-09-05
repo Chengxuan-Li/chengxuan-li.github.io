@@ -1,10 +1,17 @@
-category: Data engineering
+category:
+  en: Data engineering
+  zh: 数据工程
 items:
   - SQL
   - DuckDB
-  - structured and time-series data pipelines
-  - large-scale tabular processing
-  - smart-meter / AMI data processing
-  - SCADA data processing
-  - geospatial-data integration
+  - en: structured and time-series data pipelines
+    zh: 结构化与时间序列数据管线
+  - en: large-scale tabular processing
+    zh: 大规模表格数据处理
+  - en: smart-meter / AMI data processing
+    zh: 智能电表（smart meter）/ AMI 数据处理
+  - en: SCADA data processing
+    zh: SCADA 数据处理
+  - en: geospatial-data integration
+    zh: 地理空间数据集成
 order: 7

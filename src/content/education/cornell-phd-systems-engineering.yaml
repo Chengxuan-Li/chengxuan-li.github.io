@@ -1,11 +1,23 @@
-institution: Cornell University
-degree: PhD
-field: Systems Engineering, Minor in Electrical and Computer Engineering
+institution:
+  en: Cornell University
+  zh: 康奈尔大学
+degree:
+  en: PhD
+  zh: 博士
+field:
+  en: Systems Engineering, Minor in Electrical and Computer Engineering
+  zh: 系统工程，辅修电气与计算机工程
 start_date: 2024-08
 end_date: null
-location: Ithaca, NY
+location:
+  en: Ithaca, NY
+  zh: 美国纽约州伊萨卡
 details:
-  - Research focused on machine learning, scientific computing, simulation, computational optimization for energy and infrastructure systems.
-  - Courseworks spanning deep learning, computer vision, signal processing, Monte Carlo simulation, power systems, and applied optimization.
-  - Minor in Electrical and Computer Engineering, with emphasis on power-system modeling, analysis, and grid operations.
-  - Research applications include urban energy systems, smart-meter analytics, demand response, and scalable physics-based simulation.
+  - en: Research focused on machine learning, scientific computing, simulation, computational optimization for energy and infrastructure systems.
+    zh: 研究方向为面向能源与基础设施系统的机器学习、科学计算、仿真与计算优化。
+  - en: Courseworks spanning deep learning, computer vision, signal processing, Monte Carlo simulation, power systems, and applied optimization.
+    zh: 课程涵盖深度学习、计算机视觉、信号处理、蒙特卡洛仿真、电力系统与应用优化。
+  - en: Minor in Electrical and Computer Engineering, with emphasis on power-system modeling, analysis, and grid operations.
+    zh: 辅修电气与计算机工程，侧重电力系统建模、分析与电网运行。
+  - en: Research applications include urban energy systems, smart-meter analytics, demand response, and scalable physics-based simulation.
+    zh: 研究应用涵盖城市能源系统、智能电表（smart meter）数据分析、需求响应与可扩展的物理仿真。

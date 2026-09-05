@@ -1,11 +1,18 @@
-category: Geospatial
+category:
+  en: Geospatial
+  zh: 地理空间
 items:
   - GeoPandas
   - Shapely
   - NetTopologySuite
-  - geospatial analysis
-  - spatial joins and indexing
-  - building geometry processing
-  - LiDAR processing
-  - solar and shading analysis
+  - en: geospatial analysis
+    zh: 地理空间分析
+  - en: spatial joins and indexing
+    zh: 空间连接与索引
+  - en: building geometry processing
+    zh: 建筑几何处理
+  - en: LiDAR processing
+    zh: LiDAR 数据处理
+  - en: solar and shading analysis
+    zh: 太阳辐射与遮阳分析
 order: 6

@@ -1,5 +1,9 @@
-organization: Environmental Systems Lab, Cornell University, in collaboration with Avangrid / NYSEG
-role: PhD Researcher, Grid Innovations
+organization:
+  en: Environmental Systems Lab, Cornell University, in collaboration with Avangrid / NYSEG
+  zh: 康奈尔大学 Environmental Systems Lab，与 Avangrid / NYSEG 合作
+role:
+  en: PhD Researcher, Grid Innovations
+  zh: 博士研究员，电网创新方向
 type: research
 start_date: 2025-03
 end_date: null
@@ -7,10 +11,17 @@ location: null
 featured: true
 cv_order: 2
 project_ids: []
-summary: Research on data-driven modeling and flexibility assessment for electric distribution systems using utility operational and customer-load data.
+summary:
+  en: Research on data-driven modeling and flexibility assessment for electric distribution systems using utility operational and customer-load data.
+  zh: 利用电力公司运行数据与用户负荷数据，研究配电系统的数据驱动建模与灵活性评估。
 bullets:
-  - Develop processing and analysis pipelines for smart-meter, AMI, SCADA, and related utility datasets across building, transformer, feeder, and distribution-system scales.
-  - Model and predict feeder- and transformer-level load profiles, load-duration behavior, peak demand, and temporal demand patterns.
-  - Develop methods for aggregating and translating customer-level demand data into distribution-grid planning and operational metrics.
-  - Assess demand-response potential and grid flexibility under increasing heat-pump penetration, building electrification, and distributed energy resource integration.
-  - Investigate the effects of load growth, load shifting, DER adoption, and coordinated demand response on feeder peaks, transformer loading, and distribution-system flexibility.
+  - en: Develop processing and analysis pipelines for smart-meter, AMI, SCADA, and related utility datasets across building, transformer, feeder, and distribution-system scales.
+    zh: 开发面向智能电表（smart meter）、AMI、SCADA 及相关电力数据集的处理与分析流程，覆盖建筑、变压器、馈线与配电系统等尺度。
+  - en: Model and predict feeder- and transformer-level load profiles, load-duration behavior, peak demand, and temporal demand patterns.
+    zh: 建模并预测馈线与变压器层级的负荷曲线、负荷持续特性、峰值需求及需求的时序模式。
+  - en: Develop methods for aggregating and translating customer-level demand data into distribution-grid planning and operational metrics.
+    zh: 研究将用户级需求数据聚合并转化为配电网规划与运行指标的方法。
+  - en: Assess demand-response potential and grid flexibility under increasing heat-pump penetration, building electrification, and distributed energy resource integration.
+    zh: 评估在热泵渗透率提升、建筑电气化与分布式能源（DER）接入背景下的需求响应潜力与电网灵活性。
+  - en: Investigate the effects of load growth, load shifting, DER adoption, and coordinated demand response on feeder peaks, transformer loading, and distribution-system flexibility.
+    zh: 研究负荷增长、负荷转移、DER 应用与协同需求响应对馈线峰值、变压器负载及配电系统灵活性的影响。

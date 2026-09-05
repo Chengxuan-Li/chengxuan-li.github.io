@@ -1,10 +1,19 @@
-category: Software engineering
+category:
+  en: Software engineering
+  zh: 软件工程
 items:
-  - C#/.NET application development
-  - API design
-  - object-oriented software architecture
-  - scientific software development
-  - simulation-engine architecture
-  - data-model design
-  - testing and reproducible computational workflows
+  - en: C#/.NET application development
+    zh: C#/.NET 应用开发
+  - en: API design
+    zh: API 设计
+  - en: object-oriented software architecture
+    zh: 面向对象软件架构
+  - en: scientific software development
+    zh: 科学软件开发
+  - en: simulation-engine architecture
+    zh: 仿真引擎架构
+  - en: data-model design
+    zh: 数据模型设计
+  - en: testing and reproducible computational workflows
+    zh: 测试与可复现计算流程
 order: 8
