@@ -1,10 +1,11 @@
 /* ==========================================================================
-   Fonts — Geist Sans and Geist Mono, self-hosted from the Fontsource packages (SIL OFL 1.1).
-   The @font-face rules are subset by unicode-range, so browsers fetch only the Latin files.
+   Fonts — Geist Sans, Geist Mono, and Noto Serif SC, self-hosted from Fontsource (SIL OFL 1.1).
+   The @font-face rules are partitioned by unicode-range, so browsers fetch only the glyph chunks used.
    ========================================================================== */
 @import "@fontsource-variable/geist/index.css";
 @import "@fontsource-variable/geist/wght-italic.css";
 @import "@fontsource-variable/geist-mono/index.css";
+@import "@fontsource-variable/noto-serif-sc/index.css";
 
 /* ==========================================================================
    Tokens
@@ -117,8 +118,10 @@ body {
   font-feature-settings: "kern", "liga", "calt";
 }
 
-:lang(zh-CN) {
-  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", var(--font-sans);
+html:lang(zh-CN) {
+  /* Geist keeps Latin text sans-serif; its missing CJK glyphs fall through to Noto Serif SC. */
+  --font-sans: "Geist Variable", "Noto Serif SC Variable", "Songti SC", STSong, SimSun, serif;
+  --font-mono: "Geist Mono Variable", "Noto Serif SC Variable", "Songti SC", STSong, SimSun, monospace;
 }
 
 img,

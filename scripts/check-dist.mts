@@ -122,6 +122,17 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
     if (!(await isFile(path.join(distDir, file)))) issues.push(`missing file ${file}`);
   }
 
+  const assetsDir = path.join(distDir, '_astro');
+  const assetEntries = (await isDirectory(assetsDir)) ? await readdir(assetsDir, { withFileTypes: true }) : [];
+  const cssFiles = assetEntries.filter((entry) => entry.isFile() && entry.name.endsWith('.css'));
+  const cssBundle = (await Promise.all(cssFiles.map((entry) => readFile(path.join(assetsDir, entry.name), 'utf8')))).join('\n');
+  if (!/font-family:\s*["']?Noto Serif SC Variable["']?/i.test(cssBundle)) {
+    issues.push('missing self-hosted Noto Serif SC font declaration');
+  }
+  if (!assetEntries.some((entry) => entry.isFile() && /^noto-serif-sc-.*\.woff2$/i.test(entry.name))) {
+    issues.push('missing self-hosted Noto Serif SC WOFF2 assets');
+  }
+
   const pages = await listHtmlFiles(distDir);
   for (const page of pages) {
     const relative = path.relative(distDir, page).split(path.sep).join('/');

@@ -12,7 +12,7 @@ function page(body: string, canonicalPath: string | null = '/'): string {
   const englishPath = canonicalPath?.replace(/^\/zh(?=\/|$)/, '') || '/';
   const chinesePath = englishPath === '/' ? '/zh/' : `/zh${englishPath}`;
   const alternates = canonicalPath === null ? '' : `<link rel="alternate" hreflang="en" href="${SITE}${englishPath}"><link rel="alternate" hreflang="zh-CN" href="${SITE}${chinesePath}"><link rel="alternate" hreflang="x-default" href="${SITE}${englishPath}">`;
-  return `<!doctype html><html lang="${locale}"><head><title>t</title>${canonical}${alternates}</head><body>${body}</body></html>`;
+  return `<!doctype html><html lang="${locale}"><head><title>t</title><link rel="stylesheet" href="/_astro/site.css">${canonical}${alternates}</head><body>${body}</body></html>`;
 }
 
 async function write(root: string, relative: string, contents: string): Promise<void> {
@@ -48,6 +48,12 @@ async function validDist(root: string): Promise<void> {
   await write(root, '_astro/a.webp', 'x');
   await write(root, '_astro/a-1.webp', 'x');
   await write(root, '_astro/a-2.webp', 'x');
+  await write(
+    root,
+    '_astro/site.css',
+    '@font-face{font-family:"Noto Serif SC Variable";src:url(/_astro/noto-serif-sc-cjk.woff2) format("woff2")}html:lang(zh-CN){--font-sans:"Geist Variable","Noto Serif SC Variable",serif}',
+  );
+  await write(root, '_astro/noto-serif-sc-cjk.woff2', 'font');
 }
 
 describe('extractLocalRefs', () => {
@@ -149,6 +155,20 @@ describe('checkDist', () => {
     const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
     expect(issues).toContain('zh/news/index.html: expected html lang="zh-CN"');
     expect(issues).toContain('zh/news/index.html: missing zh-CN alternate link');
+  });
+
+  it('reports a missing Noto Serif SC declaration in the deployed CSS', async () => {
+    await validDist(root);
+    await write(root, '_astro/site.css', 'body{font-family:sans-serif}');
+    const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
+    expect(issues).toContain('missing self-hosted Noto Serif SC font declaration');
+  });
+
+  it('reports missing Noto Serif SC font assets', async () => {
+    await validDist(root);
+    await rm(path.join(root, '_astro', 'noto-serif-sc-cjk.woff2'));
+    const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
+    expect(issues).toContain('missing self-hosted Noto Serif SC WOFF2 assets');
   });
 });
 

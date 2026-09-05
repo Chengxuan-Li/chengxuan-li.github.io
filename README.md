@@ -106,9 +106,10 @@ Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `wo
 Publication `type` accepts `journal`, `conference`, `workshop`, `preprint`, `thesis`, `report`, `abstract`,
 `other`. An optional top-level `abstract` field stores full abstract text for future use; the site does not
 currently render that text.
-- Typography: Geist Sans (text) and Geist Mono (labels, dates, navigation), self-hosted from the
-  `@fontsource-variable/geist*` packages (SIL Open Font License). Only the Latin subsets are fetched, from
-  the site's own origin; no external font requests are made.
+- Typography: Geist Sans (Latin text) and Geist Mono (Latin labels, dates, navigation), plus Noto Serif SC
+  for Simplified Chinese characters, self-hosted from `@fontsource-variable/*` packages (SIL Open Font
+  License). Fonts are partitioned by Unicode range and fetched from the site's own origin; no external font
+  requests are made.
 - Colour theme: the site follows the browser's `prefers-color-scheme` by default. The sun/moon button in
   the header overrides it and stores the choice in `localStorage` (`theme`); choosing the theme the browser
   already uses clears the override. Logic in `src/lib/theme.ts`, wiring in `SiteHeader.astro`, and a
