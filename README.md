@@ -66,6 +66,24 @@ record-level Chinese fields fall back independently to English. For project narr
 English body and an optional co-located `index.zh.md` supplies the Chinese body; without it, the Chinese
 project route displays the English Markdown body.
 
+### Translation conventions
+
+Some fields are left in English **on purpose**. A field with no `zh` value is rendered with `lang="en"`, so
+the fallback is a deliberate editorial choice rather than an omission. Keep these consistent:
+
+| Content | Convention |
+| --- | --- |
+| Publication and talk titles, venue names | **Stay English.** They are citations of published work; translating them breaks searchability and no longer matches the record. |
+| Media headlines in news items, outlet names | **Stay English.** They quote an external article. |
+| Organization, company, and society names | **Stay Latin** — EnergyAtlas.io, Nemetschek, Bentley Systems, Holcim, IBPSA-USA, NYSP2I, Architectural Association, Environmental Systems Lab. |
+| Cornell University | **康奈尔大学** — the one institution with an established Chinese name in use here. |
+| Author and person names | Never translated or transliterated. |
+| Tool, language, and library names | Stay Latin — Python, C#, PyTorch, DuckDB, GeoPandas, SCADA, AMI, LiDAR. |
+| Descriptive prose | Translated: bios, summaries, positioning, bullets, project bodies, skill concepts, award descriptions, degrees, locations. |
+| Technical terms in Chinese prose | Gloss the English in parentheses on first use where the Chinese is ambiguous, e.g. 逆向建模（inverse modeling）. |
+
+Publication `abstract` values are stored but not rendered on any page, so they are not translated.
+
 ```text
 src/content/
 ├── bios/<version>.yaml         title + biography text; each record becomes a CV tab
