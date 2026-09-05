@@ -1,9 +1,18 @@
-title: 100 words version
-content: >-
-  Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University, with a minor in Electrical and
-  Computer Engineering. His research combines machine learning, scientific computing, simulation, and optimization
-  for urban energy and power systems. At Cornell’s Environmental Systems Lab, he develops data-driven and
-  physics-informed methods for load inference, model calibration, smart-meter analytics, demand response, and
-  urban-scale energy simulation. He is also Lead Developer of EnergyAtlas.io, a city-scale digital twin and energy
-  modeling platform integrating building models, geospatial data, utility observations, and physical simulation to
-  support analysis of building demand, electrification, grid flexibility, and urban decarbonization.
+title:
+  en: 100 words version
+  zh: 100 字版本
+content:
+  en: >-
+    Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University, with a minor in Electrical and
+    Computer Engineering. His research combines machine learning, scientific computing, simulation, and optimization
+    for urban energy and power systems. At Cornell’s Environmental Systems Lab, he develops data-driven and
+    physics-informed methods for load inference, model calibration, smart-meter analytics, demand response, and
+    urban-scale energy simulation. He is also Lead Developer of EnergyAtlas.io, a city-scale digital twin and energy
+    modeling platform integrating building models, geospatial data, utility observations, and physical simulation to
+    support analysis of building demand, electrification, grid flexibility, and urban decarbonization.
+  zh: >-
+    Chengxuan Li 是康奈尔大学系统工程博士候选人，辅修电气与计算机工程。他的研究融合机器学习、科学计算、仿真与优化，
+    面向城市能源与电力系统。在康奈尔大学 Environmental Systems Lab，他开发数据驱动与物理信息（physics-informed）方法，
+    用于负荷推断、模型校准、智能电表（smart meter）数据分析、需求响应以及城市尺度能源仿真。他同时担任 EnergyAtlas.io
+    的首席开发者：该平台是城市尺度的数字孪生与能源建模系统，整合建筑模型、地理空间数据、公用事业观测数据与物理仿真，
+    支持对建筑用能需求、电气化、电网灵活性与城市脱碳的分析。

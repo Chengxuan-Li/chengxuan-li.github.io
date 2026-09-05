@@ -1,5 +1,11 @@
-title: 1-sentence version
-content: >-
-  Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University developing physics-informed and
-  hybrid machine-learning methods for energy simulation, power-system analysis, and grid infrastructure optimization
-  under electrification scenarios.
+title:
+  en: 1-sentence version
+  zh: 一句话版本
+content:
+  en: >-
+    Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University developing physics-informed and
+    hybrid machine-learning methods for energy simulation, power-system analysis, and grid infrastructure optimization
+    under electrification scenarios.
+  zh: >-
+    Chengxuan Li 是康奈尔大学系统工程博士候选人，致力于开发物理信息（physics-informed）与混合机器学习方法，
+    用于电气化情景下的能源仿真、电力系统分析与电网基础设施优化。

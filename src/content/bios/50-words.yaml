@@ -1,6 +1,13 @@
-title: 50 words version
-content: >-
-  Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University, with a minor in ECE. His research
-  combines machine learning, scientific computing, simulation, and computational optimization for urban energy and
-  power systems, with applications in model calibration, smart-meter analytics, demand response, grid flexibility,
-  and scalable digital twins for city-scale electrification and decarbonization.
+title:
+  en: 50 words version
+  zh: 50 字版本
+content:
+  en: >-
+    Chengxuan Li is a PhD candidate in Systems Engineering at Cornell University, with a minor in ECE. His research
+    combines machine learning, scientific computing, simulation, and computational optimization for urban energy and
+    power systems, with applications in model calibration, smart-meter analytics, demand response, grid flexibility,
+    and scalable digital twins for city-scale electrification and decarbonization.
+  zh: >-
+    Chengxuan Li 是康奈尔大学系统工程博士候选人，辅修电气与计算机工程（ECE）。他的研究融合机器学习、科学计算、
+    仿真与计算优化，面向城市能源与电力系统，应用涵盖模型校准、智能电表（smart meter）数据分析、需求响应、
+    电网灵活性，以及支撑城市尺度电气化与脱碳的可扩展数字孪生。
