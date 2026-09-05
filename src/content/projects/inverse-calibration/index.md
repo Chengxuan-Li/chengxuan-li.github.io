@@ -1,7 +1,13 @@
 ---
-title: Load Profile Inference and Inverse Model Calibration
-short_title: Inverse Calibration
-summary: Machine-learning, optimization, and statistical methods that infer load profiles and calibrate energy models from time-series observations.
+title:
+  en: Load Profile Inference and Inverse Model Calibration
+  zh: 负荷曲线推断与逆向模型校准
+short_title:
+  en: Inverse Calibration
+  zh: 逆向校准
+summary:
+  en: Machine-learning, optimization, and statistical methods that infer load profiles and calibrate energy models from time-series observations.
+  zh: 融合机器学习、优化与统计方法，从时间序列观测数据中推断负荷曲线并校准能源模型。
 status: active
 start_date: 2024-08
 end_date: null
@@ -9,9 +15,19 @@ published: false
 featured: true
 home_order: 2
 types: [research]
-topics: [Load profile inference, Inverse modeling, Surrogate learning, Model calibration]
+topics:
+  - en: Load profile inference
+    zh: 负荷曲线推断
+  - en: Inverse modeling
+    zh: 逆向建模（inverse modeling）
+  - en: Surrogate learning
+    zh: 代理学习（surrogate learning）
+  - en: Model calibration
+    zh: 模型校准
 technologies: []
-affiliation: Environmental Systems Lab, Cornell University
+affiliation:
+  en: Environmental Systems Lab, Cornell University
+  zh: 康奈尔大学 Environmental Systems Lab
 related_project_ids: [energyatlas]
 ---
 
