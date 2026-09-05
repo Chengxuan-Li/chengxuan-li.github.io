@@ -34,20 +34,16 @@ const talks = sortTalks(content.talks);
 const awards = sortAwards(content.awards);
 const skills = sortSkills(content.skills);
 
-const sections = [
-  { id: 'bio', title: 'Bio', show: bios.length > 0 },
-  { id: 'interests', title: 'Research interests', show: siteConfig.researchInterests !== null },
-  { id: 'education', title: 'Education', show: education.length > 0 },
-  { id: 'research-experience', title: 'Research experience', show: experiences.research.length > 0 },
-  { id: 'professional-experience', title: 'Professional experience', show: experiences.professional.length > 0 },
-  { id: 'projects', title: 'Selected projects', show: projects.length > 0 },
-  { id: 'publications', title: 'Publications', show: publications.length > 0 },
-  { id: 'talks', title: 'Presentations', show: talks.length > 0 },
-  { id: 'awards', title: 'Awards', show: awards.length > 0 },
-  { id: 'teaching', title: 'Teaching', show: experiences.teaching.length > 0 },
-  { id: 'skills', title: 'Technical skills', show: skills.length > 0 },
-  { id: 'service', title: 'Service', show: experiences.service.length > 0 },
-].filter((section) => section.show);
+const hasCvContent =
+  bios.length > 0 ||
+  siteConfig.researchInterests !== null ||
+  education.length > 0 ||
+  Object.values(experiences).some((entries) => entries.length > 0) ||
+  projects.length > 0 ||
+  publications.length > 0 ||
+  talks.length > 0 ||
+  awards.length > 0 ||
+  skills.length > 0;
 
 const description = `Curriculum vitae of ${siteConfig.name}: education, research and professional experience, projects, publications, presentations, and awards.`;
 ---
@@ -57,20 +53,20 @@ const description = `Curriculum vitae of ${siteConfig.name}: education, research
     <p class="cv-head__identity"><strong>{siteConfig.name}</strong> · {roleLine()}, {siteConfig.affiliation}</p>
     <div class="cv-head__actions">
       <ExternalLinks variant="cv" />
-      {siteConfig.cvPdfs.map((cvPdf) => (
-        <a class="button button--primary" href={cvPdf.href}>{cvPdf.label}</a>
-      ))}
+      {siteConfig.cvPdfs.length > 0 && (
+        <div class="cv-head__pdfs">
+          {siteConfig.cvPdfs.map((cvPdf) => (
+            <a class="button button--primary cv-head__pdf-link" href={cvPdf.href} aria-label={`${cvPdf.label} (PDF)`}>
+              <span class="cv-head__pdf-icon" aria-hidden="true"></span>
+              <span>{cvPdf.label}</span>
+            </a>
+          ))}
+        </div>
+      )}
     </div>
-    {sections.length > 1 && (
-      <nav class="cv-toc" aria-label="CV sections">
-        <ul>
-          {sections.map((section) => <li><a href={`#${section.id}`}>{section.title}</a></li>)}
-        </ul>
-      </nav>
-    )}
   </header>
 
-  {sections.length === 0 && <p class="empty-state">The full record will appear here as entries are published.</p>}
+  {!hasCvContent && <p class="empty-state">The full record will appear here as entries are published.</p>}
 
   {bios.length > 0 && (
     <section class="cv-section" aria-labelledby="bio">
