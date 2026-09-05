@@ -1,19 +1,21 @@
 ---
 import type { BioEntry } from '../lib/content/model';
+import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 
 interface Props {
   bios: BioEntry[];
+  locale?: Locale;
 }
 
-const { bios } = Astro.props;
+const { bios, locale = 'en' } = Astro.props;
 const multiple = bios.length > 1;
 ---
 
 <div class="bio-tabs" data-bio-tabs>
   {multiple && (
-    <div class="bio-tabs__list" data-bio-tab-list aria-label="Biography length">
+    <div class="bio-tabs__list" data-bio-tab-list aria-label={t(locale, 'aria.bioLength')}>
       {bios.map((bio) => (
-        <button class="bio-tabs__tab" type="button" data-bio-tab>{bio.data.title}</button>
+        <button class="bio-tabs__tab" type="button" data-bio-tab lang={fallbackLang(bio.data.title, locale)}>{getText(bio.data.title, locale)}</button>
       ))}
     </div>
   )}
@@ -21,8 +23,8 @@ const multiple = bios.length > 1;
   <div class="bio-tabs__panels">
     {bios.map((bio) => (
       <article class="bio-tabs__panel" data-bio-panel>
-        {multiple && <h3 class="bio-tabs__fallback-title">{bio.data.title}</h3>}
-        <p>{bio.data.content}</p>
+        {multiple && <h3 class="bio-tabs__fallback-title" lang={fallbackLang(bio.data.title, locale)}>{getText(bio.data.title, locale)}</h3>}
+        <p lang={fallbackLang(bio.data.content, locale)}>{getText(bio.data.content, locale)}</p>
       </article>
     ))}
   </div>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { sortProjectsForIndex } from '../lib/content/queries';
+import { getText, t, type Locale } from '../lib/i18n';
+import { siteConfig } from '../site.config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = await loadSiteContent();
+const projects = sortProjectsForIndex(content.projects);
+const intro = getText(siteConfig.projectsIntro, locale);
+const description = locale === 'zh' ? `${siteConfig.name} 的技术项目案例。${intro}` : `Technical portfolio of ${siteConfig.name}. ${intro}`;
+---
+<BaseLayout title={t(locale, 'nav.projects')} description={description} locale={locale}>
+  <header class="page-head">
+    <h1>{t(locale, 'nav.projects')}</h1>
+    <p class="page-head__lede">{intro}</p>
+  </header>
+  {projects.length > 0 ? (
+    <div class="card-grid card-grid--index">
+      {projects.map((project) => <ProjectCard project={project} variant="index" headingLevel={2} locale={locale} />)}
+    </div>
+  ) : (
+    <p class="empty-state">{t(locale, 'page.projects.empty')}</p>
+  )}
+</BaseLayout>

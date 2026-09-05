@@ -1,6 +1,10 @@
 # Copy to src/content/talks/<slug>.yaml. The file name is the talk id used by news items.
-title: Talk title
-event: Conference or seminar series name
+title:
+  en: Talk title
+  # zh: 报告标题
+event:
+  en: Conference or seminar series name
+  # zh: 会议或研讨会名称
 date: 2026-05                  # YYYY, YYYY-MM, or YYYY-MM-DD
 type: conference               # invited | conference | seminar | webinar | poster | workshop | panel | other
 # location: City, Country      # (optional)

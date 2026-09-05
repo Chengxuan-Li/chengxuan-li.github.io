@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectMeta from '../components/ProjectMeta.astro';
+import ResponsiveFigure from '../components/ResponsiveFigure.astro';
+import ProjectVideo from '../components/ProjectVideo.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PublicationListItem from '../components/PublicationListItem.astro';
+import TalkListItem from '../components/TalkListItem.astro';
+import ActivityListItem from '../components/ActivityListItem.astro';
+import RelatedProjects from '../components/RelatedProjects.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { getProjectActivity } from '../lib/content/activity';
+import { getProjectRelations } from '../lib/content/queries';
+import { fallbackLang, getText, localizedPath, t, type Locale } from '../lib/i18n';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  translation?: CollectionEntry<'projectTranslations'>;
+  locale: Locale;
+}
+
+const { project, translation, locale } = Astro.props;
+const { data } = project;
+const content = await loadSiteContent();
+const relations = getProjectRelations(content, project.id);
+const activity = getProjectActivity(content, project.id, locale);
+const bodyEntry = locale === 'zh' && translation ? translation : project;
+const { Content } = await render(bodyEntry);
+const bodyFallback = locale === 'zh' && !translation;
+const software = data.links.filter((link) => ['code', 'demo', 'docs', 'data'].includes(link.kind));
+const hasOutputs = relations.publications.length > 0 || software.length > 0 || relations.talks.length > 0;
+
+let ogImage: string | undefined;
+if (data.hero_image) {
+  const preview = await getImage({ src: data.hero_image, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+  ogImage = preview.src;
+}
+---
+<BaseLayout title={getText(data.title, locale)} description={getText(data.summary, locale)} ogImage={ogImage} ogType="article" locale={locale}>
+  <article class="project">
+    <header class="project__head">
+      <p class="eyebrow">{t(locale, 'label.project')}</p>
+      <h1 class="project__title" lang={fallbackLang(data.title, locale)}>{getText(data.title, locale)}</h1>
+      <p class="project__lede" lang={fallbackLang(data.positioning ?? data.summary, locale)}>{getText(data.positioning ?? data.summary, locale)}</p>
+      <ProjectMeta project={project} locale={locale} />
+    </header>
+
+    {data.hero_image && <ResponsiveFigure src={data.hero_image} alt={getText(data.hero_alt, locale)} caption={data.hero_caption ? getText(data.hero_caption, locale) : undefined} loading="eager" />}
+
+    <div class="prose" lang={bodyFallback ? 'en' : undefined}>
+      <Content />
+      {data.videos && (
+        <section class="project-videos" aria-labelledby="project-videos">
+          <h2 id="project-videos">{t(locale, 'section.platformDemos')}</h2>
+          {data.videos.map((video) => <ProjectVideo video={video} locale={locale} />)}
+        </section>
+      )}
+    </div>
+
+    {hasOutputs && (
+      <section class="section project__outputs" aria-labelledby="outputs">
+        <SectionHeading id="outputs" title={t(locale, 'section.outputs')} />
+        {relations.publications.length > 0 && (
+          <Fragment>
+            <h3>{t(locale, 'section.publications')}</h3>
+            <ol class="pub-list">{relations.publications.map((publication) => <PublicationListItem publication={publication} locale={locale} />)}</ol>
+          </Fragment>
+        )}
+        {software.length > 0 && (
+          <Fragment>
+            <h3>{t(locale, 'section.software')}</h3>
+            <ul class="link-list">{software.map((link) => <li><a href={link.url} lang={fallbackLang(link.label, locale)}>{getText(link.label, locale)}</a></li>)}</ul>
+          </Fragment>
+        )}
+        {relations.talks.length > 0 && (
+          <Fragment>
+            <h3>{t(locale, 'section.presentations')}</h3>
+            <ol class="cv-list">{relations.talks.map((talk) => <TalkListItem talk={talk} locale={locale} />)}</ol>
+          </Fragment>
+        )}
+      </section>
+    )}
+
+    {activity.length > 0 && (
+      <section class="section" aria-labelledby="activity">
+        <SectionHeading id="activity" title={t(locale, 'section.activity')} action={{ href: localizedPath('/news/', locale), label: t(locale, 'action.allNews') }} />
+        <ol class="news-list news-list--compact">{activity.map((entry) => <ActivityListItem entry={entry} variant="compact" locale={locale} />)}</ol>
+      </section>
+    )}
+
+    <RelatedProjects projects={relations.related} locale={locale} />
+  </article>
+</BaseLayout>

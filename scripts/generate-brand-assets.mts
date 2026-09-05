@@ -10,6 +10,7 @@ import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { roleLine, siteConfig } from '../src/site.config.ts';
+import { getText } from '../src/lib/i18n.ts';
 
 const SERIF = "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif";
 const MONO = "Consolas, 'Cascadia Mono', Menlo, monospace";
@@ -37,7 +38,7 @@ function ogSvg(): string {
   <rect x="80" y="96" width="6" height="438" fill="${ACCENT}"/>
   <text x="126" y="300" font-family="${SERIF}" font-size="84" fill="${INK}">${escapeXml(siteConfig.name)}</text>
   <text x="128" y="360" font-family="${MONO}" font-size="24" letter-spacing="3" fill="${INK_2}">${escapeXml(roleLine().toUpperCase())}</text>
-  <text x="126" y="412" font-family="${SERIF}" font-style="italic" font-size="30" fill="${INK_2}">${escapeXml(siteConfig.affiliation)}</text>
+  <text x="126" y="412" font-family="${SERIF}" font-style="italic" font-size="30" fill="${INK_2}">${escapeXml(getText(siteConfig.affiliation))}</text>
   <text x="128" y="512" font-family="${MONO}" font-size="22" fill="${INK_2}">${escapeXml(host)}</text>
 </svg>`;
 }

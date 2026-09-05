@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { entryId } from '../src/lib/content/entry-id';
+import { entryId, projectTranslationId } from '../src/lib/content/entry-id';
 
 describe('entryId', () => {
   it('uses the file name for a flat record', () => {
@@ -24,5 +24,18 @@ describe('entryId', () => {
   it('ignores the record contents, so an incomplete file still gets an id', () => {
     expect(entryId({ entry: 'draft.yaml', data: undefined })).toBe('draft');
     expect(entryId({ entry: 'draft.yaml', data: { slug: 'ignored' } })).toBe('draft');
+  });
+});
+
+describe('projectTranslationId', () => {
+  it('uses the project folder name for an index.zh.md body', () => {
+    expect(projectTranslationId({ entry: 'energyatlas/index.zh.md' })).toBe('energyatlas');
+    expect(projectTranslationId({ entry: 'nested/energyatlas/index.zh.md' })).toBe('energyatlas');
+    expect(projectTranslationId({ entry: 'energyatlas\\index.zh.md' })).toBe('energyatlas');
+  });
+
+  it('does not silently accept another file convention', () => {
+    expect(() => projectTranslationId({ entry: 'energyatlas/index.md' })).toThrow('index.zh.md');
+    expect(() => projectTranslationId({ entry: 'translation.zh.md' })).toThrow('project folder');
   });
 });

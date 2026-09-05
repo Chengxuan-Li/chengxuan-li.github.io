@@ -1,30 +1,32 @@
 ---
 import type { ExperienceEntry, ProjectEntry } from '../lib/content/model';
 import { formatDateRange } from '../lib/content/format';
+import { fallbackLang, getText, localizedPath, t, type Locale } from '../lib/i18n';
 
 interface Props {
   experience: ExperienceEntry;
   projects?: ProjectEntry[];
   /** `compact` (home) shows role, organization, dates, summary; `full` (CV) adds bullets and project links. */
   variant?: 'compact' | 'full';
+  locale?: Locale;
 }
 
-const { experience, projects = [], variant = 'compact' } = Astro.props;
+const { experience, projects = [], variant = 'compact', locale = 'en' } = Astro.props;
 const { data } = experience;
 ---
 <li class="cv-item">
-  <p class="cv-item__when">{formatDateRange(data.start_date, data.end_date)}</p>
+  <p class="cv-item__when">{formatDateRange(data.start_date, data.end_date, { locale })}</p>
   <div class="cv-item__what">
-    <p class="cv-item__title"><strong>{data.role}</strong> · <span class="cv-item__org">{data.url ? <a href={data.url}>{data.organization}</a> : data.organization}</span>{data.location && <span class="cv-item__org"> · {data.location}</span>}</p>
-    {data.summary && <p class="cv-item__summary">{data.summary}</p>}
+    <p class="cv-item__title"><strong lang={fallbackLang(data.role, locale)}>{getText(data.role, locale)}</strong> · <span class="cv-item__org" lang={fallbackLang(data.organization, locale)}>{data.url ? <a href={data.url}>{getText(data.organization, locale)}</a> : getText(data.organization, locale)}</span>{data.location && <span class="cv-item__org" lang={fallbackLang(data.location, locale)}> · {getText(data.location, locale)}</span>}</p>
+    {data.summary && <p class="cv-item__summary" lang={fallbackLang(data.summary, locale)}>{getText(data.summary, locale)}</p>}
     {variant === 'full' && data.bullets.length > 0 && (
       <ul class="cv-item__bullets">
-        {data.bullets.map((bullet) => <li>{bullet}</li>)}
+        {data.bullets.map((bullet) => <li lang={fallbackLang(bullet, locale)}>{getText(bullet, locale)}</li>)}
       </ul>
     )}
     {variant === 'full' && projects.length > 0 && (
-      <ul class="cv-item__links" aria-label="Related projects">
-        {projects.map((project) => <li><a href={`/projects/${project.id}/`}>{project.data.short_title ?? project.data.title} →</a></li>)}
+      <ul class="cv-item__links" aria-label={t(locale, 'aria.relatedProjects')}>
+        {projects.map((project) => <li><a href={localizedPath(`/projects/${project.id}/`, locale)}>{getText(project.data.short_title ?? project.data.title, locale)} →</a></li>)}
       </ul>
     )}
   </div>

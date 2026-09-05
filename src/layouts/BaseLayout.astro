@@ -6,6 +6,7 @@ import geistMonoLatinUrl from '@fontsource-variable/geist-mono/files/geist-mono-
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { siteConfig } from '../site.config';
+import { htmlLang, localizedPath, t, type Locale } from '../lib/i18n';
 
 interface Props {
   /** Page title; the site name is appended unless `titleTemplate` is false. */
@@ -16,6 +17,7 @@ interface Props {
   ogType?: 'website' | 'article';
   titleTemplate?: boolean;
   noIndex?: boolean;
+  locale?: Locale;
 }
 
 const {
@@ -25,14 +27,17 @@ const {
   ogType = 'website',
   titleTemplate = true,
   noIndex = false,
+  locale = 'en',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, siteConfig.url).href;
+const englishUrl = new URL(localizedPath(Astro.url.pathname, 'en'), siteConfig.url).href;
+const chineseUrl = new URL(localizedPath(Astro.url.pathname, 'zh'), siteConfig.url).href;
 const fullTitle = titleTemplate ? `${title} · ${siteConfig.name}` : title;
 const ogImageUrl = new URL(ogImage, siteConfig.url).href;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={htmlLang(locale)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -55,6 +60,9 @@ const ogImageUrl = new URL(ogImage, siteConfig.url).href;
     <link rel="preload" href={geistMonoLatinUrl} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     {noIndex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {!noIndex && <link rel="alternate" hreflang="en" href={englishUrl} />}
+    {!noIndex && <link rel="alternate" hreflang="zh-CN" href={chineseUrl} />}
+    {!noIndex && <link rel="alternate" hreflang="x-default" href={englishUrl} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -64,6 +72,8 @@ const ogImageUrl = new URL(ogImage, siteConfig.url).href;
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121416" />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:locale" content={locale === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'zh' ? 'en_US' : 'zh_CN'} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     {!noIndex && <meta property="og:url" content={canonical} />}
@@ -74,11 +84,11 @@ const ogImageUrl = new URL(ogImage, siteConfig.url).href;
     <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <SiteHeader currentPath={Astro.url.pathname} />
+    <a class="skip-link" href="#main">{t(locale, 'skip.content')}</a>
+    <SiteHeader currentPath={Astro.url.pathname} languageSwitchPath={noIndex ? '/' : Astro.url.pathname} locale={locale} />
     <main id="main" class="container" tabindex="-1">
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter locale={locale} />
   </body>
 </html>

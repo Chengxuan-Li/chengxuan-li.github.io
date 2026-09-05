@@ -1,26 +1,28 @@
 ---
 import type { ProjectEntry } from '../lib/content/model';
-import { formatDateRange, PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../lib/content/format';
+import { formatDateRange, projectStatusLabel, projectTypeLabel } from '../lib/content/format';
+import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 import TagList from './TagList.astro';
 
 interface Props {
   project: ProjectEntry;
+  locale?: Locale;
 }
 
-const { project } = Astro.props;
+const { project, locale = 'en' } = Astro.props;
 const { data } = project;
-const period = formatDateRange(data.start_date, data.end_date, { present: 'present' });
+const period = formatDateRange(data.start_date, data.end_date, { locale });
 ---
 <dl class="project-meta">
-  <div><dt>Period</dt><dd>{period}</dd></div>
-  <div><dt>Status</dt><dd>{PROJECT_STATUS_LABELS[data.status]}</dd></div>
-  {data.affiliation && <div><dt>Affiliation</dt><dd>{data.affiliation}</dd></div>}
-  {data.types.length > 0 && <div><dt>Type</dt><dd>{data.types.map((type) => PROJECT_TYPE_LABELS[type]).join(' · ')}</dd></div>}
-  {data.technologies.length > 0 && <div><dt>Technologies</dt><dd>{data.technologies.join(' · ')}</dd></div>}
+  <div><dt>{t(locale, 'label.period')}</dt><dd>{period}</dd></div>
+  <div><dt>{t(locale, 'label.status')}</dt><dd>{projectStatusLabel(data.status, locale)}</dd></div>
+  {data.affiliation && <div><dt>{t(locale, 'label.affiliation')}</dt><dd lang={fallbackLang(data.affiliation, locale)}>{getText(data.affiliation, locale)}</dd></div>}
+  {data.types.length > 0 && <div><dt>{t(locale, 'label.type')}</dt><dd>{data.types.map((type) => projectTypeLabel(type, locale)).join(' · ')}</dd></div>}
+  {data.technologies.length > 0 && <div><dt>{t(locale, 'label.technologies')}</dt><dd>{data.technologies.join(' · ')}</dd></div>}
 </dl>
-<TagList items={data.topics} label="Topics" />
+<TagList items={data.topics} label={t(locale, 'label.topics')} locale={locale} />
 {data.links.length > 0 && (
-  <ul class="project-links" aria-label="Project links">
-    {data.links.map((link) => <li><a class="button" href={link.url}>{link.label}</a></li>)}
+  <ul class="project-links" aria-label={t(locale, 'aria.projectLinks')}>
+    {data.links.map((link) => <li><a class="button" href={link.url} lang={fallbackLang(link.label, locale)}>{getText(link.label, locale)}</a></li>)}
   </ul>
 )}

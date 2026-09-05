@@ -1,7 +1,13 @@
 # Copy to src/content/awards/<slug>.yaml. The file name is the award id used by news items.
-title: Award name
-organization: Awarding body
+title:
+  en: Award name
+  # zh: 奖项名称
+organization:
+  en: Awarding body
+  # zh: 颁奖机构
 date: 2026                     # YYYY, YYYY-MM, or YYYY-MM-DD
-# description: One line on what it recognizes. (optional)
+# description:                  # optional; omit zh to show English on Chinese pages
+#   en: One line on what it recognizes.
+#   zh: 一句话说明该奖项所表彰的内容。
 project_ids: []
 # url: https://...             # (optional) makes the title clickable on the news page

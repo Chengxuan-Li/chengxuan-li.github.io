@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExternalLinks from '../components/ExternalLinks.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EducationListItem from '../components/EducationListItem.astro';
+import ExperienceListItem from '../components/ExperienceListItem.astro';
+import PublicationListItem from '../components/PublicationListItem.astro';
+import TalkListItem from '../components/TalkListItem.astro';
+import AwardListItem from '../components/AwardListItem.astro';
+import BioTabs from '../components/BioTabs.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { formatDateRange } from '../lib/content/format';
+import {
+  getProjectsByIds,
+  getPublicationProjects,
+  groupExperiencesByType,
+  sortAwards,
+  sortBios,
+  sortEducation,
+  sortProjectsForIndex,
+  sortPublications,
+  sortSkills,
+  sortTalks,
+} from '../lib/content/queries';
+import { fallbackLang, getText, localizedPath, t, type Locale } from '../lib/i18n';
+import { roleLine, siteConfig } from '../site.config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = await loadSiteContent();
+const bios = sortBios(content.bios);
+const education = sortEducation(content.education);
+const experiences = groupExperiencesByType(content.experiences);
+const projects = sortProjectsForIndex(content.projects);
+const publications = sortPublications(content.publications);
+const talks = sortTalks(content.talks);
+const awards = sortAwards(content.awards);
+const skills = sortSkills(content.skills);
+const hasCvContent = bios.length > 0 || siteConfig.researchInterests !== null || education.length > 0 ||
+  Object.values(experiences).some((entries) => entries.length > 0) || projects.length > 0 ||
+  publications.length > 0 || talks.length > 0 || awards.length > 0 || skills.length > 0;
+const description = locale === 'zh'
+  ? `${siteConfig.name} 的个人简历：教育、研究与专业经历、项目、出版物、报告和奖项。`
+  : `Curriculum vitae of ${siteConfig.name}: education, research and professional experience, projects, publications, presentations, and awards.`;
+---
+<BaseLayout title={t(locale, 'nav.cv')} description={description} locale={locale}>
+  <header class="page-head cv-head">
+    <h1>{t(locale, 'page.cv.title')}</h1>
+    <p class="cv-head__identity"><strong>{siteConfig.name}</strong> · {roleLine(siteConfig, locale)}, {getText(siteConfig.affiliation, locale)}</p>
+    <div class="cv-head__actions">
+      <ExternalLinks variant="cv" locale={locale} />
+      {siteConfig.cvPdfs.length > 0 && (
+        <div class="cv-head__pdfs">
+          {siteConfig.cvPdfs.map((cvPdf) => (
+            <a class="button button--primary cv-head__pdf-link" href={cvPdf.href} aria-label={`${getText(cvPdf.label, locale)} (PDF)`}>
+              <span class="cv-head__pdf-icon" aria-hidden="true"></span>
+              <span>{getText(cvPdf.label, locale)}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </header>
+
+  {!hasCvContent && <p class="empty-state">{t(locale, 'page.cv.empty')}</p>}
+
+  {bios.length > 0 && (
+    <section class="cv-section" aria-labelledby="bio">
+      <SectionHeading id="bio" title={t(locale, 'section.bio')} />
+      <BioTabs bios={bios} locale={locale} />
+    </section>
+  )}
+
+  {siteConfig.researchInterests && (
+    <section class="cv-section" aria-labelledby="interests">
+      <SectionHeading id="interests" title={t(locale, 'section.interests')} />
+      <p class="cv-interests" lang={fallbackLang(siteConfig.researchInterests, locale)}>{getText(siteConfig.researchInterests, locale)}</p>
+    </section>
+  )}
+
+  {education.length > 0 && (
+    <section class="cv-section" aria-labelledby="education">
+      <SectionHeading id="education" title={t(locale, 'section.education')} />
+      <ol class="cv-list">{education.map((entry) => <EducationListItem education={entry} variant="full" locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {experiences.research.length > 0 && (
+    <section class="cv-section" aria-labelledby="research-experience">
+      <SectionHeading id="research-experience" title={t(locale, 'section.researchExperience')} />
+      <ol class="cv-list">{experiences.research.map((entry) => <ExperienceListItem experience={entry} projects={getProjectsByIds(content, entry.data.project_ids)} variant="full" locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {experiences.professional.length > 0 && (
+    <section class="cv-section" aria-labelledby="professional-experience">
+      <SectionHeading id="professional-experience" title={t(locale, 'section.professionalExperience')} />
+      <ol class="cv-list">{experiences.professional.map((entry) => <ExperienceListItem experience={entry} projects={getProjectsByIds(content, entry.data.project_ids)} variant="full" locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="cv-section" aria-labelledby="projects">
+      <SectionHeading id="projects" title={t(locale, 'section.selectedProjects')} action={{ href: localizedPath('/projects/', locale), label: t(locale, 'action.allProjects') }} />
+      <ol class="cv-list">
+        {projects.map((project) => (
+          <li class="cv-item">
+            <p class="cv-item__when">{formatDateRange(project.data.start_date, project.data.end_date, { locale })}</p>
+            <div class="cv-item__what">
+              <p class="cv-item__title" lang={fallbackLang(project.data.title, locale)}><a href={localizedPath(`/projects/${project.id}/`, locale)}>{getText(project.data.title, locale)}</a></p>
+              <p class="cv-item__summary" lang={fallbackLang(project.data.summary, locale)}>{getText(project.data.summary, locale)}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {publications.length > 0 && (
+    <section class="cv-section" aria-labelledby="publications">
+      <SectionHeading id="publications" title={t(locale, 'section.publications')} action={{ href: localizedPath('/publications/', locale), label: t(locale, 'action.publicationsPage') }} />
+      <ol class="pub-list">{publications.map((publication) => <PublicationListItem publication={publication} projects={getPublicationProjects(content, publication)} locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {talks.length > 0 && (
+    <section class="cv-section" aria-labelledby="talks">
+      <SectionHeading id="talks" title={t(locale, 'section.presentations')} />
+      <ol class="cv-list">{talks.map((talk) => <TalkListItem talk={talk} projects={getProjectsByIds(content, talk.data.project_ids)} locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {awards.length > 0 && (
+    <section class="cv-section" aria-labelledby="awards">
+      <SectionHeading id="awards" title={t(locale, 'section.awards')} />
+      <ol class="cv-list">{awards.map((award) => <AwardListItem award={award} projects={getProjectsByIds(content, award.data.project_ids)} locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {experiences.teaching.length > 0 && (
+    <section class="cv-section" aria-labelledby="teaching">
+      <SectionHeading id="teaching" title={t(locale, 'section.teaching')} />
+      <ol class="cv-list">{experiences.teaching.map((entry) => <ExperienceListItem experience={entry} projects={getProjectsByIds(content, entry.data.project_ids)} variant="full" locale={locale} />)}</ol>
+    </section>
+  )}
+
+  {skills.length > 0 && (
+    <section class="cv-section" aria-labelledby="skills">
+      <SectionHeading id="skills" title={t(locale, 'section.skills')} />
+      <ul class="cv-list skills-list">
+        {skills.map((group) => (
+          <li class="cv-item">
+            <p class="cv-item__when" lang={fallbackLang(group.data.category, locale)}>{getText(group.data.category, locale)}</p>
+            <div class="cv-item__what"><p class="cv-item__title">{group.data.items.map((item) => getText(item, locale)).join(' · ')}</p></div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {experiences.service.length > 0 && (
+    <section class="cv-section" aria-labelledby="service">
+      <SectionHeading id="service" title={t(locale, 'section.service')} />
+      <ol class="cv-list">{experiences.service.map((entry) => <ExperienceListItem experience={entry} projects={getProjectsByIds(content, entry.data.project_ids)} variant="full" locale={locale} />)}</ol>
+    </section>
+  )}
+</BaseLayout>

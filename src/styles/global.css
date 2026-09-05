@@ -117,6 +117,10 @@ body {
   font-feature-settings: "kern", "liga", "calt";
 }
 
+:lang(zh-CN) {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", var(--font-sans);
+}
+
 img,
 svg,
 video {
@@ -342,7 +346,7 @@ main.container {
 }
 
 .site-nav {
-  margin-left: 0;
+  margin-left: auto;
 }
 
 .site-nav ul {
@@ -352,6 +356,34 @@ main.container {
   gap: 1.5rem;
   padding: 0;
   margin: 0;
+}
+
+.site-header__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 1.75rem;
+  padding-inline: 0.5rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.language-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 /* Theme toggle: hidden until the inline head script confirms JS is running. */
@@ -367,7 +399,6 @@ main.container {
   background: transparent;
   color: var(--ink-2);
   cursor: pointer;
-  margin-left: auto;
   transition: color 150ms ease, border-color 150ms ease;
 }
 
@@ -1335,10 +1366,9 @@ main.container {
     gap: 0.5rem 1rem;
   }
 
-  .theme-toggle {
+  .site-header__tools {
     grid-column: 2;
     grid-row: 1;
-    margin-left: 0;
   }
 
   .site-nav {

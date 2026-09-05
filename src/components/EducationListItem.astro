@@ -1,23 +1,25 @@
 ---
 import type { EducationEntry } from '../lib/content/model';
 import { formatDateRange } from '../lib/content/format';
+import { fallbackLang, getText, type Locale } from '../lib/i18n';
 
 interface Props {
   education: EducationEntry;
   variant?: 'compact' | 'full';
+  locale?: Locale;
 }
 
-const { education, variant = 'compact' } = Astro.props;
+const { education, variant = 'compact', locale = 'en' } = Astro.props;
 const { data } = education;
-const degree = data.field ? `${data.degree}, ${data.field}` : data.degree;
+const degree = data.field ? `${getText(data.degree, locale)}, ${getText(data.field, locale)}` : getText(data.degree, locale);
 ---
 <li class="cv-item">
-  <p class="cv-item__when">{formatDateRange(data.start_date, data.end_date)}</p>
+  <p class="cv-item__when">{formatDateRange(data.start_date, data.end_date, { locale })}</p>
   <div class="cv-item__what">
-    <p class="cv-item__title"><strong>{degree}</strong> · <span class="cv-item__org">{data.url ? <a href={data.url}>{data.institution}</a> : data.institution}</span>{data.location && <span class="cv-item__org"> · {data.location}</span>}</p>
+    <p class="cv-item__title"><strong lang={fallbackLang(data.degree, locale)}>{degree}</strong> · <span class="cv-item__org" lang={fallbackLang(data.institution, locale)}>{data.url ? <a href={data.url}>{getText(data.institution, locale)}</a> : getText(data.institution, locale)}</span>{data.location && <span class="cv-item__org" lang={fallbackLang(data.location, locale)}> · {getText(data.location, locale)}</span>}</p>
     {variant === 'full' && data.details.length > 0 && (
       <ul class="cv-item__bullets">
-        {data.details.map((detail) => <li>{detail}</li>)}
+        {data.details.map((detail) => <li lang={fallbackLang(detail, locale)}>{getText(detail, locale)}</li>)}
       </ul>
     )}
   </div>

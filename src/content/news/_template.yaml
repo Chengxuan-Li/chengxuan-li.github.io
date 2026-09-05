@@ -7,16 +7,22 @@
 #
 # Copy to src/content/news/<YYYY-MM-DD>-<slug>.yaml (or <YYYY-MM>-<slug>.yaml when only the month is known).
 # The file name is the news id.
-title: What happened, in one line
+title:
+  en: What happened, in one line
+  # zh: 用一句话说明发生了什么
 date: 2026-09-03              # YYYY-MM-DD, or YYYY-MM when the day is not known
 type: milestone               # publication | talk | award | project | software | conference | media | milestone | other
-# summary: One or two public-facing sentences. (optional)
+# summary:                     # optional; omit zh to show English on Chinese pages
+#   en: One or two public-facing sentences.
+#   zh: 一到两句面向公众的说明。
 project_ids: []               # related project folder names
 publication_ids: []           # related publication file names
 talk_ids: []                  # related talk file names
 award_ids: []                 # related award file names
 links: []                     # the first link below makes the title clickable on the news page
 # links:
-#   - label: Event page
+#   - label:
+#       en: Event page
+#       zh: 活动页面
 #     url: https://...
 featured: true                # false keeps it off the home page "Latest" list

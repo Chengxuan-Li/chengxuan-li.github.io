@@ -1,0 +1,22 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { getCollection } from 'astro:content';
+import ProjectPage from '../../../views/ProjectPage.astro';
+import { loadSiteContent } from '../../../lib/content/load';
+
+export const getStaticPaths = (async () => {
+  await loadSiteContent();
+  const [projects, translations] = await Promise.all([
+    getCollection('projects'),
+    getCollection('projectTranslations'),
+  ]);
+  return projects.filter((project) => project.data.published).map((project) => ({
+    params: { slug: project.id },
+    props: { project, translation: translations.find((entry) => entry.id === project.id) },
+  }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { project, translation } = Astro.props as Props;
+---
+<ProjectPage project={project} translation={translation} locale="zh" />

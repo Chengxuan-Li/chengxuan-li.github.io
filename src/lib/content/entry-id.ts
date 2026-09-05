@@ -19,3 +19,11 @@ export function entryId({ entry }: EntryIdOptions): string {
   const last = parts.at(-1) ?? withoutExtension;
   return last === 'index' && parts.length > 1 ? parts[parts.length - 2] : last;
 }
+
+/** Project id for the optional `<project>/index.zh.md` body collection. */
+export function projectTranslationId({ entry }: EntryIdOptions): string {
+  const parts = entry.split(/[/\\]/).filter(Boolean);
+  if (parts.length < 2) throw new Error(`A project translation must live inside its project folder: ${entry}`);
+  if (parts.at(-1) !== 'index.zh.md') throw new Error(`Expected a project translation named index.zh.md, received ${entry}`);
+  return parts[parts.length - 2];
+}

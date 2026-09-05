@@ -1,10 +1,16 @@
 # Copy to src/content/education/<slug>.yaml.
-institution: University name
-degree: Ph.D.
-# field: Field of study        # (optional)
+institution:
+  en: University name
+  # zh: 大学名称
+degree:
+  en: Ph.D.
+  # zh: 博士
+# field:                       # optional
+#   en: Field of study
+#   zh: 研究领域
 # start_date: 2023-08          # (optional)
 end_date: null                 # null while in progress; the completion date otherwise
 # location: City, Country      # (optional)
 # url: https://...             # (optional)
-details: []                    # CV-only lines (thesis title, advisor, honors) — verified facts only
+details: []                    # each item may be { en: ..., zh: ... }; CV-only verified facts
 # cv_order: 1                  # (optional)

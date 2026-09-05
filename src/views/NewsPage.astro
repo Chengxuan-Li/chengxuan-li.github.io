@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ActivityListItem from '../components/ActivityListItem.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { buildActivityStream, groupActivityByYear } from '../lib/content/activity';
+import { t, type Locale } from '../lib/i18n';
+import { siteConfig } from '../site.config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = await loadSiteContent();
+const groups = groupActivityByYear(buildActivityStream(content, locale));
+const description = locale === 'zh'
+  ? `${siteConfig.name} 的论文、报告、奖项及其他动态，按时间倒序排列。`
+  : `Papers, talks, awards, and other activity from ${siteConfig.name}, most recent first.`;
+---
+<BaseLayout title={t(locale, 'nav.news')} description={description} locale={locale}>
+  <header class="page-head">
+    <h1>{t(locale, 'nav.news')}</h1>
+    <p class="page-head__lede">{t(locale, 'page.news.lede')}</p>
+  </header>
+  {groups.length === 0 ? (
+    <p class="empty-state">{t(locale, 'page.news.empty')}</p>
+  ) : (
+    groups.map((group) => (
+      <section class="news-year" aria-labelledby={`year-${group.year}`}>
+        <h2 id={`year-${group.year}`} class="news-year__heading">{group.year}</h2>
+        <ol class="news-list news-list--full">
+          {group.items.map((entry) => <ActivityListItem entry={entry} variant="full" locale={locale} />)}
+        </ol>
+      </section>
+    ))
+  )}
+</BaseLayout>

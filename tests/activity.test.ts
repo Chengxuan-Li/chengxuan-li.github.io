@@ -106,6 +106,26 @@ describe('buildActivityStream', () => {
     expect(keys(buildActivityStream(withPeople))).toEqual(['award:prize']);
     expect([...new Set(stream.map((entry) => entry.source))].sort()).toEqual(['award', 'news', 'publication', 'talk']);
   });
+
+  it('selects Chinese fields, falls back independently, and localizes internal links', () => {
+    const localized = content({
+      projects: [project('alpha', { short_title: { en: 'Alpha', zh: '阿尔法' } })],
+      publications: [
+        publication('paper', {
+          title: { en: 'English paper', zh: '中文论文' },
+          venue: { en: 'English venue' },
+          project_ids: ['alpha'],
+          links: { paper: 'https://example.com/paper' },
+        }),
+      ],
+    });
+
+    const [entry] = buildActivityStream(localized, 'zh');
+    expect(entry.title).toBe('中文论文');
+    expect(entry.summary).toBe('English venue');
+    expect(entry.label).toBe('出版物');
+    expect(entry.links.at(-1)).toEqual({ label: '阿尔法', href: '/zh/projects/alpha/' });
+  });
 });
 
 describe('entry.href (what the title links to)', () => {

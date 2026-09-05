@@ -1,6 +1,10 @@
 # Copy to src/content/experiences/<slug>.yaml.
-organization: Organization name
-role: Role title
+organization:
+  en: Organization name
+  # zh: 机构名称
+role:
+  en: Role title
+  # zh: 职位名称
 type: research                # research | professional | teaching | service (selects the CV section)
 start_date: 2024-08           # YYYY, YYYY-MM, or YYYY-MM-DD
 end_date: null                # null while current
@@ -9,5 +13,5 @@ location: null                # "City, Country" or null
 featured: false               # true to show under "Selected experience" on the home page
 # cv_order: 1                 # (optional) manual position; otherwise current roles first, then most recent
 project_ids: []               # related project folder names
-summary: null                 # one line shown on the home page and CV, or null
-bullets: []                   # CV-only detail bullets
+summary: null                 # or { en: ..., zh: ... }; omitted zh falls back to English
+bullets: []                   # each item may be { en: ..., zh: ... }

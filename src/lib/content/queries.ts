@@ -1,4 +1,5 @@
 import { flexDateSortKey } from './dates';
+import { getText, type LocalizedText } from '../i18n';
 import type {
   AwardEntry,
   BioEntry,
@@ -13,9 +14,9 @@ import type {
   TalkEntry,
 } from './model';
 
-type Titled = { data: { title: string } };
+type Titled = { data: { title: LocalizedText } };
 
-const byTitle = (a: Titled, b: Titled): number => a.data.title.localeCompare(b.data.title, 'en');
+const byTitle = (a: Titled, b: Titled): number => getText(a.data.title).localeCompare(getText(b.data.title), 'en');
 
 /** Entries with an explicit order come first (ascending); the rest fall back to `tieBreak`. */
 function byOrderThen<T>(getOrder: (item: T) => number | undefined, tieBreak: (a: T, b: T) => number) {
@@ -169,7 +170,7 @@ export function sortSkills(skills: readonly SkillGroupEntry[]): SkillGroupEntry[
   return [...skills].sort(
     byOrderThen(
       (entry) => entry.data.order,
-      (a, b) => a.data.category.localeCompare(b.data.category, 'en'),
+      (a, b) => getText(a.data.category).localeCompare(getText(b.data.category), 'en'),
     ),
   );
 }

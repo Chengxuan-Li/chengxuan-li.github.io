@@ -8,7 +8,11 @@ const SITE = 'https://chengxuan-li.github.io';
 
 function page(body: string, canonicalPath: string | null = '/'): string {
   const canonical = canonicalPath === null ? '' : `<link rel="canonical" href="${SITE}${canonicalPath}">`;
-  return `<!doctype html><html><head><title>t</title>${canonical}</head><body>${body}</body></html>`;
+  const locale = canonicalPath?.startsWith('/zh/') ? 'zh-CN' : 'en';
+  const englishPath = canonicalPath?.replace(/^\/zh(?=\/|$)/, '') || '/';
+  const chinesePath = englishPath === '/' ? '/zh/' : `/zh${englishPath}`;
+  const alternates = canonicalPath === null ? '' : `<link rel="alternate" hreflang="en" href="${SITE}${englishPath}"><link rel="alternate" hreflang="zh-CN" href="${SITE}${chinesePath}"><link rel="alternate" hreflang="x-default" href="${SITE}${englishPath}">`;
+  return `<!doctype html><html lang="${locale}"><head><title>t</title>${canonical}${alternates}</head><body>${body}</body></html>`;
 }
 
 async function write(root: string, relative: string, contents: string): Promise<void> {
@@ -32,6 +36,12 @@ async function validDist(root: string): Promise<void> {
   await write(root, 'publications/index.html', page('<a href="/cv/">CV</a>', '/publications/'));
   await write(root, 'cv/index.html', page('<a href="/news/">News</a>', '/cv/'));
   await write(root, 'news/index.html', page('<a href="/">Home</a>', '/news/'));
+  await write(root, 'zh/index.html', page('<a href="/zh/projects/">项目</a>', '/zh/'));
+  await write(root, 'zh/projects/index.html', page('<a href="/zh/projects/alpha/">Alpha</a>', '/zh/projects/'));
+  await write(root, 'zh/projects/alpha/index.html', page('<a href="/zh/cv/">简历</a>', '/zh/projects/alpha/'));
+  await write(root, 'zh/publications/index.html', page('<a href="/zh/cv/">简历</a>', '/zh/publications/'));
+  await write(root, 'zh/cv/index.html', page('<a href="/zh/news/">动态</a>', '/zh/cv/'));
+  await write(root, 'zh/news/index.html', page('<a href="/zh/">首页</a>', '/zh/news/'));
   await write(root, '404.html', page('<a href="/">Home</a>', null));
   await write(root, 'sitemap-index.xml', '<sitemapindex/>');
   await write(root, 'robots.txt', 'User-agent: *\nAllow: /\n');
@@ -72,7 +82,7 @@ describe('checkDist', () => {
   it('passes a complete build', async () => {
     await validDist(root);
     const result = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
-    expect(result).toEqual({ issues: [], pagesChecked: 7 });
+    expect(result).toEqual({ issues: [], pagesChecked: 13 });
   });
 
   it('reports missing routes and files', async () => {
@@ -83,8 +93,10 @@ describe('checkDist', () => {
     expect(issues).toEqual([
       'missing route /news/ (expected news/index.html)',
       'missing route /projects/beta/ (expected projects/beta/index.html)',
+      'missing route /zh/projects/beta/ (expected zh/projects/beta/index.html)',
       'missing file robots.txt',
       'cv/index.html: broken local reference /news/',
+      'zh/news/index.html: broken local reference /news/',
     ]);
   });
 
@@ -106,7 +118,10 @@ describe('checkDist', () => {
     await write(
       root,
       'projects/index.html',
-      page('<a href="/">Home</a>', null).replace('</head>', '<link rel="canonical" href="https://elsewhere.example/projects/"></head>'),
+      page('<a href="/">Home</a>', '/projects/').replace(
+        `<link rel="canonical" href="${SITE}/projects/">`,
+        '<link rel="canonical" href="https://elsewhere.example/projects/">',
+      ),
     );
     const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
     expect(issues).toEqual([
@@ -115,8 +130,25 @@ describe('checkDist', () => {
       'cv/index.html: broken local reference /nope/',
       'cv/index.html: broken local reference /projects (directory routes need a trailing slash)',
       'news/index.html: missing canonical link',
+      'news/index.html: missing en alternate link',
+      'news/index.html: missing zh-CN alternate link',
+      'news/index.html: missing x-default alternate link',
       'projects/index.html: canonical https://elsewhere.example/projects/ is not on https://chengxuan-li.github.io',
     ]);
+  });
+
+  it('reports wrong document language and incomplete locale alternates', async () => {
+    await validDist(root);
+    await write(
+      root,
+      'zh/news/index.html',
+      page('<a href="/zh/">首页</a>', '/zh/news/')
+        .replace('<html lang="zh-CN">', '<html lang="en">')
+        .replace(/<link rel="alternate" hreflang="zh-CN"[^>]+>/, ''),
+    );
+    const { issues } = await checkDist({ distDir: root, projectIds: ['alpha'], siteUrl: SITE });
+    expect(issues).toContain('zh/news/index.html: expected html lang="zh-CN"');
+    expect(issues).toContain('zh/news/index.html: missing zh-CN alternate link');
   });
 });
 

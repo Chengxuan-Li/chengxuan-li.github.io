@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExternalLinks from '../components/ExternalLinks.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ActivityListItem from '../components/ActivityListItem.astro';
+import ExperienceListItem from '../components/ExperienceListItem.astro';
+import PublicationListItem from '../components/PublicationListItem.astro';
+import EducationListItem from '../components/EducationListItem.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { selectLatestActivity } from '../lib/content/activity';
+import {
+  getPublicationProjects,
+  selectFeaturedExperiences,
+  selectFeaturedProjects,
+  selectFeaturedPublications,
+  sortEducation,
+} from '../lib/content/queries';
+import { getText, localizedPath, t, type Locale } from '../lib/i18n';
+import { roleLine, siteConfig } from '../site.config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = await loadSiteContent();
+const featuredProjects = selectFeaturedProjects(content, 4);
+const latest = selectLatestActivity(content, 4, locale);
+const experiences = selectFeaturedExperiences(content, 3);
+const publications = selectFeaturedPublications(content, 5);
+const education = sortEducation(content.education);
+---
+<BaseLayout title={`${siteConfig.name} — ${roleLine(siteConfig, locale)}`} description={getText(siteConfig.description, locale)} titleTemplate={false} locale={locale}>
+  <section class="hero" aria-labelledby="hero-name">
+    <h1 id="hero-name" class="hero__name">{siteConfig.name}</h1>
+    <p class="hero__role">{roleLine(siteConfig, locale)}</p>
+    <p class="hero__affiliation">{getText(siteConfig.affiliation, locale)}</p>
+    <p class="hero__positioning">{getText(siteConfig.positioning, locale)}</p>
+    <ExternalLinks variant="hero" includeCv locale={locale} />
+  </section>
+
+  {featuredProjects.length > 0 && (
+    <section class="section" aria-labelledby="selected-work">
+      <SectionHeading id="selected-work" title={t(locale, 'section.selectedWork')} action={{ href: localizedPath('/projects/', locale), label: t(locale, 'action.allProjects') }} />
+      <div class="card-grid card-grid--featured">
+        {featuredProjects.map((project) => <ProjectCard project={project} variant="featured" headingLevel={3} locale={locale} />)}
+      </div>
+    </section>
+  )}
+
+  {latest.length > 0 && (
+    <section class="section" aria-labelledby="latest">
+      <SectionHeading id="latest" title={t(locale, 'section.latest')} action={{ href: localizedPath('/news/', locale), label: t(locale, 'action.allNews') }} />
+      <ol class="news-list news-list--compact">
+        {latest.map((entry) => <ActivityListItem entry={entry} variant="compact" locale={locale} />)}
+      </ol>
+    </section>
+  )}
+
+  {experiences.length > 0 && (
+    <section class="section" aria-labelledby="selected-experience">
+      <SectionHeading id="selected-experience" title={t(locale, 'section.selectedExperience')} action={{ href: localizedPath('/cv/', locale), label: t(locale, 'action.fullCv') }} />
+      <ol class="cv-list">
+        {experiences.map((experience) => <ExperienceListItem experience={experience} variant="compact" locale={locale} />)}
+      </ol>
+    </section>
+  )}
+
+  {publications.length > 0 && (
+    <section class="section" aria-labelledby="selected-publications">
+      <SectionHeading id="selected-publications" title={t(locale, 'section.selectedPublications')} action={{ href: localizedPath('/publications/', locale), label: t(locale, 'action.allPublications') }} />
+      <ol class="pub-list">
+        {publications.map((publication) => <PublicationListItem publication={publication} projects={getPublicationProjects(content, publication)} locale={locale} />)}
+      </ol>
+    </section>
+  )}
+
+  {education.length > 0 && (
+    <section class="section" aria-labelledby="education">
+      <SectionHeading id="education" title={t(locale, 'section.education')} />
+      <ol class="cv-list">
+        {education.map((entry) => <EducationListItem education={entry} variant="compact" locale={locale} />)}
+      </ol>
+    </section>
+  )}
+</BaseLayout>

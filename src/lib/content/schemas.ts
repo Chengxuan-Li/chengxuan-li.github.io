@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import type { LocalizedText } from '../i18n';
 import { resolveExternalVideoUrl } from './video';
 
 /* ------------------------------------------------------------------ */
@@ -68,13 +69,27 @@ export const httpUrl = z.url({ protocol: /^https?$/, message: 'Expected an absol
 const text = z.string().trim().min(1, { message: 'Must not be empty' });
 const orderInt = z.number().int().positive({ message: 'Order values are positive integers (1 = first)' });
 
+const localizedTextObject = z.strictObject({ en: text, zh: text.optional() });
+
+/** English string shorthand remains valid; parsed output always has a consistent localized shape. */
+export const localizedTextSchema = z.union([
+  text.transform((en): LocalizedText => ({ en })),
+  localizedTextObject,
+]);
+
+/** Image alt text may be empty when the image is decorative. */
+const localizedAltTextSchema = z.union([
+  z.string().trim().transform((en): LocalizedText => ({ en })),
+  z.strictObject({ en: z.string().trim(), zh: text.optional() }),
+]);
+
 /* ------------------------------------------------------------------ */
 /* Bios                                                                */
 /* ------------------------------------------------------------------ */
 
 export const bioSchema = z.strictObject({
-  title: text,
-  content: text,
+  title: localizedTextSchema,
+  content: localizedTextSchema,
 });
 
 /* ------------------------------------------------------------------ */
@@ -86,7 +101,7 @@ export const PROJECT_TYPES = ['research', 'software', 'simulation', 'engineering
 export const PROJECT_LINK_KINDS = ['code', 'demo', 'paper', 'docs', 'data', 'other'] as const;
 
 export const projectLinkSchema = z.strictObject({
-  label: text,
+  label: localizedTextSchema,
   url: httpUrl,
   kind: z.enum(PROJECT_LINK_KINDS).default('other'),
 });
@@ -98,8 +113,8 @@ export const projectVideoBaseSchema = z.strictObject({
     .refine((value) => resolveExternalVideoUrl(value) !== null, {
       message: 'Expected an HTTPS YouTube, Vimeo, or direct MP4 URL',
     }),
-  title: text,
-  caption: text.optional(),
+  title: localizedTextSchema,
+  caption: localizedTextSchema.optional(),
   autoplay: z.boolean().default(false),
   fit: z.enum(['contain', 'cover']).default('contain'),
 });
@@ -132,12 +147,12 @@ export function projectVideoSchema<TPoster extends z.ZodType>(posterSchema: TPos
 
 /** Frontmatter of `src/content/projects/<slug>/index.md`. `hero_image` is added in `content.config.ts` via `image()`. */
 export const projectBaseSchema = z.strictObject({
-  title: text,
-  short_title: text.optional(),
+  title: localizedTextSchema,
+  short_title: localizedTextSchema.optional(),
   /** One sentence for cards. */
-  summary: text,
+  summary: localizedTextSchema,
   /** Optional slightly longer framing used on the project page header. */
-  positioning: text.optional(),
+  positioning: localizedTextSchema.optional(),
   status: z.enum(PROJECT_STATUSES).default('active'),
   start_date: flexDate,
   end_date: flexDate.nullable().default(null),
@@ -146,12 +161,12 @@ export const projectBaseSchema = z.strictObject({
   home_order: orderInt.optional(),
   types: z.array(z.enum(PROJECT_TYPES)).default([]),
   /** Display-ready topic labels, e.g. "Inverse problems". */
-  topics: z.array(text).default([]),
+  topics: z.array(localizedTextSchema).default([]),
   technologies: z.array(text).default([]),
-  affiliation: text.optional(),
+  affiliation: localizedTextSchema.optional(),
   /** Alt text for the hero image; leave empty only when the image is decorative. */
-  hero_alt: z.string().default(''),
-  hero_caption: text.optional(),
+  hero_alt: localizedAltTextSchema.default({ en: '' }),
+  hero_caption: localizedTextSchema.optional(),
   related_project_ids: idList,
   links: z.array(projectLinkSchema).default([]),
 });
@@ -164,7 +179,7 @@ export const PUBLICATION_STATUSES = ['published', 'in-press', 'accepted', 'submi
 export const PUBLICATION_TYPES = ['journal', 'conference', 'workshop', 'preprint', 'thesis', 'report', 'abstract', 'other'] as const;
 
 export const publicationSchema = z.strictObject({
-  title: text,
+  title: localizedTextSchema,
   /** Author names in publication order, exactly as they appear on the paper. */
   authors: z.array(text).min(1, { message: 'List at least one author' }),
   year: z.number().int().min(1900).max(2100),
@@ -173,7 +188,7 @@ export const publicationSchema = z.strictObject({
   date: flexDate.optional(),
   status: z.enum(PUBLICATION_STATUSES),
   type: z.enum(PUBLICATION_TYPES).default('other'),
-  venue: text.nullable().default(null),
+  venue: localizedTextSchema.nullable().default(null),
   doi: z
     .string()
     .regex(/^10\.\d{4,9}\/\S+$/, { message: 'Expected a bare DOI such as 10.1000/xyz123' })
@@ -191,9 +206,9 @@ export const publicationSchema = z.strictObject({
   featured: z.boolean().default(false),
   home_order: orderInt.optional(),
   /** Free-form note shown after the citation, e.g. "Equal contribution". */
-  note: text.optional(),
+  note: localizedTextSchema.optional(),
   /** Full abstract text retained in content records but not currently rendered. */
-  abstract: text.optional(),
+  abstract: localizedTextSchema.optional(),
 });
 
 /* ------------------------------------------------------------------ */
@@ -213,16 +228,16 @@ export const NEWS_TYPES = [
 ] as const;
 
 export const newsSchema = z.strictObject({
-  title: text,
+  title: localizedTextSchema,
   /** Full date when known; month precision (e.g. an award announced in "May 2026") is accepted. */
   date: monthDate,
   type: z.enum(NEWS_TYPES).default('other'),
-  summary: text.optional(),
+  summary: localizedTextSchema.optional(),
   project_ids: idList,
   publication_ids: idList,
   talk_ids: idList,
   award_ids: idList,
-  links: z.array(z.strictObject({ label: text, url: httpUrl })).default([]),
+  links: z.array(z.strictObject({ label: localizedTextSchema, url: httpUrl })).default([]),
   /** `false` keeps the item off the home page "Latest" list. */
   featured: z.boolean().default(true),
 });
@@ -234,40 +249,40 @@ export const newsSchema = z.strictObject({
 export const EXPERIENCE_TYPES = ['research', 'professional', 'teaching', 'service'] as const;
 
 export const experienceSchema = z.strictObject({
-  organization: text,
-  role: text,
+  organization: localizedTextSchema,
+  role: localizedTextSchema,
   type: z.enum(EXPERIENCE_TYPES).default('professional'),
   start_date: flexDate,
   end_date: flexDate.nullable().default(null),
-  location: text.nullable().default(null),
+  location: localizedTextSchema.nullable().default(null),
   url: httpUrl.optional(),
   featured: z.boolean().default(false),
   cv_order: orderInt.optional(),
   project_ids: idList,
-  summary: text.nullable().default(null),
-  bullets: z.array(text).default([]),
+  summary: localizedTextSchema.nullable().default(null),
+  bullets: z.array(localizedTextSchema).default([]),
 });
 
 export const educationSchema = z.strictObject({
-  institution: text,
-  degree: text,
-  field: text.optional(),
+  institution: localizedTextSchema,
+  degree: localizedTextSchema,
+  field: localizedTextSchema.optional(),
   start_date: flexDate.optional(),
   end_date: flexDate.nullable().default(null),
-  location: text.optional(),
+  location: localizedTextSchema.optional(),
   url: httpUrl.optional(),
-  details: z.array(text).default([]),
+  details: z.array(localizedTextSchema).default([]),
   cv_order: orderInt.optional(),
 });
 
 export const TALK_TYPES = ['invited', 'conference', 'seminar', 'webinar', 'poster', 'workshop', 'panel', 'other'] as const;
 
 export const talkSchema = z.strictObject({
-  title: text,
-  event: text,
+  title: localizedTextSchema,
+  event: localizedTextSchema,
   date: flexDate,
   type: z.enum(TALK_TYPES).default('other'),
-  location: text.optional(),
+  location: localizedTextSchema.optional(),
   project_ids: idList,
   links: z
     .strictObject({
@@ -280,16 +295,16 @@ export const talkSchema = z.strictObject({
 });
 
 export const awardSchema = z.strictObject({
-  title: text,
-  organization: text,
+  title: localizedTextSchema,
+  organization: localizedTextSchema,
   date: flexDate,
-  description: text.optional(),
+  description: localizedTextSchema.optional(),
   project_ids: idList,
   url: httpUrl.optional(),
 });
 
 export const skillGroupSchema = z.strictObject({
-  category: text,
-  items: z.array(text).min(1, { message: 'List at least one skill' }),
+  category: localizedTextSchema,
+  items: z.array(localizedTextSchema).min(1, { message: 'List at least one skill' }),
   order: orderInt.optional(),
 });

@@ -1,22 +1,24 @@
 ---
 import type { ProjectEntry } from '../lib/content/model';
 import SectionHeading from './SectionHeading.astro';
+import { fallbackLang, getText, localizedPath, t, type Locale } from '../lib/i18n';
 
 interface Props {
   projects: ProjectEntry[];
+  locale?: Locale;
 }
 
-const { projects } = Astro.props;
+const { projects, locale = 'en' } = Astro.props;
 const shown = projects.slice(0, 4);
 ---
 {shown.length > 0 && (
   <section class="section" aria-labelledby="related-projects">
-    <SectionHeading id="related-projects" title="Related projects" />
+    <SectionHeading id="related-projects" title={t(locale, 'section.relatedProjects')} />
     <ul class="related-list">
       {shown.map((project) => (
         <li>
-          <a href={`/projects/${project.id}/`}>{project.data.title}</a>
-          <p>{project.data.summary}</p>
+          <a href={localizedPath(`/projects/${project.id}/`, locale)} lang={fallbackLang(project.data.title, locale)}>{getText(project.data.title, locale)}</a>
+          <p lang={fallbackLang(project.data.summary, locale)}>{getText(project.data.summary, locale)}</p>
         </li>
       ))}
     </ul>

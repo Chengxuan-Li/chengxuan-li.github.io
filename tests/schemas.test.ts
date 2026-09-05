@@ -8,6 +8,7 @@ import {
   flexDate,
   isValidFlexDate,
   isoDate,
+  localizedTextSchema,
   newsSchema,
   projectBaseSchema,
   projectVideoBaseSchema,
@@ -18,6 +19,18 @@ import {
   talkSchema,
 } from '../src/lib/content/schemas';
 
+describe('localizedTextSchema', () => {
+  it('normalizes English shorthand and accepts an optional Chinese translation', () => {
+    expect(localizedTextSchema.parse('English only')).toEqual({ en: 'English only' });
+    expect(localizedTextSchema.parse({ en: 'Projects', zh: '项目' })).toEqual({ en: 'Projects', zh: '项目' });
+  });
+
+  it('rejects blank translations and unknown locale keys', () => {
+    expect(localizedTextSchema.safeParse({ en: 'Projects', zh: '   ' }).success).toBe(false);
+    expect(localizedTextSchema.safeParse({ en: 'Projects', cn: '项目' }).success).toBe(false);
+  });
+});
+
 describe('bioSchema', () => {
   it('accepts exactly a non-empty title and content', () => {
     expect(schemas).toHaveProperty('bioSchema');
@@ -27,7 +40,7 @@ describe('bioSchema', () => {
         title: '50 words version',
         content: 'Chengxuan Li is a researcher.',
       }),
-    ).toEqual({ title: '50 words version', content: 'Chengxuan Li is a researcher.' });
+    ).toEqual({ title: { en: '50 words version' }, content: { en: 'Chengxuan Li is a researcher.' } });
     expect(bioSchema.safeParse({ title: ' ', content: 'Biography' }).success).toBe(false);
     expect(bioSchema.safeParse({ title: 'Short version', content: '' }).success).toBe(false);
     expect(bioSchema.safeParse({ title: 'Short version', content: 'Biography', order: 1 }).success).toBe(false);
@@ -85,8 +98,8 @@ describe('projectBaseSchema', () => {
   it('applies defaults to a minimal record', () => {
     const parsed = projectBaseSchema.parse({ title: 'T', summary: 'S', start_date: '2025-01' });
     expect(parsed).toMatchObject({
-      title: 'T',
-      summary: 'S',
+      title: { en: 'T' },
+      summary: { en: 'S' },
       start_date: '2025-01',
       status: 'active',
       end_date: null,
@@ -94,7 +107,7 @@ describe('projectBaseSchema', () => {
       types: [],
       topics: [],
       technologies: [],
-      hero_alt: '',
+      hero_alt: { en: '' },
       related_project_ids: [],
       links: [],
     });
@@ -151,8 +164,8 @@ describe('projectVideoBaseSchema', () => {
       }),
     ).toEqual({
       url: 'https://vimeo.com/123456789',
-      title: 'Project demonstration',
-      caption: 'A short walkthrough.',
+      title: { en: 'Project demonstration' },
+      caption: { en: 'A short walkthrough.' },
       autoplay: false,
       fit: 'contain',
     });
@@ -237,12 +250,12 @@ describe('publicationSchema', () => {
       ...base,
       month: 9,
       type: 'abstract',
-      abstract: 'A submitted abstract whose body is stored for future use.',
+      abstract: { en: 'A submitted abstract whose body is stored for future use.' },
     });
     expect(parsed).toMatchObject({
       month: 9,
       type: 'abstract',
-      abstract: 'A submitted abstract whose body is stored for future use.',
+      abstract: { en: 'A submitted abstract whose body is stored for future use.' },
     });
   });
   it.each([
@@ -301,7 +314,7 @@ describe('experienceSchema', () => {
 describe('educationSchema', () => {
   it('needs only institution and degree', () => {
     const parsed = educationSchema.parse({ institution: 'U', degree: 'PhD' });
-    expect(parsed).toMatchObject({ institution: 'U', degree: 'PhD', end_date: null, details: [] });
+    expect(parsed).toMatchObject({ institution: { en: 'U' }, degree: { en: 'PhD' }, end_date: null, details: [] });
     expect(parsed.start_date).toBeUndefined();
   });
 });
@@ -311,8 +324,8 @@ describe('talkSchema, awardSchema, skillGroupSchema', () => {
     expect(talkSchema.parse({ title: 'T', event: 'E', date: '2025-05' })).toMatchObject({ type: 'other', project_ids: [], links: {} });
     expect(awardSchema.parse({ title: 'A', organization: 'O', date: '2025' })).toMatchObject({ project_ids: [] });
     expect(skillGroupSchema.parse({ category: 'Languages', items: ['Python'] })).toMatchObject({
-      category: 'Languages',
-      items: ['Python'],
+      category: { en: 'Languages' },
+      items: [{ en: 'Python' }],
     });
   });
   it('rejects an unknown link key instead of silently dropping it', () => {

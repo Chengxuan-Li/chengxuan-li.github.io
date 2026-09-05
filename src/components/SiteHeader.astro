@@ -1,30 +1,29 @@
 ---
 import { siteConfig } from '../site.config';
+import { localizedPath, otherLocale, t, type Locale } from '../lib/i18n';
 
 interface Props {
   currentPath: string;
+  languageSwitchPath?: string;
+  locale?: Locale;
 }
 
-const { currentPath } = Astro.props;
-
+const { currentPath, languageSwitchPath = currentPath, locale = 'en' } = Astro.props;
 const items = [
-  { href: '/', label: 'Home' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/publications/', label: 'Publications' },
-  { href: '/cv/', label: 'CV' },
-  { href: '/news/', label: 'News' },
+  { href: localizedPath('/', locale), label: t(locale, 'nav.home') },
+  { href: localizedPath('/projects/', locale), label: t(locale, 'nav.projects') },
+  { href: localizedPath('/publications/', locale), label: t(locale, 'nav.publications') },
+  { href: localizedPath('/cv/', locale), label: t(locale, 'nav.cv') },
+  { href: localizedPath('/news/', locale), label: t(locale, 'nav.news') },
 ];
-
-const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+const rootHref = localizedPath('/', locale);
+const isCurrent = (href: string) => (href === rootHref ? currentPath === href : currentPath.startsWith(href));
+const nextLocale = otherLocale(locale);
 ---
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="wordmark" href="/">{siteConfig.name}</a>
-    <button class="theme-toggle" type="button" aria-label="Switch colour theme">
-      <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
-      <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-    </button>
-    <nav class="site-nav" aria-label="Primary">
+    <a class="wordmark" href={rootHref}>{siteConfig.name}</a>
+    <nav class="site-nav" aria-label={t(locale, 'aria.primary')}>
       <ul>
         {items.map((item) => (
           <li>
@@ -33,11 +32,30 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
         ))}
       </ul>
     </nav>
+    <div class="site-header__tools">
+      <a
+        class="language-toggle"
+        href={localizedPath(languageSwitchPath, nextLocale)}
+        hreflang={nextLocale === 'zh' ? 'zh-CN' : 'en'}
+        lang={nextLocale === 'zh' ? 'zh-CN' : 'en'}
+        aria-label={t(locale, 'language.switch')}
+      >{t(locale, 'language.short')}</a>
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-label={t(locale, 'theme.dark')}
+        data-switch-dark={t(locale, 'theme.dark')}
+        data-switch-light={t(locale, 'theme.light')}
+      >
+        <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      </button>
+    </div>
   </div>
 </header>
 
 <script>
-  import { readStoredTheme, resolveTheme, STORAGE_KEY, toggleLabel, toggleTheme, type Theme } from '../lib/theme';
+  import { readStoredTheme, resolveTheme, STORAGE_KEY, toggleTheme, type Theme } from '../lib/theme';
 
   const root = document.documentElement;
   const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
@@ -56,10 +74,10 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     return resolveTheme(stored(), media.matches);
   }
 
-  /** Reflect the resolved theme in the button label and the browser chrome colour. */
   function sync(): void {
     const theme = current();
-    button?.setAttribute('aria-label', toggleLabel(theme));
+    const label = theme === 'dark' ? button?.dataset.switchLight : button?.dataset.switchDark;
+    if (label) button?.setAttribute('aria-label', label);
     for (const meta of document.querySelectorAll('meta[name="theme-color"]')) {
       meta.setAttribute('content', THEME_COLORS[theme]);
     }
@@ -82,9 +100,9 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     applyStored(next.store);
   });
 
-  media.addEventListener('change', sync); // automatic mode follows the system live
+  media.addEventListener('change', sync);
   window.addEventListener('storage', (event) => {
-    if (event.key === null || event.key === STORAGE_KEY) applyStored(stored()); // keep other tabs in step
+    if (event.key === null || event.key === STORAGE_KEY) applyStored(stored());
   });
   sync();
 </script>

@@ -1,5 +1,7 @@
 # Copy to src/content/publications/<slug>.yaml. The file name is the publication id used by news items.
-title: Full title of the paper
+title:
+  en: Full title of the paper
+  # zh: 论文中文标题（可选；无正式译名时省略）
 authors: # in publication order, as printed
   - A. Author
   - C. Li
@@ -20,6 +22,11 @@ links: {}                     # the first link below (paper, then preprint, code
 project_ids: []               # project folder names this paper belongs to
 featured: false               # true to list under "Selected publications" on the home page (then set home_order)
 # home_order: 1
-# note: Equal contribution.   # (optional) shown after the citation
-# abstract: >-                # (optional) stored for future use; not currently displayed
-#   Full abstract text.
+# note:                       # optional; shown after the citation
+#   en: Equal contribution.
+#   zh: 同等贡献。
+# abstract:                   # optional; stored for future use; not currently displayed
+#   en: >-
+#     Full abstract text.
+#   zh: >-
+#     完整中文摘要。

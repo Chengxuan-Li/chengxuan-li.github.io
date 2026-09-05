@@ -1,12 +1,18 @@
 import { parseFlexDate } from './dates';
+import { t, type Locale } from '../i18n';
 import type { ExperienceData, NewsData, ProjectData, PublicationData, TalkData } from './model';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const EN_DASH = '–';
 
 /** `2026` → "2026", `2026-09` → "Sep 2026", `2026-09-03` → "3 Sep 2026" (or "Sep 2026" with `'month'`). */
-export function formatFlexDate(value: string, precision: 'full' | 'month' = 'full'): string {
+export function formatFlexDate(value: string, precision: 'full' | 'month' = 'full', locale: Locale = 'en'): string {
   const { year, month, day } = parseFlexDate(value);
+  if (locale === 'zh') {
+    if (month === undefined) return `${year}年`;
+    if (day === undefined || precision === 'month') return `${year}年${month}月`;
+    return `${year}年${month}月${day}日`;
+  }
   if (month === undefined) return String(year);
   const monthName = MONTHS[month - 1];
   if (day === undefined || precision === 'month') return `${monthName} ${year}`;
@@ -17,14 +23,15 @@ export function formatFlexDate(value: string, precision: 'full' | 'month' = 'ful
 export function formatDateRange(
   start: string | undefined,
   end: string | null | undefined,
-  options: { present?: string } = {},
+  options: { present?: string; locale?: Locale } = {},
 ): string {
-  const present = options.present ?? 'Present';
-  if (!start) return end ? formatFlexDate(end, 'month') : '';
-  const startText = formatFlexDate(start, 'month');
+  const locale = options.locale ?? 'en';
+  const present = options.present ?? t(locale, 'label.present');
+  if (!start) return end ? formatFlexDate(end, 'month', locale) : '';
+  const startText = formatFlexDate(start, 'month', locale);
   if (end === null) return `${startText} ${EN_DASH} ${present}`;
   if (end === undefined) return startText;
-  const endText = formatFlexDate(end, 'month');
+  const endText = formatFlexDate(end, 'month', locale);
   return startText === endText ? startText : `${startText} ${EN_DASH} ${endText}`;
 }
 
@@ -32,16 +39,17 @@ export function formatDateRange(
  * "03 Sep" — the day column of the news timeline; just "May" when only the month is known, and an empty
  * string for a year-only date (the year heading above the entry already says it).
  */
-export function formatDayMonth(value: string): string {
+export function formatDayMonth(value: string, locale: Locale = 'en'): string {
   const { month, day } = parseFlexDate(value);
   if (month === undefined) return '';
+  if (locale === 'zh') return day === undefined ? `${month}月` : `${month}月${day}日`;
   const monthName = MONTHS[month - 1];
   return day === undefined ? monthName : `${String(day).padStart(2, '0')} ${monthName}`;
 }
 
 /** "Sep 2026" — the compact "Latest" list on the home page. */
-export function formatMonthYear(value: string): string {
-  return formatFlexDate(value, 'month');
+export function formatMonthYear(value: string, locale: Locale = 'en'): string {
+  return formatFlexDate(value, 'month', locale);
 }
 
 /**
@@ -127,3 +135,23 @@ export const EXPERIENCE_TYPE_LABELS: Record<ExperienceData['type'], string> = {
   teaching: 'Teaching',
   service: 'Service',
 };
+
+export function projectStatusLabel(status: ProjectData['status'], locale: Locale = 'en'): string {
+  return t(locale, `status.${status}`);
+}
+
+export function projectTypeLabel(type: ProjectData['types'][number], locale: Locale = 'en'): string {
+  return t(locale, `projectType.${type}`);
+}
+
+export function publicationStatusLabel(status: PublicationData['status'], locale: Locale = 'en'): string {
+  return t(locale, `status.${status}`);
+}
+
+export function newsTypeLabel(type: NewsData['type'], locale: Locale = 'en'): string {
+  return t(locale, `newsType.${type}`);
+}
+
+export function talkTypeLabel(type: TalkData['type'], locale: Locale = 'en'): string {
+  return t(locale, `talkType.${type}`);
+}

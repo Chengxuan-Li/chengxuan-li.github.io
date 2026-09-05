@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationListItem from '../components/PublicationListItem.astro';
+import { loadSiteContent } from '../lib/content/load';
+import { getPublicationProjects, groupPublicationsByYear, sortPublications } from '../lib/content/queries';
+import { t, type Locale } from '../lib/i18n';
+import { siteConfig } from '../site.config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = await loadSiteContent();
+const groups = groupPublicationsByYear(content.publications);
+const total = sortPublications(content.publications).length;
+const description = locale === 'zh'
+  ? `${siteConfig.name} 的同行评审论文、会议论文与预印本。`
+  : `Peer-reviewed papers, conference proceedings, and preprints by ${siteConfig.name}.`;
+---
+<BaseLayout title={t(locale, 'nav.publications')} description={description} locale={locale}>
+  <header class="page-head">
+    <h1>{t(locale, 'nav.publications')}</h1>
+    <p class="page-head__lede">{t(locale, 'page.publications.lede')}</p>
+  </header>
+  {total === 0 ? (
+    <p class="empty-state">{t(locale, 'page.publications.empty')}</p>
+  ) : (
+    groups.map((group) => (
+      <section class="pub-year" aria-labelledby={`year-${group.year}`}>
+        <h2 id={`year-${group.year}`} class="news-year__heading">{group.year}</h2>
+        <ol class="pub-list">
+          {group.items.map((publication) => <PublicationListItem publication={publication} projects={getPublicationProjects(content, publication)} locale={locale} />)}
+        </ol>
+      </section>
+    ))
+  )}
+</BaseLayout>

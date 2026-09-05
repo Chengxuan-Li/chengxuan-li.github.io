@@ -48,6 +48,24 @@ All published facts live in `src/content/` and are validated at build time (sche
 `src/lib/content/rawdates.ts`). A broken reference, malformed or impossible date, invalid URL, duplicate
 ordering value, or a DOI reused by two papers fails the build with a message naming the record.
 
+Human-facing fields support bilingual authoring in the same YAML record. Existing English strings remain
+valid shorthand; add an adjacent optional Chinese value when a translation is available:
+
+```yaml
+title:
+  en: Load Profile Inference
+  zh: 负荷曲线推断
+summary:
+  en: Methods for inferring building load profiles.
+  # zh may be omitted; /zh/ displays the English value for this field
+```
+
+The English site keeps its existing routes. Simplified Chinese mirrors them under `/zh/`, and the header
+language link preserves the current page. Interface labels are translated completely, while missing
+record-level Chinese fields fall back independently to English. For project narratives, `index.md` is the
+English body and an optional co-located `index.zh.md` supplies the Chinese body; without it, the Chinese
+project route displays the English Markdown body.
+
 ```text
 src/content/
 ├── bios/<version>.yaml         title + biography text; each record becomes a CV tab

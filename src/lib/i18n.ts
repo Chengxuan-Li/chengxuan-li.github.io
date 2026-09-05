@@ -1,0 +1,263 @@
+export type Locale = 'en' | 'zh';
+export type HtmlLanguage = 'en' | 'zh-CN';
+
+/** English is canonical; Chinese is optional and falls back field by field. */
+export type LocalizedText = string | { en: string; zh?: string };
+
+export function htmlLang(locale: Locale): HtmlLanguage {
+  return locale === 'zh' ? 'zh-CN' : 'en';
+}
+
+export function getText(value: LocalizedText, locale: Locale = 'en'): string {
+  if (typeof value === 'string') return value;
+  return locale === 'zh' ? (value.zh ?? value.en) : value.en;
+}
+
+export function textLang(value: LocalizedText, locale: Locale = 'en'): HtmlLanguage {
+  return locale === 'zh' && typeof value !== 'string' && value.zh !== undefined ? 'zh-CN' : 'en';
+}
+
+/** Returns an attribute only when the resolved text differs from the document language. */
+export function fallbackLang(value: LocalizedText, locale: Locale = 'en'): HtmlLanguage | undefined {
+  const actual = textLang(value, locale);
+  return actual === htmlLang(locale) ? undefined : actual;
+}
+
+export function otherLocale(locale: Locale): Locale {
+  return locale === 'en' ? 'zh' : 'en';
+}
+
+/** Add or remove the locale prefix while preserving the rest of a root-relative URL exactly. */
+export function localizedPath(url: string, locale: Locale): string {
+  const suffixAt = url.search(/[?#]/);
+  const pathname = suffixAt === -1 ? url : url.slice(0, suffixAt);
+  const suffix = suffixAt === -1 ? '' : url.slice(suffixAt);
+  const rooted = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  const unprefixed = rooted.replace(/^\/zh(?=\/|$)/, '') || '/';
+  const localized = locale === 'zh' ? (unprefixed === '/' ? '/zh/' : `/zh${unprefixed}`) : unprefixed;
+  return `${localized}${suffix}`;
+}
+
+const EN = {
+  'nav.home': 'Home',
+  'nav.projects': 'Projects',
+  'nav.publications': 'Publications',
+  'nav.cv': 'CV',
+  'nav.news': 'News',
+  'language.short': '中文',
+  'language.switch': 'Switch to Chinese',
+  'theme.dark': 'Switch to dark theme',
+  'theme.light': 'Switch to light theme',
+  'skip.content': 'Skip to content',
+  'aria.primary': 'Primary',
+  'aria.profiles': 'Profiles and contact',
+  'aria.bioLength': 'Biography length',
+  'aria.relatedProjects': 'Related projects',
+  'aria.projectLinks': 'Project links',
+  'label.present': 'Present',
+  'label.project': 'Project',
+  'label.period': 'Period',
+  'label.status': 'Status',
+  'label.affiliation': 'Affiliation',
+  'label.type': 'Type',
+  'label.technologies': 'Technologies',
+  'label.topics': 'Topics',
+  'label.projectType': 'Project type',
+  'label.paper': 'Paper',
+  'label.preprint': 'Preprint',
+  'label.code': 'Code',
+  'label.slides': 'Slides',
+  'label.poster': 'Poster',
+  'label.video': 'Video',
+  'label.event': 'Event',
+  'label.abstract': 'Abstract',
+  'label.details': 'Details',
+  'label.award': 'Award',
+  'label.projectLink': 'Project',
+  'status.active': 'Active',
+  'status.completed': 'Completed',
+  'status.paused': 'Paused',
+  'status.archived': 'Archived',
+  'status.published': 'Published',
+  'status.in-press': 'In press',
+  'status.accepted': 'Accepted',
+  'status.submitted': 'Submitted',
+  'status.preprint': 'Preprint',
+  'status.in-preparation': 'In preparation',
+  'projectType.research': 'Research',
+  'projectType.software': 'Software',
+  'projectType.simulation': 'Simulation',
+  'projectType.engineering': 'Engineering',
+  'projectType.teaching': 'Teaching',
+  'newsType.publication': 'Publication',
+  'newsType.talk': 'Talk',
+  'newsType.award': 'Award',
+  'newsType.project': 'Project',
+  'newsType.software': 'Software',
+  'newsType.conference': 'Conference',
+  'newsType.media': 'Media',
+  'newsType.milestone': 'Milestone',
+  'newsType.other': 'Update',
+  'talkType.invited': 'Invited talk',
+  'talkType.conference': 'Conference talk',
+  'talkType.seminar': 'Seminar',
+  'talkType.webinar': 'Webinar',
+  'talkType.poster': 'Poster',
+  'talkType.workshop': 'Workshop',
+  'talkType.panel': 'Panel',
+  'talkType.other': 'Talk',
+  'section.selectedWork': 'Selected work',
+  'section.latest': 'Latest',
+  'section.selectedExperience': 'Selected experience',
+  'section.selectedPublications': 'Selected publications',
+  'section.education': 'Education',
+  'section.bio': 'Bio',
+  'section.interests': 'Research interests',
+  'section.researchExperience': 'Research experience',
+  'section.professionalExperience': 'Professional experience',
+  'section.selectedProjects': 'Selected projects',
+  'section.publications': 'Publications',
+  'section.presentations': 'Presentations',
+  'section.awards': 'Awards',
+  'section.teaching': 'Teaching',
+  'section.skills': 'Technical skills',
+  'section.service': 'Service',
+  'section.outputs': 'Outputs',
+  'section.software': 'Software',
+  'section.activity': 'Activity',
+  'section.relatedProjects': 'Related projects',
+  'section.platformDemos': 'Platform Demonstrations',
+  'action.allProjects': 'All projects',
+  'action.allNews': 'All news',
+  'action.fullCv': 'Full CV',
+  'action.allPublications': 'All publications',
+  'action.publicationsPage': 'Publications page',
+  'action.viewProject': 'View project',
+  'page.projects.lede': 'Technical project case studies.',
+  'page.projects.empty': 'Project case studies will appear here as they are published.',
+  'page.publications.lede': 'Selected publications.',
+  'page.publications.empty': 'Publications will appear here as they are released.',
+  'page.cv.title': 'Curriculum vitae',
+  'page.cv.empty': 'The full record will appear here as entries are published.',
+  'page.news.lede': 'Papers, talks, awards, and everything else worth noting, recent first.',
+  'page.news.empty': 'Updates will appear here as they are published.',
+  'page.404.title': 'Page not found',
+  'page.404.lede': 'The address may be out of date. The main sections are listed below.',
+  'media.unsupported': 'Your browser cannot play this video.',
+  'media.open': 'Open the video.',
+} as const;
+
+export type UiKey = keyof typeof EN;
+
+const ZH: Record<UiKey, string> = {
+  'nav.home': '首页',
+  'nav.projects': '项目',
+  'nav.publications': '出版物',
+  'nav.cv': '简历',
+  'nav.news': '动态',
+  'language.short': 'EN',
+  'language.switch': '切换到英文',
+  'theme.dark': '切换到深色主题',
+  'theme.light': '切换到浅色主题',
+  'skip.content': '跳到主要内容',
+  'aria.primary': '主导航',
+  'aria.profiles': '个人资料与联系方式',
+  'aria.bioLength': '简介长度',
+  'aria.relatedProjects': '相关项目',
+  'aria.projectLinks': '项目链接',
+  'label.present': '至今',
+  'label.project': '项目',
+  'label.period': '时间',
+  'label.status': '状态',
+  'label.affiliation': '所属机构',
+  'label.type': '类型',
+  'label.technologies': '技术',
+  'label.topics': '主题',
+  'label.projectType': '项目类型',
+  'label.paper': '论文',
+  'label.preprint': '预印本',
+  'label.code': '代码',
+  'label.slides': '幻灯片',
+  'label.poster': '海报',
+  'label.video': '视频',
+  'label.event': '活动',
+  'label.abstract': '摘要',
+  'label.details': '详情',
+  'label.award': '奖项',
+  'label.projectLink': '项目',
+  'status.active': '进行中',
+  'status.completed': '已完成',
+  'status.paused': '已暂停',
+  'status.archived': '已归档',
+  'status.published': '已发表',
+  'status.in-press': '待刊',
+  'status.accepted': '已接收',
+  'status.submitted': '已投稿',
+  'status.preprint': '预印本',
+  'status.in-preparation': '准备中',
+  'projectType.research': '研究',
+  'projectType.software': '软件',
+  'projectType.simulation': '仿真',
+  'projectType.engineering': '工程',
+  'projectType.teaching': '教学',
+  'newsType.publication': '出版物',
+  'newsType.talk': '报告',
+  'newsType.award': '奖项',
+  'newsType.project': '项目',
+  'newsType.software': '软件',
+  'newsType.conference': '会议',
+  'newsType.media': '媒体',
+  'newsType.milestone': '里程碑',
+  'newsType.other': '更新',
+  'talkType.invited': '特邀报告',
+  'talkType.conference': '会议报告',
+  'talkType.seminar': '研讨会',
+  'talkType.webinar': '网络研讨会',
+  'talkType.poster': '海报',
+  'talkType.workshop': '工作坊',
+  'talkType.panel': '圆桌讨论',
+  'talkType.other': '报告',
+  'section.selectedWork': '精选工作',
+  'section.latest': '最新动态',
+  'section.selectedExperience': '精选经历',
+  'section.selectedPublications': '精选出版物',
+  'section.education': '教育经历',
+  'section.bio': '个人简介',
+  'section.interests': '研究兴趣',
+  'section.researchExperience': '研究经历',
+  'section.professionalExperience': '专业经历',
+  'section.selectedProjects': '精选项目',
+  'section.publications': '出版物',
+  'section.presentations': '报告与演讲',
+  'section.awards': '奖项',
+  'section.teaching': '教学',
+  'section.skills': '技术能力',
+  'section.service': '学术服务',
+  'section.outputs': '成果',
+  'section.software': '软件',
+  'section.activity': '动态',
+  'section.relatedProjects': '相关项目',
+  'section.platformDemos': '平台演示',
+  'action.allProjects': '全部项目',
+  'action.allNews': '全部动态',
+  'action.fullCv': '完整简历',
+  'action.allPublications': '全部出版物',
+  'action.publicationsPage': '出版物页面',
+  'action.viewProject': '查看项目',
+  'page.projects.lede': '技术项目案例。',
+  'page.projects.empty': '项目案例发布后将在此显示。',
+  'page.publications.lede': '精选出版物。',
+  'page.publications.empty': '出版物发布后将在此显示。',
+  'page.cv.title': '个人简历',
+  'page.cv.empty': '完整记录发布后将在此显示。',
+  'page.news.lede': '论文、报告、奖项及其他值得记录的动态，按时间倒序排列。',
+  'page.news.empty': '更新发布后将在此显示。',
+  'page.404.title': '页面未找到',
+  'page.404.lede': '该地址可能已失效。主要栏目列于下方。',
+  'media.unsupported': '您的浏览器无法播放此视频。',
+  'media.open': '打开视频。',
+};
+
+export function t(locale: Locale, key: UiKey): string {
+  return locale === 'zh' ? ZH[key] : EN[key];
+}

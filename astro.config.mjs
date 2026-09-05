@@ -14,6 +14,11 @@ export default defineConfig({
   build: { format: 'directory' },
   cacheDir: usingFixtures ? './node_modules/.astro-fixtures' : './node_modules/.astro',
   prerenderConflictBehavior: 'error',
+  i18n: {
+    locales: ['en', 'zh'],
+    defaultLocale: 'en',
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [sitemap()],
   image: { layout: 'constrained', responsiveStyles: true },
   markdown: {

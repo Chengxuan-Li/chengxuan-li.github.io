@@ -1,21 +1,24 @@
 ---
 import type { ProjectVideoData } from '../lib/content/model';
 import { resolveExternalVideoUrl } from '../lib/content/video';
+import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 
 interface Props {
   video: ProjectVideoData;
+  locale?: Locale;
 }
 
-const { video } = Astro.props;
+const { video, locale = 'en' } = Astro.props;
 const source = resolveExternalVideoUrl(video.url);
 if (!source) throw new Error(`Unsupported project video URL: ${video.url}`);
+const title = getText(video.title, locale);
 ---
 <figure class="project-media">
-  <h3>{video.title}</h3>
+  <h3 lang={fallbackLang(video.title, locale)}>{title}</h3>
   {source.kind === 'embed' ? (
     <iframe
       src={source.url}
-      title={video.title}
+      title={title}
       loading="lazy"
       allow="fullscreen; picture-in-picture"
       allowfullscreen
@@ -28,16 +31,16 @@ if (!source) throw new Error(`Unsupported project video URL: ${video.url}`);
       playsinline
       preload="metadata"
       poster={video.poster?.src}
-      aria-label={video.title}
+      aria-label={title}
       data-autoplay={video.autoplay ? '' : undefined}
       muted={video.autoplay}
       loop={video.autoplay}
     >
       <source src={source.url} type={source.mimeType} />
-      <p>Your browser cannot play this video. <a href={source.url}>Open the video.</a></p>
+      <p>{t(locale, 'media.unsupported')} <a href={source.url}>{t(locale, 'media.open')}</a></p>
     </video>
   )}
-  {video.caption && <figcaption>{video.caption}</figcaption>}
+  {video.caption && <figcaption lang={fallbackLang(video.caption, locale)}>{getText(video.caption, locale)}</figcaption>}
 </figure>
 
 <script>

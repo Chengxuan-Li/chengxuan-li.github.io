@@ -1,4 +1,9 @@
 # Copy to src/content/bios/<version>.yaml. The file name is the record id and controls tab order.
-title: 50 words version
-content: >-
-  Write a verified biography here.
+title:
+  en: 50 words version
+  # zh: 50 字版本
+content:
+  en: >-
+    Write a verified biography here.
+  # zh: >-
+  #   在此填写经过核实的中文简介。

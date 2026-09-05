@@ -18,6 +18,13 @@ describe('formatFlexDate', () => {
     expect(formatFlexDate('2026-09-03')).toBe('3 Sep 2026');
     expect(formatFlexDate('2026-09-03', 'month')).toBe('Sep 2026');
   });
+
+  it('renders Chinese dates without English month names', () => {
+    expect(formatFlexDate('2026', 'full', 'zh')).toBe('2026年');
+    expect(formatFlexDate('2026-09', 'full', 'zh')).toBe('2026年9月');
+    expect(formatFlexDate('2026-09-03', 'full', 'zh')).toBe('2026年9月3日');
+    expect(formatFlexDate('2026-09-03', 'month', 'zh')).toBe('2026年9月');
+  });
 });
 
 describe('formatDateRange', () => {
@@ -31,6 +38,11 @@ describe('formatDateRange', () => {
     expect(formatDateRange(undefined, null)).toBe('');
     expect(formatDateRange('2024-01', undefined)).toBe('Jan 2024');
   });
+
+  it('localizes Chinese ranges and the ongoing label', () => {
+    expect(formatDateRange('2024-01', null, { locale: 'zh' })).toBe('2024年1月 – 至今');
+    expect(formatDateRange('2024-01', '2025-06', { locale: 'zh' })).toBe('2024年1月 – 2025年6月');
+  });
 });
 
 describe('news dates', () => {
@@ -40,6 +52,12 @@ describe('news dates', () => {
     expect(formatDayMonth('2026')).toBe('');
     expect(formatMonthYear('2026-09-03')).toBe('Sep 2026');
     expect(formatMonthYear('2026-05')).toBe('May 2026');
+  });
+
+  it('formats compact Chinese dates', () => {
+    expect(formatDayMonth('2026-09-03', 'zh')).toBe('9月3日');
+    expect(formatDayMonth('2026-05', 'zh')).toBe('5月');
+    expect(formatMonthYear('2026-09-03', 'zh')).toBe('2026年9月');
   });
 });
 

@@ -1,14 +1,17 @@
 ---
+import { fallbackLang, getText, type Locale, type LocalizedText } from '../lib/i18n';
+
 interface Props {
-  items: string[];
+  items: LocalizedText[];
   variant?: 'topic' | 'type';
   label?: string;
+  locale?: Locale;
 }
 
-const { items, variant = 'topic', label } = Astro.props;
+const { items, variant = 'topic', label, locale = 'en' } = Astro.props;
 ---
 {items.length > 0 && (
   <ul class:list={['tags', `tags--${variant}`]} aria-label={label}>
-    {items.map((item) => <li class="tag">{item}</li>)}
+    {items.map((item) => <li class="tag" lang={fallbackLang(item, locale)}>{getText(item, locale)}</li>)}
   </ul>
 )}

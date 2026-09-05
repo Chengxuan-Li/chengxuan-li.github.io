@@ -13,7 +13,10 @@ import { parse } from 'yaml';
 
 export const SITE_URL = 'https://chengxuan-li.github.io';
 export const FORBIDDEN_PREFIX = '/chengxuan-li.github.io/';
-export const STATIC_ROUTES = ['/', '/projects/', '/publications/', '/cv/', '/news/'];
+export const STATIC_ROUTES = [
+  '/', '/projects/', '/publications/', '/cv/', '/news/',
+  '/zh/', '/zh/projects/', '/zh/publications/', '/zh/cv/', '/zh/news/',
+];
 export const STATIC_FILES = ['404.html', 'sitemap-index.xml', 'robots.txt'];
 
 export interface CheckOptions {
@@ -81,7 +84,10 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
   const { distDir, projectIds, siteUrl = SITE_URL } = options;
   const issues: string[] = [];
 
-  const requiredRoutes = [...STATIC_ROUTES, ...projectIds.map((id) => `/projects/${id}/`)];
+  const requiredRoutes = [
+    ...STATIC_ROUTES,
+    ...projectIds.flatMap((id) => [`/projects/${id}/`, `/zh/projects/${id}/`]),
+  ];
   for (const route of requiredRoutes) {
     const file = routeToFile(distDir, route);
     if (!(await isFile(file))) {
@@ -97,6 +103,18 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
     for (const id of generatedProjectIds) {
       if (!projectIds.includes(id) && (await isFile(path.join(projectsDir, id, 'index.html')))) {
         issues.push(`unexpected project route /projects/${id}/`);
+      }
+    }
+  }
+  const chineseProjectsDir = path.join(distDir, 'zh', 'projects');
+  if (await isDirectory(chineseProjectsDir)) {
+    const generatedProjectIds = (await readdir(chineseProjectsDir, { withFileTypes: true }))
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
+    for (const id of generatedProjectIds) {
+      if (!projectIds.includes(id) && (await isFile(path.join(chineseProjectsDir, id, 'index.html')))) {
+        issues.push(`unexpected project route /zh/projects/${id}/`);
       }
     }
   }
@@ -127,9 +145,28 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
     }
 
     if (relative !== '404.html') {
+      const route = relative === 'index.html' ? '/' : `/${relative.replace(/index\.html$/, '')}`;
+      const expectedLang = route.startsWith('/zh/') ? 'zh-CN' : 'en';
+      if (!new RegExp(`<html\\s+[^>]*lang=["']${expectedLang}["']`, 'i').test(html)) {
+        issues.push(`${relative}: expected html lang="${expectedLang}"`);
+      }
+
       const canonical = /<link rel="canonical" href="([^"]+)"/.exec(html)?.[1];
       if (!canonical) issues.push(`${relative}: missing canonical link`);
       else if (!canonical.startsWith(`${siteUrl}/`)) issues.push(`${relative}: canonical ${canonical} is not on ${siteUrl}`);
+      else if (canonical !== `${siteUrl}${route}`) issues.push(`${relative}: canonical ${canonical} does not match ${siteUrl}${route}`);
+
+      const englishRoute = route.replace(/^\/zh(?=\/|$)/, '') || '/';
+      const chineseRoute = englishRoute === '/' ? '/zh/' : `/zh${englishRoute}`;
+      const expectedAlternates: [string, string][] = [
+        ['en', `${siteUrl}${englishRoute}`],
+        ['zh-CN', `${siteUrl}${chineseRoute}`],
+        ['x-default', `${siteUrl}${englishRoute}`],
+      ];
+      for (const [language, href] of expectedAlternates) {
+        const alternate = new RegExp(`<link\\s+rel=["']alternate["']\\s+hreflang=["']${language}["']\\s+href=["']${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["']`, 'i');
+        if (!alternate.test(html)) issues.push(`${relative}: missing ${language} alternate link`);
+      }
     }
   }
 
