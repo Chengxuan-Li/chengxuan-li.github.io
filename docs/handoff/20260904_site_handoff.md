@@ -64,7 +64,7 @@ load.ts        loadSiteContent() — the single entry point every page calls
 
 Components never read collections directly; pages call `loadSiteContent()` and pass data down. Every module
 above has a matching file in `tests/`. Site-wide facts and feature toggles are in `src/site.config.ts`
-(a `null` profile link or `cvPdf` simply omits that link or button).
+(a `null` profile link or empty `cvPdfs` list simply omits that link or button).
 
 ## Current content state
 
@@ -87,9 +87,8 @@ above has a matching file in `tests/`. Site-wide facts and feature toggles are i
 2. **The two real project pages are thin.** Both have Problem / Method / Contribution but their Technical
    Details sections say results are "pending source material", and neither has a hero image or figures.
    Project visuals were a priority in the original brief.
-3. **Missing profile links.** `scholar` and `linkedin` are `null` in `src/site.config.ts`, and `cvPdf` is
-   `null` so no PDF download button renders. Add a PDF to `public/cv/` and set the path when one exists —
-   never link from `references/archive/`.
+3. **Missing Scholar link.** `scholar` is `null` in `src/site.config.ts`. LinkedIn and the short and long
+   public CV PDFs are configured; add Scholar only when its verified public URL is available.
 4. **No publication links to projects.** Every publication has `project_ids: []` because the CV document
    does not say which paper belongs to which project. Filling these in switches on cross-links across the
    site (project Outputs, publication "Project:" chips).

@@ -10,6 +10,12 @@ export interface ProfileLinks {
   email: string | null;
 }
 
+export interface CvPdfLink {
+  label: string;
+  /** Root-relative path under public/ to an approved CV PDF. */
+  href: string;
+}
+
 export interface SiteConfig {
   url: string;
   name: string;
@@ -28,8 +34,8 @@ export interface SiteConfig {
   /** Default meta description. */
   description: string;
   profiles: ProfileLinks;
-  /** Root-relative path under public/ to an approved CV PDF, e.g. '/cv/Chengxuan_Li_CV.pdf'; null hides the download action. */
-  cvPdf: string | null;
+  /** Approved public CV versions; an empty list hides the PDF actions. */
+  cvPdfs: CvPdfLink[];
   /** Root-relative path to the default social preview image. */
   ogImage: string;
 }
@@ -57,7 +63,10 @@ export const siteConfig: SiteConfig = {
     linkedin: 'https://www.linkedin.com/in/chengxl/',
     email: 'cl2749@cornell.edu',
   },
-  cvPdf: null,
+  cvPdfs: [
+    { label: 'Short CV', href: '/cv/Chengxuan_Li_CV_Short.pdf' },
+    { label: 'Long CV', href: '/cv/Chengxuan_Li_CV_Long.pdf' },
+  ],
   ogImage: '/images/og/default.png',
 };
 

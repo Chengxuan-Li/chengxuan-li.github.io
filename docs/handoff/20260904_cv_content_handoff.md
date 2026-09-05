@@ -104,7 +104,7 @@ The current public records do not establish:
 
 - A completed PhD, dissertation title, expected graduation date, GPA, or formal committee designation.
 - A phone number, street address, ORCID, or Google Scholar URL.
-- A public CV PDF.
+- Additional CV versions beyond the public short and long PDFs in `public/cv/`.
 - Citation counts, journal impact factors, h-index, or other bibliometrics.
 - Teaching, mentoring, service, professional-membership, language, or reference sections.
 - A venue or public link for the four submitted abstracts.

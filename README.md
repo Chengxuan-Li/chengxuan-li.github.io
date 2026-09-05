@@ -70,8 +70,8 @@ src/content/
 - Relationships are declared one way: publications, news items, talks, awards, and experiences list the
   `project_ids` they belong to; projects list `related_project_ids`. Reverse lookups (a project's papers,
   talks, activity) are generated.
-- Site-wide facts (name, role, affiliation, profile links, CV PDF path, meta description) live in
-  `src/site.config.ts`. A `null` profile link or `cvPdf` simply omits that link or button.
+- Site-wide facts (name, role, affiliation, profile links, CV PDF links, meta description) live in
+  `src/site.config.ts`. A `null` profile link or empty `cvPdfs` list simply omits that link or button.
 
 Link fields differ by record type — these are the only accepted keys:
 
@@ -160,8 +160,9 @@ related to that project, because its publications and talks already appear under
   the home page selection. Add `date` when the exact publication day is known; it positions the paper in
   the news stream.
 - `researchInterests` in `src/site.config.ts` fills the one-line interests section; leave it `null` to omit.
-- PDF CV: copy an approved public PDF to `public/cv/` and set `cvPdf: '/cv/<file>.pdf'` in
-  `src/site.config.ts`. Never link files from `references/archive/`.
+- PDF CVs: copy approved public PDFs to `public/cv/` and add their labels and root-relative URLs to
+  `cvPdfs` in `src/site.config.ts`. Use web-safe filenames without spaces. Never link files from
+  `references/archive/`.
 
 ## Repository layout
 

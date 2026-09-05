@@ -57,7 +57,9 @@ const description = `Curriculum vitae of ${siteConfig.name}: education, research
     <p class="cv-head__identity"><strong>{siteConfig.name}</strong> · {roleLine()}, {siteConfig.affiliation}</p>
     <div class="cv-head__actions">
       <ExternalLinks variant="cv" />
-      {siteConfig.cvPdf && <a class="button button--primary" href={siteConfig.cvPdf}>Download PDF CV</a>}
+      {siteConfig.cvPdfs.map((cvPdf) => (
+        <a class="button button--primary" href={cvPdf.href}>{cvPdf.label}</a>
+      ))}
     </div>
     {sections.length > 1 && (
       <nav class="cv-toc" aria-label="CV sections">
