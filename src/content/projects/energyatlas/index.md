@@ -32,6 +32,7 @@ topics:
 technologies: [C#, ASP.NET, Python, DuckDB]
 affiliation: Environmental Systems Lab
 hero_image: ./software-interface-cover.png
+show_hero_on_page: true
 hero_alt:
   en: EnergyAtlas.io interface showing 3D city maps, building layers, scenario charts, and template-assignment controls.
   zh: EnergyAtlas.io 界面，展示三维城市地图、建筑图层、情景分析图表与模板分配控件。

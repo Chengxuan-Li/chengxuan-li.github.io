@@ -48,7 +48,7 @@ if (data.hero_image) {
       <ProjectMeta project={project} locale={locale} />
     </header>
 
-    {data.hero_image && <ResponsiveFigure src={data.hero_image} alt={getText(data.hero_alt, locale)} caption={data.hero_caption ? getText(data.hero_caption, locale) : undefined} loading="eager" />}
+    {data.show_hero_on_page && data.hero_image && <ResponsiveFigure src={data.hero_image} alt={getText(data.hero_alt, locale)} caption={data.hero_caption ? getText(data.hero_caption, locale) : undefined} loading="eager" />}
 
     <div class="prose" lang={bodyFallback ? 'en' : undefined}>
       <Content />

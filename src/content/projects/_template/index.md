@@ -30,6 +30,7 @@ technologies: [Python]
 #   en: Cornell University
 #   zh: 康奈尔大学
 # hero_image: ./hero.png            # (optional) image placed next to this file; 1600px wide or more
+# show_hero_on_page: true           # default false; enable to also show the card image above the narrative
 # hero_alt:                        # required when hero_image is informative; en may be "" if decorative
 #   en: What the figure shows.
 #   zh: 图片所展示的内容。

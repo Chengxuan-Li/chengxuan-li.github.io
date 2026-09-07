@@ -142,7 +142,9 @@ currently render that text.
    cross-links, and generated route; remove the field or set it to `true` to publish it again.
 3. Write the case study body: Problem, System / Method, My Contribution, Technical Details, Results.
    Put every project image (thumbnail, hero, inline figure, or video poster) next to `index.md`; reference
-   inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the header figure. Images are
+   inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the card thumbnail.
+   Set `show_hero_on_page: true` to also show that image above the project narrative; it defaults to `false`.
+   Images are
    optimized at build time. Videos stay external: use the optional strict `videos` list with HTTPS
    YouTube, Vimeo, or direct `.mp4` URLs, required visible and accessible titles, and optional captions/posters.
    Direct MP4 records may set `autoplay: true` for muted, viewport-aware looping and `fit: cover` for a

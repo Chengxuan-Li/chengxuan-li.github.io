@@ -164,6 +164,8 @@ export const projectBaseSchema = z.strictObject({
   topics: z.array(localizedTextSchema).default([]),
   technologies: z.array(text).default([]),
   affiliation: localizedTextSchema.optional(),
+  /** Show the card image above the project narrative only when explicitly enabled. */
+  show_hero_on_page: z.boolean().default(false),
   /** Alt text for the hero image; leave empty only when the image is decorative. */
   hero_alt: localizedAltTextSchema.default({ en: '' }),
   hero_caption: localizedTextSchema.optional(),

@@ -26,6 +26,7 @@ export function project(id: string, data: Partial<ProjectEntry['data']> = {}): P
       topics: [],
       technologies: [],
       hero_alt: '',
+      show_hero_on_page: false,
       related_project_ids: [],
       links: [],
       ...data,

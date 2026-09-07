@@ -108,6 +108,7 @@ describe('projectBaseSchema', () => {
       topics: [],
       technologies: [],
       hero_alt: { en: '' },
+      show_hero_on_page: false,
       related_project_ids: [],
       links: [],
     });
@@ -117,6 +118,12 @@ describe('projectBaseSchema', () => {
     const base = { title: 'T', summary: 'S', start_date: '2025-01' };
     expect(projectBaseSchema.parse(base).published).toBe(true);
     expect(projectBaseSchema.parse({ ...base, published: false }).published).toBe(false);
+  });
+  it('allows project-page hero images only through a boolean opt-in', () => {
+    const base = { title: 'T', summary: 'S', start_date: '2025-01' };
+    expect(projectBaseSchema.parse({ ...base, show_hero_on_page: true }).show_hero_on_page).toBe(true);
+    expect(projectBaseSchema.parse({ ...base, show_hero_on_page: false }).show_hero_on_page).toBe(false);
+    expect(projectBaseSchema.safeParse({ ...base, show_hero_on_page: 'true' }).success).toBe(false);
   });
   it('accepts a full record', () => {
     const parsed = projectBaseSchema.parse({
