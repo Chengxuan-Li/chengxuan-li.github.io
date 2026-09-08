@@ -163,8 +163,8 @@ The paper manuscript remains English on the Chinese route, following the normal 
 
 `npm run paper-data` deterministically rebuilds the compact ShadingZip JSON/CSV datasets
 from the preserved cap-300 source tables in `references/shadingzip/plot_data`. Commit the
-generated datasets with their inputs. `tests/shadingzip.test.ts` checks source hashes,
-point values, bin normalization, case totals, and matrix means. Build checks also reject
+generated datasets with their inputs. `tests/shadingzip.test.ts` checks point values,
+bin normalization, case totals, and matrix means. Build checks also reject
 missing or duplicate paper anchors. The full simulation archive is not required at runtime.
 
 Figures render during the static build; JavaScript adds inspection, filtering, highlighting,

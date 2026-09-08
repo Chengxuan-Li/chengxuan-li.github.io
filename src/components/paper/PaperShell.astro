@@ -3,7 +3,7 @@ import type { ProjectEntry, PublicationEntry } from '../../lib/content/model';
 import { getText, type Locale } from '../../lib/i18n';
 import '../../styles/paper.css';
 interface Props { project: ProjectEntry; publication: PublicationEntry; headings: {depth: number; slug: string; text: string}[]; locale: Locale }
-const {project, publication, headings, locale} = Astro.props;
+const {project, publication, headings} = Astro.props;
 const title = getText(project.data.title);
 const authors = publication.data.authors;
 const venue = publication.data.venue ? getText(publication.data.venue) : '';
@@ -23,20 +23,18 @@ const bibtex = `@${publication.data.type === 'journal' ? 'article' : 'inproceedi
       <button type="button" data-print class="js-control">Print paper</button>
       <a href="#paper-citation">Cite this paper</a>
     </div>
-    {locale === 'zh' && <p class="paper-language" lang="zh-CN">论文保留英文原文；交互图表基于论文对应的实验数据。</p>}
   </header>
   <div class="paper-layout">
     <aside class="paper-toc" aria-label="Paper navigation">
-      <details open><summary>Contents</summary><nav>{headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}<a href="#paper-citation">Citation & data</a></nav></details>
+      <details open><summary>Contents</summary><nav>{headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}<a href="#paper-citation">Citation</a></nav></details>
       <a class="paper-top-link" href="#paper-top">Back to title</a>
     </aside>
     <div class="paper-content">
       <slot />
       <section class="paper-citation" id="paper-citation">
-        <h2>Citation & data</h2><p>{citation}</p>
-        <div class="paper-actions"><button type="button" data-copy-citation class="js-control">Copy BibTeX</button><a href="/data/shadingzip/provenance.json" download>Data provenance</a></div>
+        <h2>Citation</h2><p>{citation}</p>
+        <div class="paper-actions"><button type="button" data-copy-citation class="js-control">Copy BibTeX</button></div>
         <pre class="bibtex"><code>{bibtex}</code></pre>
-        <p class="paper-note">This HTML edition preserves the supplied manuscript. Interactive figures reproduce the cap-300 experiment. Figure controls change the view of saved results; they do not run new simulations. The original PDF remains available above.</p>
       </section>
     </div>
   </div>
