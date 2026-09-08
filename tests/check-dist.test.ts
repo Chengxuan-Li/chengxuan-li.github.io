@@ -178,10 +178,11 @@ describe('readProjectIds', () => {
     await write(root, 'projects/alpha/index.md', '---\n---\n');
     await write(root, 'projects/_template/index.md', '---\n---\n');
     await write(root, 'projects/beta.md', '---\n---\n');
+    await write(root, 'projects/paper/index.mdx', '---\n---\n');
     await write(root, 'projects/hidden/index.md', '---\npublished: false\n---\n');
     await write(root, 'projects/_draft.md', '---\n---\n');
     await write(root, 'projects/notes/readme.txt', 'x');
-    expect(await readProjectIds(root)).toEqual(['alpha', 'beta']);
+    expect(await readProjectIds(root)).toEqual(['alpha', 'beta', 'paper']);
     await rm(root, { recursive: true, force: true });
   });
 });

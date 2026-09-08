@@ -1,0 +1,5 @@
+---
+interface Props { to: string; id: string }
+const { to, id } = Astro.props;
+---
+<a class="paper-ref" href={`#${to}`} id={id}><slot /></a>

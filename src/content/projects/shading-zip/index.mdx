@@ -1,0 +1,100 @@
+---
+title: "ShadingZip: Within-Building Selective Computation of Shading Profiles for Urban Building Energy Models"
+short_title: ShadingZip
+summary:
+  en: Selective computation of representative sensors reduces ray-tracing evaluations by 67.4% at a mean WMAPE of 2.6%, while preserving full sensor and surface coverage.
+  zh: 通过选择代表性传感器进行计算，在平均 WMAPE 为 2.6% 的情况下减少 67.4% 的光线追踪计算，并保留完整的传感器与表面结果。
+presentation: paper
+paper_pdf: /papers/shadingzip-manuscript.pdf
+status: active
+start_date: 2026
+published: true
+featured: true
+home_order: 5
+types: [research, simulation]
+topics:
+  - en: Solar shading
+    zh: 太阳遮阳
+  - en: Selective computation
+    zh: 选择性计算
+  - en: Clustering
+    zh: 聚类
+  - en: Urban building energy modeling
+    zh: 城市建筑能源建模
+technologies: [Python]
+affiliation: Environmental Systems Lab, Cornell University
+hero_image: ./thumbnail.png
+hero_alt:
+  en: Abstract building covered with a sensor grid, highlighting representative sensors and incident ray paths for selective shading computation.
+  zh: 抽象建筑表面覆盖传感器网格，突出代表性传感器和入射光线路径，展示选择性遮阳计算方法。
+show_hero_on_page: false
+---
+
+import Math from '../../../components/paper/Math.astro';
+import Ref from '../../../components/paper/Ref.astro';
+import Algorithm from '../../../components/paper/Algorithm.astro';
+import Chart from '../../../components/paper/Chart.astro';
+import Tables from '../../../components/paper/ShadingZipTables.astro';
+import ImageFigure from '../../../components/paper/ImageFigure.astro';
+import workflow from './workflow.png';
+import {selection,reconstruction,wmape} from '../../../lib/paper/shadingzip';
+
+## Abstract
+
+Urban building energy models require time-resolved solar access at the envelope sensor level, making exhaustive ray tracing expensive. **ShadingZip reduces ray-tracing evaluations by 67.4% at a 2.6% WMAPE** by selectively computing shading for representative sensors within each building. Representatives are identified using sensor metadata (MF), exploratory shading observations (SF), or both (MF+SF); unobserved periods are reconstructed from assigned representatives. ShadingZip is evaluated on 2,691 buildings from ten morphological contexts of over 65,000 buildings under five latitudes. Accuracy is measured using error at building- and surface-aggregation levels. SF and MF+SF outperform MF once the cost of exploratory ray tracing is accepted, although MF+SF provides no consistent advantage over SF. A balanced configuration—SF with 3 exploratory periods and representative ratio 0.20—used 32.6% of exhaustive ray-tracing, with WMAPE below 5% in 49 of the 50 case–latitude combinations. ShadingZip provides a scalable and controllable tradeoff between shading accuracy and workload while preserving full building and surface shading result coverage.
+
+**Keywords:** Urban Building Energy Modeling, Solar shading, Clustering, Selective computation
+
+## Introduction
+
+Urban building energy models (UBEMs) extend building physics simulation to urban scales, supporting retrofit prioritization and planning of distributed renewable energy resources (<Ref to="ref-hong" id="cite-hong">Hong et al. 2020</Ref>). In UBEMs, solar exposure is an important boundary condition: radiation gains enter heat balance models and drive Building-Integrated Photovoltaic (BIPV) yields. This exposure depends on obstruction of buildings, terrain, and vegetation, which is costly to resolve as each envelope sensor requires repeated visibility tests. Fast pixel-counting, ray-tracing, and voxel approaches reduce shading computation cost (<Ref to="ref-hoover" id="cite-hoover">Hoover and Dogan 2017</Ref>; <Ref to="ref-luo" id="cite-luo">Luo et al. 2020</Ref>; <Ref to="ref-su" id="cite-su">Su and Dogan 2026</Ref>). These approaches reduce the cost of an individual visibility evaluation, but urban-scale workloads still multiply that evaluation across many sensor-period combinations. Dimensionality reduction has been adopted to identify representative daylight distributions (<Ref to="ref-kent" id="cite-kent">Kent et al. 2020</Ref>), yet this post-hoc approach does not reduce the initial simulation workload, motivating an a priori method that selects representative sensor-period combinations before the remaining shading calculations are performed. We therefore introduce ShadingZip to reduce shading calculation effort by selectively computing sensors. Sensors are grouped using metadata or exploratory shading results for limited periods. Full-year computations are only performed for the representative sensors whose profiles are used to reconstruct other sensors within each building. Features, the number of exploratory periods, and the representative ratio are varied to explore the tradeoff between avoidable ray-tracing cost and reconstruction accuracy.
+
+## Methodology
+
+ShadingZip (<Ref to="figure-1" id="call-figure-1">Figure 1</Ref>) operates on sensor sunlit fraction profiles. Given envelope sensors <Math tex={String.raw`\mathcal S_b`} /> of building <Math tex="b" />, for each sensor <Math tex={String.raw`i\in\mathcal S_b`} />, modeled period <Math tex={String.raw`t\in\mathcal T`} />, and hour <Math tex="h" />, the shading calculation produces sunlit fraction <Math tex={String.raw`y_{i,t,h}\in[0,1]`} />. Each profile contains 19 periods with 24 hourly values. Diffuse irradiance and sky view factors are neither calculated nor reconstructed. We compute complete profiles as ground truth to evaluate ShadingZip, which selectively computes a subset of sensor-periods, driven by clustering over feature family <Math tex="F" /> (<Ref to="table-1" id="call-table-1">Table 1</Ref>), with <Math tex="m" /> exploratory periods <Math tex={String.raw`\mathcal E`} />, at representative ratio <Math tex="r" /> to derive representative sensors from <Math tex={String.raw`\mathcal S_b`} />; <Math tex="F" /> may include Metadata Features (MF), Shading Features (SF), and their combination (MF+SF). MF requires no ray-tracing. SF and MF+SF use <Math tex={String.raw`m\in\{1,2,3\}`} />, emulating summer solstice, both solstices, and equinox-and-solstices exploration periods. The process is detailed in <Ref to="algorithm-1" id="call-algorithm-1">Algorithm 1</Ref> and returns the representatives <Math tex={String.raw`\mathcal R_b`} />, assignments <Math tex="a" />, and observations <Math tex={String.raw`Y_{\mathcal E}`} />.
+
+<ImageFigure src={workflow} number={1} alt="Six-stage ShadingZip workflow: LiDAR classification, point cloud voxelization, sensor generation, representative sensor selection, representative sensor simulation, and reconstruction for all sensors." caption="ShadingZip workflow, selective computation of shading profiles" />
+
+<Tables number={1} />
+
+<Algorithm number={1} table={2} title="Select representatives" caption="Representative sensor selection method" lines={selection} />
+
+After representative selection, <Ref to="algorithm-2" id="call-algorithm-2">Algorithm 2</Ref> calculates the remaining shading periods only for sensors in <Math tex={String.raw`\mathcal R_b`} />. For an exploratory period, each sensor retains its own calculated profile. For non-exploratory periods, sensors copy the calculated profile of the assigned representative, yielding reconstructed profiles <Math tex={String.raw`\hat Y_b`} />. Buildings are streamed sequentially, posing no limit on scalability: once a building is processed, raw results are discarded and memory reclaimed.
+
+<Algorithm number={2} table={3} title="Compute and reconstruct profiles per building" caption="Per-building computation and reconstruction workflow" lines={reconstruction} />
+
+We then explore the tradeoff between ray-tracing cost and reconstruction accuracy. Ray-tracing cost is measured relative to exhaustive calculation over all sensor periods. For exploratory periods, ray-tracing is performed for each sensor, whereas for non-exploratory periods, it is calculated for the representatives. Reconstruction accuracy is evaluated using a Weighted Mean Absolute Percentage Error (WMAPE):
+
+<Math display id="equation-1" number={1} tex={wmape} />
+
+Here, <Math tex={String.raw`y_{i,t,h}`} /> and <Math tex={String.raw`\hat y_{i,t,h}`} /> are ground-truth and reconstructed sunlit fractions for sensor <Math tex="i" />, period <Math tex="t" />, and hour <Math tex="h" />. <Math tex="A_i" /> is sensor <Math tex="i" /> area; <Math tex={String.raw`\pi_t`} /> is period <Math tex="t" /> length; <Math tex={String.raw`\alpha_{t,h}`} /> is the solar altitude; <Math tex={String.raw`\mathbf n_i`} /> is the sensor normal; <Math tex={String.raw`\mathbf s_{t,h}`} /> is the direction vector to the sun, and <Math tex={String.raw`(\cdot)_+=\max(0,\cdot)`} />. Unlit sensors were excluded as their percentage error is undefined. Profiles are aggregated for error calculation at surface- and building-levels, emulating how shading data enters BIPV and energy models. For baseline evaluations, sensors were randomly sampled within each building. All evaluations comprised 10 urban cases (<Ref to="table-4" id="call-table-4">Table 4</Ref>) simulated at 0°, 15°, 30°, 45°, and 60° latitudes. All buildings were retained as obstruction context during shading calculation. A deterministic 10% sample, capped at 300 buildings per case, was selected for reconstruction and error evaluation. All computations were executed on a 24-core Intel Core Ultra 9 275HX processor and 32 GB RAM, with K-means restricted to 4 threads.
+
+<Tables number={4} />
+
+## Results
+
+The parameter sweep revealed a consistent tradeoff between ray-tracing cost and reconstruction error (<Ref to="figure-2" id="call-figure-2">Figure 2</Ref>), with diminishing returns as the representative ratio increased. With the specified hardware, representative selection, reconstruction, and scoring for the selected SF configuration averaged 0.28 ms per sensor. Once at least 2 exploratory periods were accepted, SF and MF+SF generally outperformed the baseline. SF with <Math tex="m=3" /> and <Math tex="r=0.20" /> provided a preferred balance, requiring 32.6% of exhaustive sensor-period ray-tracing evaluations and producing a mean building-aggregated lit-sensor WMAPE of 2.6%. Across the 50 case–latitude combinations, WMAPE ranged from 0.7% to 5.5%, with 49 combinations below 5% (<Ref to="figure-4" id="call-figure-4">Figure 4</Ref>). <Ref to="figure-3" id="call-figure-3">Figure 3</Ref> shows that facade-surface error is broadly distributed across orientations at 0° latitude but becomes more concentrated on north-facing facades at higher latitudes. Although the local facade error exceeds the building-aggregated error, the selected configuration retains low-error surfaces across all orientations.
+
+<Chart kind="tradeoff" number={2} caption="Cost-accuracy tradeoff for each feature family under different latitudes" />
+
+<Chart kind="rose" number={3} caption="Facade lit-sensor WMAPE for SF (m=3, r=0.2) by latitude and orientation" />
+
+<Chart kind="matrix" number={4} caption="Building-aggregated lit-sensor WMAPE for SF (m=3, r=0.2) across ten urban cases and five latitudes." />
+
+## Discussion
+
+Exploratory shading observations capture obstruction-dependent temporal structure that geometry alone cannot reliably encode. Consequently, SF and MF+SF outperform MF once one exploratory period is affordable, suggesting MF may introduce variation unrelated to shading-profiles. SF with <Math tex="m=3" /> and <Math tex="r=0.20" /> provides the clearest balance between accuracy and ray-tracing workload. The matched-cost random downsampling baseline confirms that the improvement is not explained by reduced evaluated sensor count alone. Exploratory shading directs computation toward sensors whose temporal profiles better represent the remaining sensors, yielding approximately 2.2× lower WMAPE. Moreover, random downsampling estimates aggregate building profiles, whereas ShadingZip reconstructs outputs for every sensor and retains building and surface identities, and is particularly useful for location-based queries adopted in window or BIPV models. Orientation-dependent errors qualify the strong building-level performance. North-facing facades exhibit higher surface errors at higher latitudes as their smaller signal produces a sensitive WMAPE denominator, yielding limited contribution to building-level error. The nearly uniform orientation pattern at 0° suggests little directional bias in the evaluated sample. Meanwhile, ShadingZip addresses a different aspect of computational cost from pixel-counting, ray-tracing, or voxel acceleration methods. Those methods reduce the cost of each evaluation, whereas ShadingZip reduces the number of evaluations requested. They are therefore complementary and may provide compound savings when combined.
+
+## Conclusion and implications
+
+ShadingZip reduces shading computation by tracing complete profiles only for representative sensors selected within each building. Across ten morphologies and five latitudes, SF with <Math tex="m=3" /> and <Math tex="r=0.20" /> achieved a mean building-aggregated lit-sensor WMAPE of 2.6% saving 67.4% ray-tracing effort. Future work should determine whether the same selective representation can jointly reconstruct sky-patch visibility or sky-view factors. Meanwhile, ShadingZip still depends on exploratory ray-tracing; future ray-tracing-free methods could learn conditional distributions of shading profiles from geometry and context directly.
+
+## References
+
+<ol className="paper-references">
+  <li id="ref-hong">Hong, Tianzhen, Yixing Chen, Xuan Luo, Na Luo, and Sang Hoon Lee. 2020. “Ten Questions on Urban Building Energy Modeling.” <em>Building and Environment</em> 168 (January): 106508. <a href="https://doi.org/10.1016/j.buildenv.2019.106508">DOI</a> <a className="citation-back" href="#cite-hong" aria-label="Return to Hong citation">↩</a></li>
+  <li id="ref-hoover">Hoover, Joel, and Timur Dogan. 2017. “Fast and Robust External Solar Shading Calculations Using the Pixel Counting Algorithm with Transparency.” <em>Building Simulation</em>, vol. 15: 1083–91. <a href="https://publications.ibpsa.org/proceedings/bs/2017/papers/BS2017_287.pdf">Paper</a> <a className="citation-back" href="#cite-hoover" aria-label="Return to Hoover citation">↩</a></li>
+  <li id="ref-kent">Kent, Michael G., Stefano Schiavon, and John Alstan Jakubiec. 2020. “A Dimensionality Reduction Method to Select the Most Representative Daylight Illuminance Distributions.” <em>Journal of Building Performance Simulation</em> 13 (1): 122–35. <a href="https://doi.org/10.1080/19401493.2019.1711456">DOI</a> <a className="citation-back" href="#cite-kent" aria-label="Return to Kent citation">↩</a></li>
+  <li id="ref-luo">Luo, Xuan, Yu-Hang Tang, and Tianzhen Hong. 2020. “Efficient Computation of Surface Sunlit Fractions in Urban-Scale Building Modeling Using Ray-Tracing Techniques.” <em>SimBuild Conference</em>, vol. 9: 238–43. <a href="https://escholarship.org/uc/item/9q02q8sd">Paper</a> <a className="citation-back" href="#cite-luo" aria-label="Return to Luo citation">↩</a></li>
+  <li id="ref-su">Su, Amber Jiayu, and Timur Dogan. 2026. “Voxel Shader – An Efficient Shadow Calculation Approach for Urban Building Energy Modeling.” <em>Energy and Buildings</em> 357 (April): 117135. <a href="https://doi.org/10.1016/j.enbuild.2026.117135">DOI</a> <a className="citation-back" href="#cite-su" aria-label="Return to Su citation">↩</a></li>
+</ol>

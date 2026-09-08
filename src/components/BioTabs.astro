@@ -1,5 +1,6 @@
 ---
 import type { BioEntry } from '../lib/content/model';
+import LabLinkedText from './LabLinkedText.astro';
 import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 
 interface Props {
@@ -24,7 +25,7 @@ const multiple = bios.length > 1;
     {bios.map((bio) => (
       <article class="bio-tabs__panel" data-bio-panel>
         {multiple && <h3 class="bio-tabs__fallback-title" lang={fallbackLang(bio.data.title, locale)}>{getText(bio.data.title, locale)}</h3>}
-        <p lang={fallbackLang(bio.data.content, locale)}>{getText(bio.data.content, locale)}</p>
+        <p lang={fallbackLang(bio.data.content, locale)}><LabLinkedText text={getText(bio.data.content, locale)} /></p>
       </article>
     ))}
   </div>

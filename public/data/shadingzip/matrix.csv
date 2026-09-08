@@ -1,0 +1,67 @@
+row,column,latitude,name,caseId,error,label,color,textColor,maximum
+0,0,0,Red Hook,nyc_bk_red_hook,0.006804321678177354,0.7%,"rgb(94,79,162)",white,false
+0,1,0,Long Island City,nyc_qn_long_island_city,0.009776988186670712,1.0%,"rgb(59,124,183)",white,false
+0,2,0,Co-op City,nyc_bx_coop_city,0.012263967243620218,1.2%,"rgb(73,162,178)",black,false
+0,3,0,Jackson Heights,nyc_qn_jackson_heights,0.012930630029008303,1.3%,"rgb(82,171,174)",black,false
+0,4,0,Park Slope,nyc_bk_park_slope,0.01398223839320629,1.4%,"rgb(96,187,168)",black,false
+0,5,0,Bayside,nyc_qn_bayside,0.02294489079771096,2.3%,"rgb(237,248,163)",black,false
+0,6,0,Riverdale,nyc_bx_riverdale,0.028759864542643426,2.9%,"rgb(254,239,163)",black,false
+0,7,0,Financial District,nyc_mn_fidi,0.035324621363404536,3.5%,"rgb(253,193,113)",black,false
+0,8,0,Greenridge,nyc_si_greenridge,0.03191808721077165,3.2%,"rgb(254,220,136)",black,false
+0,9,0,Midtown,nyc_mn_midtown,0.03954258792101192,4.0%,"rgb(250,150,86)",black,false
+0,10,0,Latitude mean,,0.02142481973662254,2.1%,"rgb(223,242,153)",black,false
+1,0,15,Red Hook,nyc_bk_red_hook,0.007242849389634833,0.7%,"rgb(91,83,164)",white,false
+1,1,15,Long Island City,nyc_qn_long_island_city,0.010284754098403246,1.0%,"rgb(54,130,186)",white,false
+1,2,15,Co-op City,nyc_bx_coop_city,0.012290805120998564,1.2%,"rgb(73,162,178)",black,false
+1,3,15,Jackson Heights,nyc_qn_jackson_heights,0.013307134206061583,1.3%,"rgb(88,178,172)",black,false
+1,4,15,Park Slope,nyc_bk_park_slope,0.014843120012817918,1.5%,"rgb(110,197,165)",black,false
+1,5,15,Bayside,nyc_qn_bayside,0.023894259718158093,2.4%,"rgb(244,250,173)",black,false
+1,6,15,Riverdale,nyc_bx_riverdale,0.0281780103394807,2.8%,"rgb(255,242,170)",black,false
+1,7,15,Financial District,nyc_mn_fidi,0.03551025985038106,3.6%,"rgb(253,191,111)",black,false
+1,8,15,Greenridge,nyc_si_greenridge,0.03334870638042589,3.3%,"rgb(254,208,126)",black,false
+1,9,15,Midtown,nyc_mn_midtown,0.03865554522250768,3.9%,"rgb(251,160,91)",black,false
+1,10,15,Latitude mean,,0.021755544433886952,2.2%,"rgb(228,244,152)",black,false
+2,0,30,Red Hook,nyc_bk_red_hook,0.008659214036236226,0.9%,"rgb(73,106,175)",white,false
+2,1,30,Long Island City,nyc_qn_long_island_city,0.011481659350416572,1.1%,"rgb(61,149,184)",black,false
+2,2,30,Co-op City,nyc_bx_coop_city,0.013812794799290092,1.4%,"rgb(94,185,169)",black,false
+2,3,30,Jackson Heights,nyc_qn_jackson_heights,0.014103653120068763,1.4%,"rgb(98,189,167)",black,false
+2,4,30,Park Slope,nyc_bk_park_slope,0.01706621790607637,1.7%,"rgb(151,213,164)",black,false
+2,5,30,Bayside,nyc_qn_bayside,0.02669877503185295,2.7%,"rgb(255,250,182)",black,false
+2,6,30,Riverdale,nyc_bx_riverdale,0.02893032654617155,2.9%,"rgb(254,237,161)",black,false
+2,7,30,Financial District,nyc_mn_fidi,0.03703656807153549,3.7%,"rgb(253,177,99)",black,false
+2,8,30,Greenridge,nyc_si_greenridge,0.03624995394365587,3.6%,"rgb(253,185,106)",black,false
+2,9,30,Midtown,nyc_mn_midtown,0.03993066976388016,4.0%,"rgb(249,147,85)",black,false
+2,10,30,Latitude mean,,0.023396983256918406,2.3%,"rgb(240,249,167)",black,false
+3,0,45,Red Hook,nyc_bk_red_hook,0.011447570520782066,1.1%,"rgb(61,149,184)",black,false
+3,1,45,Long Island City,nyc_qn_long_island_city,0.014759378123851299,1.5%,"rgb(110,197,165)",black,false
+3,2,45,Co-op City,nyc_bx_coop_city,0.017303600371545953,1.7%,"rgb(156,215,164)",black,false
+3,3,45,Jackson Heights,nyc_qn_jackson_heights,0.01766590747885551,1.8%,"rgb(162,217,164)",black,false
+3,4,45,Park Slope,nyc_bk_park_slope,0.02166380189905993,2.2%,"rgb(225,243,153)",black,false
+3,5,45,Bayside,nyc_qn_bayside,0.033476645368978486,3.3%,"rgb(254,208,126)",black,false
+3,6,45,Riverdale,nyc_bx_riverdale,0.031664375605265645,3.2%,"rgb(254,222,137)",black,false
+3,7,45,Financial District,nyc_mn_fidi,0.0414835745898595,4.1%,"rgb(247,129,76)",black,false
+3,8,45,Greenridge,nyc_si_greenridge,0.044522381203547214,4.5%,"rgb(238,100,69)",black,false
+3,9,45,Midtown,nyc_mn_midtown,0.04403307553466833,4.4%,"rgb(240,103,68)",black,false
+3,10,45,Latitude mean,,0.02780203106964139,2.8%,"rgb(255,243,172)",black,false
+4,0,60,Red Hook,nyc_bk_red_hook,0.01589054959898882,1.6%,"rgb(129,205,165)",black,false
+4,1,60,Long Island City,nyc_qn_long_island_city,0.019363584047082976,1.9%,"rgb(191,229,160)",black,false
+4,2,60,Co-op City,nyc_bx_coop_city,0.022554242130182083,2.3%,"rgb(234,247,158)",black,false
+4,3,60,Jackson Heights,nyc_qn_jackson_heights,0.024064775175987936,2.4%,"rgb(245,251,175)",black,false
+4,4,60,Park Slope,nyc_bk_park_slope,0.028218548223553814,2.8%,"rgb(255,241,168)",black,false
+4,5,60,Bayside,nyc_qn_bayside,0.042570335581516905,4.3%,"rgb(245,117,71)",black,false
+4,6,60,Riverdale,nyc_bx_riverdale,0.03574017567779699,3.6%,"rgb(253,189,109)",black,false
+4,7,60,Financial District,nyc_mn_fidi,0.04575653140250819,4.6%,"rgb(231,89,72)",white,false
+4,8,60,Greenridge,nyc_si_greenridge,0.05518599071903305,5.5%,"rgb(158,1,66)",white,true
+4,9,60,Midtown,nyc_mn_midtown,0.049318461514495045,4.9%,"rgb(212,61,79)",white,false
+4,10,60,Latitude mean,,0.033866319407114584,3.4%,"rgb(254,204,123)",black,false
+5,0,Case mean,Red Hook,nyc_bk_red_hook,0.01000890104476386,1.0%,"rgb(58,126,184)",white,false
+5,1,Case mean,Long Island City,nyc_qn_long_island_city,0.013133272761284962,1.3%,"rgb(84,174,173)",black,false
+5,2,Case mean,Co-op City,nyc_bx_coop_city,0.01564508193312738,1.6%,"rgb(126,204,165)",black,false
+5,3,Case mean,Jackson Heights,nyc_qn_jackson_heights,0.016414420001996416,1.6%,"rgb(140,209,164)",black,false
+5,4,Case mean,Park Slope,nyc_bk_park_slope,0.019154785286942862,1.9%,"rgb(186,227,161)",black,false
+5,5,Case mean,Bayside,nyc_qn_bayside,0.029916981299643475,3.0%,"rgb(254,233,153)",black,false
+5,6,Case mean,Riverdale,nyc_bx_riverdale,0.030654550542271664,3.1%,"rgb(254,229,147)",black,false
+5,7,Case mean,Financial District,nyc_mn_fidi,0.03902231105553775,3.9%,"rgb(251,157,89)",black,false
+5,8,Case mean,Greenridge,nyc_si_greenridge,0.04024502389148673,4.0%,"rgb(249,142,82)",black,false
+5,9,Case mean,Midtown,nyc_mn_midtown,0.04229606799131262,4.2%,"rgb(245,119,72)",black,false
+5,10,Case mean,Latitude mean,,0.025649139580836776,2.6%,"rgb(255,254,190)",black,false

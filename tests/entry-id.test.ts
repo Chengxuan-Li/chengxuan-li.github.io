@@ -10,6 +10,7 @@ describe('entryId', () => {
   it('uses the folder name for an index file', () => {
     expect(entryId({ entry: 'energyatlas/index.md' })).toBe('energyatlas');
     expect(entryId({ entry: 'nested/energyatlas/index.md' })).toBe('energyatlas');
+    expect(entryId({ entry: 'shading-zip/index.mdx' })).toBe('shading-zip');
   });
 
   it('keeps a non-index file name inside a folder', () => {
@@ -30,6 +31,7 @@ describe('entryId', () => {
 describe('projectTranslationId', () => {
   it('uses the project folder name for an index.zh.md body', () => {
     expect(projectTranslationId({ entry: 'energyatlas/index.zh.md' })).toBe('energyatlas');
+    expect(projectTranslationId({ entry: 'shading-zip/index.zh.mdx' })).toBe('shading-zip');
     expect(projectTranslationId({ entry: 'nested/energyatlas/index.zh.md' })).toBe('energyatlas');
     expect(projectTranslationId({ entry: 'energyatlas\\index.zh.md' })).toBe('energyatlas');
   });

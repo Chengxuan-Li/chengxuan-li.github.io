@@ -107,6 +107,11 @@ export function validateContent(content: SiteContent): ValidationIssue[] {
   };
 
   for (const entry of content.projects) {
+    if (entry.data.presentation === 'paper') {
+      if (!entry.data.paper_pdf) issues.push({ collection: 'projects', id: entry.id, message: 'paper presentation needs a paper_pdf' });
+      const papers = content.publications.filter(p => p.data.project_ids.includes(entry.id));
+      if (papers.length !== 1) issues.push({ collection: 'projects', id: entry.id, message: 'paper presentation needs exactly one linked publication for its author and citation metadata' });
+    }
     checkRefs('projects', entry.id, 'related_project_ids', 'projects', entry.data.related_project_ids);
     if (entry.data.related_project_ids.includes(entry.id)) {
       issues.push({ collection: 'projects', id: entry.id, message: 'related_project_ids must not include the project itself' });

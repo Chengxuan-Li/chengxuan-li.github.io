@@ -1,0 +1,7 @@
+---
+interface Props { text: string }
+const { text } = Astro.props;
+const name = 'Environmental Systems Lab';
+const parts = text.split(name);
+---
+{parts.map((part, index) => <Fragment>{index > 0 && <a href="https://es.aap.cornell.edu/">{name}</a>}{part}</Fragment>)}

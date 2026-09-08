@@ -26,7 +26,7 @@ const yaml = (dir: string) =>
 
 const projects = defineCollection({
   loader: glob({
-    pattern: ['**/index.md', '*.md', ...IGNORE],
+    pattern: ['**/index.{md,mdx}', '*.{md,mdx}', ...IGNORE],
     base: `./${CONTENT_ROOT}/projects`,
     generateId: entryId,
   }),
@@ -39,7 +39,7 @@ const projects = defineCollection({
 
 const projectTranslations = defineCollection({
   loader: glob({
-    pattern: ['**/index.zh.md', ...IGNORE],
+    pattern: ['**/index.zh.{md,mdx}', ...IGNORE],
     base: `./${CONTENT_ROOT}/projects`,
     generateId: projectTranslationId,
   }),

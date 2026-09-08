@@ -3,6 +3,7 @@ import type { ProjectEntry } from '../lib/content/model';
 import { formatDateRange, projectStatusLabel, projectTypeLabel } from '../lib/content/format';
 import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 import TagList from './TagList.astro';
+import LabLinkedText from './LabLinkedText.astro';
 
 interface Props {
   project: ProjectEntry;
@@ -16,7 +17,7 @@ const period = formatDateRange(data.start_date, data.end_date, { locale });
 <dl class="project-meta">
   <div><dt>{t(locale, 'label.period')}</dt><dd>{period}</dd></div>
   <div><dt>{t(locale, 'label.status')}</dt><dd>{projectStatusLabel(data.status, locale)}</dd></div>
-  {data.affiliation && <div><dt>{t(locale, 'label.affiliation')}</dt><dd lang={fallbackLang(data.affiliation, locale)}>{getText(data.affiliation, locale)}</dd></div>}
+  {data.affiliation && <div><dt>{t(locale, 'label.affiliation')}</dt><dd lang={fallbackLang(data.affiliation, locale)}><LabLinkedText text={getText(data.affiliation, locale)} /></dd></div>}
   {data.types.length > 0 && <div><dt>{t(locale, 'label.type')}</dt><dd>{data.types.map((type) => projectTypeLabel(type, locale)).join(' · ')}</dd></div>}
   {data.technologies.length > 0 && <div><dt>{t(locale, 'label.technologies')}</dt><dd>{data.technologies.join(' · ')}</dd></div>}
 </dl>

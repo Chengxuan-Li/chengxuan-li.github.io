@@ -24,6 +24,6 @@ export function entryId({ entry }: EntryIdOptions): string {
 export function projectTranslationId({ entry }: EntryIdOptions): string {
   const parts = entry.split(/[/\\]/).filter(Boolean);
   if (parts.length < 2) throw new Error(`A project translation must live inside its project folder: ${entry}`);
-  if (parts.at(-1) !== 'index.zh.md') throw new Error(`Expected a project translation named index.zh.md, received ${entry}`);
+  if (!/^index\.zh\.mdx?$/.test(parts.at(-1) ?? '')) throw new Error(`Expected a project translation named index.zh.md or index.zh.mdx, received ${entry}`);
   return parts[parts.length - 2];
 }

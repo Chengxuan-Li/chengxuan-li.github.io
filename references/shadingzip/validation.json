@@ -1,0 +1,54 @@
+{
+  "cap300": {
+    "surface_rows": 383340,
+    "building_rows": 659295,
+    "case_rows": 2450,
+    "tradeoff_points": 245,
+    "heatmap_core_shape": [
+      5,
+      10
+    ],
+    "heatmap_min": 0.006804321678177354,
+    "heatmap_center": 0.025649139580836776,
+    "heatmap_max": 0.05518599071903305,
+    "heatmap_case_order": [
+      "nyc_bk_red_hook",
+      "nyc_qn_long_island_city",
+      "nyc_bx_coop_city",
+      "nyc_qn_jackson_heights",
+      "nyc_bk_park_slope",
+      "nyc_qn_bayside",
+      "nyc_bx_riverdale",
+      "nyc_mn_fidi",
+      "nyc_si_greenridge",
+      "nyc_mn_midtown"
+    ],
+    "checks": "uniqueness, rose normalization, surface error ratios, building-to-case and case-to-pooled WMAPE/cost reductions passed"
+  },
+  "cap400": {
+    "surface_rows": 460460,
+    "building_rows": 802571,
+    "case_rows": 2450,
+    "tradeoff_points": 245,
+    "heatmap_core_shape": [
+      5,
+      10
+    ],
+    "heatmap_min": 0.007986700122507925,
+    "heatmap_center": 0.02589035002542403,
+    "heatmap_max": 0.05518599071903305,
+    "heatmap_case_order": [
+      "nyc_bk_red_hook",
+      "nyc_qn_long_island_city",
+      "nyc_bx_coop_city",
+      "nyc_qn_jackson_heights",
+      "nyc_bk_park_slope",
+      "nyc_bx_riverdale",
+      "nyc_qn_bayside",
+      "nyc_mn_fidi",
+      "nyc_si_greenridge",
+      "nyc_mn_midtown"
+    ],
+    "checks": "uniqueness, rose normalization, surface error ratios, building-to-case and case-to-pooled WMAPE/cost reductions passed"
+  }
+}

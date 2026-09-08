@@ -1,0 +1,20 @@
+---
+import Math from './Math.astro';
+interface Line { depth?: number; keyword?: string; tex: string; comment?: string; ref?: string }
+interface Props { number: number; table: number; title: string; caption: string; lines: Line[] }
+const {number, table, title, caption, lines} = Astro.props;
+---
+<figure class="paper-algorithm" id={`table-${table}`}>
+  <figcaption><a href={`#table-${table}`}>Table {table}.</a> {caption}</figcaption>
+  <div id={`algorithm-${number}`} class="algorithm-body">
+    <h3><a href={`#algorithm-${number}`}>Algorithm {number}.</a> {title}</h3>
+    <ol class="algorithm-lines">
+      {lines.map((line, i) => <li id={`algorithm-${number}-line-${i+1}`} style={`--depth:${line.depth ?? 0}`}>
+        <span class="algorithm-line"><strong>{line.keyword}</strong>{line.keyword && ' '}
+          {line.ref ? <a class="paper-ref" id={`algorithm-${number}-call-${i+1}`} href={`#${line.ref}`}><Math tex={line.tex} /></a> : <Math tex={line.tex} />}
+          {line.comment && <span class="algorithm-comment"> // {line.comment}</span>}
+        </span>
+      </li>)}
+    </ol>
+  </div>
+</figure>

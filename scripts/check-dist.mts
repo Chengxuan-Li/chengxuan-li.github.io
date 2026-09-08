@@ -10,6 +10,7 @@ import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parse } from 'yaml';
+import { findFragmentIssues } from '../src/lib/paper/references.ts';
 
 export const SITE_URL = 'https://chengxuan-li.github.io';
 export const FORBIDDEN_PREFIX = '/chengxuan-li.github.io/';
@@ -137,6 +138,9 @@ export async function checkDist(options: CheckOptions): Promise<CheckResult> {
   for (const page of pages) {
     const relative = path.relative(distDir, page).split(path.sep).join('/');
     const html = await readFile(page, 'utf8');
+    if (html.includes('paper-reader')) {
+      for (const issue of findFragmentIssues(html)) issues.push(`${path.relative(distDir, page)}: ${issue}`);
+    }
 
     // Only a *path* that starts with the repository name is wrong (a project-site base path leaking in);
     // the canonical origin itself legitimately contains the same characters after "https://".
@@ -199,11 +203,13 @@ export async function readProjectIds(contentRoot: string): Promise<string[]> {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     if (entry.name.startsWith('_')) continue;
     if (entry.isDirectory()) {
-      const file = path.join(dir, entry.name, 'index.md');
-      if ((await isFile(file)) && (await isPublishedProject(file))) ids.push(entry.name);
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+      const files = ['index.md', 'index.mdx'].map((name) => path.join(dir, entry.name, name));
+      const present = (await Promise.all(files.map(async (file) => (await isFile(file)) ? file : null))).filter((file): file is string => file !== null);
+      if (present.length > 1) throw new Error(`Duplicate project sources in ${entry.name}: keep one index.md or index.mdx`);
+      if (present[0] && await isPublishedProject(present[0])) ids.push(entry.name);
+    } else if (entry.isFile() && /\.mdx?$/.test(entry.name)) {
       const file = path.join(dir, entry.name);
-      if (await isPublishedProject(file)) ids.push(entry.name.replace(/\.md$/, ''));
+      if (await isPublishedProject(file)) ids.push(entry.name.replace(/\.mdx?$/, ''));
     }
   }
   return ids.sort();

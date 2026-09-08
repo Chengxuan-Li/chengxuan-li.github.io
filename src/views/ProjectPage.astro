@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectMeta from '../components/ProjectMeta.astro';
+import PaperShell from '../components/paper/PaperShell.astro';
 import ResponsiveFigure from '../components/ResponsiveFigure.astro';
 import ProjectVideo from '../components/ProjectVideo.astro';
 import SectionHeading from '../components/SectionHeading.astro';
@@ -28,7 +29,7 @@ const content = await loadSiteContent();
 const relations = getProjectRelations(content, project.id);
 const activity = getProjectActivity(content, project.id, locale);
 const bodyEntry = locale === 'zh' && translation ? translation : project;
-const { Content } = await render(bodyEntry);
+const { Content, headings } = await render(bodyEntry);
 const bodyFallback = locale === 'zh' && !translation;
 const software = data.links.filter((link) => ['code', 'demo', 'docs', 'data'].includes(link.kind));
 const hasOutputs = relations.publications.length > 0 || software.length > 0 || relations.talks.length > 0;
@@ -40,6 +41,9 @@ if (data.hero_image) {
 }
 ---
 <BaseLayout title={getText(data.title, locale)} description={getText(data.summary, locale)} ogImage={ogImage} ogType="article" locale={locale}>
+  {data.presentation === 'paper' && relations.publications[0] ? (
+    <PaperShell project={project} publication={relations.publications[0]} headings={headings} locale={locale}><Content /></PaperShell>
+  ) : (
   <article class="project">
     <header class="project__head">
       <p class="eyebrow">{t(locale, 'label.project')}</p>
@@ -93,4 +97,5 @@ if (data.hero_image) {
 
     <RelatedProjects projects={relations.related} locale={locale} />
   </article>
+  )}
 </BaseLayout>

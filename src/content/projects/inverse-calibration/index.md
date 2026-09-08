@@ -55,7 +55,7 @@ supervision, connecting the inferred parameters to the model’s internal therma
 
 ## My Contribution
 
-As part of my doctoral research at Cornell’s Environmental Systems Lab, I develop inverse-modeling and
+As part of my doctoral research at Cornell’s [Environmental Systems Lab](https://es.aap.cornell.edu/), I develop inverse-modeling and
 surrogate-learning methods for calibrating building energy models from measured time series.
 
 ## Evaluation Design

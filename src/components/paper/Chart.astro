@@ -1,0 +1,34 @@
+---
+import tradeoff from '../../../public/data/shadingzip/tradeoff.json';
+import baseline from '../../../public/data/shadingzip/baseline.json';
+import rose from '../../../public/data/shadingzip/rose.json';
+import matrix from '../../../public/data/shadingzip/matrix.json';
+import palette from '../../../public/data/shadingzip/palette.json';
+import { renderChart, dataTable, type ChartKind, type ChartData } from '../../lib/paper/charts';
+interface Props { kind: ChartKind; number: number; caption: string }
+const {kind, number, caption} = Astro.props;
+const data: ChartData = kind==='tradeoff'?{tradeoff,baseline}:kind==='rose'?{rose}:{matrix,palette};
+const cases=matrix.filter(c=>c.row===0&&c.column<10);
+---
+<figure class="paper-chart" id={`figure-${number}`} data-chart={kind}>
+  <figcaption><a href={`#figure-${number}`}>Figure {number}.</a> {caption}</figcaption>
+  <div class="chart-controls js-control">
+    <label>Latitude <select data-latitude aria-label={`Figure ${number} latitude`}><option value="all">All five latitudes</option>{[0,15,30,45,60].map(lat=><option value={lat}>{lat}°</option>)}</select></label>
+    {kind==='tradeoff'&&<fieldset><legend>Methods</legend>{['MF','SF','MF+SF'].map(f=><label><input type="checkbox" data-family value={f} checked />{f}</label>)}<label><input type="checkbox" data-baseline checked />Random baseline</label></fieldset>}
+    {kind==='rose'&&<label>Highlight error band <select data-band><option value="all">All bands</option>{rose.filter(r=>r.latitude===0&&r.direction===0).map(r=><option value={r.band}>{r.label}</option>)}</select></label>}
+    {kind==='matrix'&&<label>Highlight case <select data-case><option value="all">All cases</option>{cases.map(c=><option value={c.caseId}>{c.name}</option>)}</select></label>}
+    <button type="button" data-reset>Reset to paper view</button>
+  </div>
+  <div class="chart-scroll" tabindex="0" aria-label={`Scrollable Figure ${number}`}><div class="chart-canvas" set:html={renderChart(kind,data)} /></div>
+  <p class="chart-readout js-control" aria-live="polite">Hover, tap, or focus a mark to inspect its values. Use arrow keys to move between marks.</p>
+  <div class="chart-actions js-control"><button type="button" data-expand>Expand figure</button><button type="button" data-export="svg">Download SVG</button><button type="button" data-export="png">Download PNG</button><button type="button" data-export="csv">Download visible data (CSV)</button></div>
+  <details class="chart-data"><summary>Data table and source downloads</summary>
+    <p><a href={`/data/shadingzip/${kind}.csv`} download>Original figure data (CSV)</a>{kind==='tradeoff'&&<Fragment> · <a href="/data/shadingzip/baseline.csv" download>Random-baseline data (CSV)</a></Fragment>}</p>
+    <div class="table-scroll" tabindex="0" aria-label={`Figure ${number} data`} set:html={dataTable(kind,data)} />
+  </details>
+  {kind==='tradeoff'&&<p class="paper-note">Reading this comparison: ShadingZip sums sensor-wise absolute errors before aggregation. The random baseline estimates building-total profiles, allowing cancellation within a building. Baseline intervals in the tooltips describe the mean of 25 repeats. Dotted lines show exploratory cost floors m/19. Neither cost nor WMAPE is wall-clock runtime.</p>}
+  {kind==='rose'&&<p class="paper-note">Each facade surface receives one vote. Each occupied direction bin sums to 100%, including “not lit.” Highlighting dims other bands without renormalizing the data. North is 0°, increasing clockwise.</p>}
+  {kind==='matrix'&&<p class="paper-note">Case and latitude margins are unweighted arithmetic means of the cell ratios. They differ from the signal-pooled values in Figure 2. The blue outline marks the largest core cell; highlighting preserves the full matrix and its color scale.</p>}
+  <script is:inline type="application/json" data-chart-data set:html={JSON.stringify(data).replace(/</g,'\\u003c')} />
+</figure>
+<script>import '../../lib/paper/chart-controls';</script>

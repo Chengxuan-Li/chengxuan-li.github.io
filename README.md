@@ -151,6 +151,26 @@ currently render that text.
    centered crop inside the 16:9 player; both options are rejected for hosted embeds.
 4. Run `npm run build`; the page appears at `/projects/<slug>/` and in the Projects index and CV.
 
+### Interactive papers
+
+Projects can use `index.mdx` instead of `index.md` to embed Astro components. Use one
+entry file per project. `index.zh.mdx` is also supported for an optional translation.
+Set `presentation: paper`, supply `paper_pdf: /papers/<name>.pdf`, and link exactly one
+publication via its `project_ids` to use the paper
+reading layout. ShadingZip provides the first complete example, including semantic
+algorithms, KaTeX HTML/MathML, stable reference targets, and interactive SVG figures.
+The paper manuscript remains English on the Chinese route, following the normal fallback.
+
+`npm run paper-data` deterministically rebuilds the compact ShadingZip JSON/CSV datasets
+from the preserved cap-300 source tables in `references/shadingzip/plot_data`. Commit the
+generated datasets with their inputs. `tests/shadingzip.test.ts` checks source hashes,
+point values, bin normalization, case totals, and matrix means. Build checks also reject
+missing or duplicate paper anchors. The full simulation archive is not required at runtime.
+
+Figures render during the static build; JavaScript adds inspection, filtering, highlighting,
+and downloads. Printing restores the manuscript's default chart configuration. Chart data
+are numerical measurements; no interpolation, new clustering, or simulations run in the browser.
+
 ### How `/news/` is assembled
 
 `/news/` is a **view**, not a collection to maintain by hand. `src/lib/content/activity.ts` builds one

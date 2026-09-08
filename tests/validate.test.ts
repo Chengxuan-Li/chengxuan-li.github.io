@@ -3,6 +3,17 @@ import { assertValidContent, validateContent } from '../src/lib/content/validate
 import { award, content, education, experience, news, project, publication, skills, talk } from './helpers/fixtures';
 
 describe('validateContent', () => {
+  it('requires an original PDF and unambiguous publication metadata for a paper', () => {
+    const paperProject = project('paper', { presentation: 'paper' });
+    expect(validateContent(content({ projects: [paperProject] })).map(i => i.message)).toEqual([
+      'paper presentation needs a paper_pdf',
+      'paper presentation needs exactly one linked publication for its author and citation metadata',
+    ]);
+    paperProject.data.paper_pdf = '/papers/manuscript.pdf';
+    const linked = publication('article', { project_ids: ['paper'] });
+    expect(validateContent(content({ projects: [paperProject], publications: [linked] }))).toEqual([]);
+    expect(validateContent(content({ projects: [paperProject], publications: [linked, publication('other', { project_ids: ['paper'] })] }))).toHaveLength(1);
+  });
   it('returns no issues for consistent content', () => {
     const site = content({
       projects: [project('alpha', { featured: true, home_order: 1, related_project_ids: ['beta'] }), project('beta')],

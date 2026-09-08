@@ -16,6 +16,7 @@ export function project(id: string, data: Partial<ProjectEntry['data']> = {}): P
     id,
     data: {
       title: `Project ${id}`,
+      presentation: 'project',
       summary: `Summary of ${id}.`,
       status: 'active',
       start_date: '2024-01',

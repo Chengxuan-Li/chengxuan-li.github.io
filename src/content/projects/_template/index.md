@@ -16,6 +16,8 @@ summary:
 status: active                      # active | completed | paused | archived
 start_date: 2026-01                 # YYYY, YYYY-MM, or YYYY-MM-DD
 end_date: null                      # null while ongoing
+# presentation: paper              # opt in to the MDX paper reader; link one primary publication
+# paper_pdf: /papers/manuscript.pdf # original manuscript; required for paper presentation
 published: true                     # false hides cards, cross-links, and the generated project route
 featured: false                     # true to show on the home page (then home_order is required)
 # home_order: 1                     # position among featured projects on the home page

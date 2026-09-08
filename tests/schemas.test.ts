@@ -102,6 +102,7 @@ describe('projectBaseSchema', () => {
       summary: { en: 'S' },
       start_date: '2025-01',
       status: 'active',
+      presentation: 'project',
       end_date: null,
       featured: false,
       types: [],

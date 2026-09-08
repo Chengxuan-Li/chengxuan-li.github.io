@@ -1,0 +1,8 @@
+---
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+interface Props { tex: string; display?: boolean; id?: string; number?: number }
+const { tex, display = false, id, number } = Astro.props;
+const html = katex.renderToString(tex, { displayMode: display, output: 'htmlAndMathml', throwOnError: true, trust: false });
+---
+{display ? <div class="paper-equation" id={id}><div class="equation-scroll" tabindex="0" aria-label={`Equation ${number ?? ''}`} set:html={html} />{number && <a href={`#${id}`} class="equation-number">({number})</a>}</div> : <span class="paper-math" set:html={html} />}

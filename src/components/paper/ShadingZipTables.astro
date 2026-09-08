@@ -1,0 +1,25 @@
+---
+import Math from './Math.astro';
+import {cases} from '../../lib/paper/shadingzip';
+interface Props { number: 1|4 }
+const {number} = Astro.props;
+---
+<figure class="paper-table" id={`table-${number}`}>
+  {number===1 ? <Fragment>
+    <figcaption><a href="#table-1">Table 1.</a> Parameters for each feature family for representative sensor selection</figcaption>
+    <div class="table-scroll" tabindex="0" aria-label="Feature-family parameters"><table>
+      <thead><tr><th scope="col"><Math tex="F" /></th><th scope="col">Metadata features (MF)</th><th scope="col">Shading features (SF)</th><th scope="col"><Math tex="r" /></th></tr></thead>
+      <tbody><tr><th scope="row">SF</th><td><Math tex={String.raw`\varnothing`} /></td><td><Math tex={String.raw`\mathcal E\in\{\{9\},\{0,9\},\{0,4,9\}\}`} /><br/><Math tex={String.raw`m\in\{1,2,3\}`} /></td><td rowspan="3"><Math tex={String.raw`\begin{gathered}r\in\{0.01,0.02,0.05,\\0.1,0.2,0.35,0.5\}\end{gathered}`} /></td></tr>
+      <tr><th scope="row">MF</th><td rowspan="2">Normal, tilt, roof/façade class, height above base, local surface <Math tex="(u,v)" /></td><td><Math tex={String.raw`\mathcal E=\varnothing;\;m=0`} /></td></tr>
+      <tr><th scope="row">MF+SF</th><td><Math tex={String.raw`\mathcal E\in\{\{9\},\{0,9\},\{0,4,9\}\}`} /><br/><Math tex={String.raw`m\in\{1,2,3\}`} /></td></tr></tbody>
+    </table></div>
+  </Fragment> : <Fragment>
+    <figcaption><a href="#table-4">Table 4.</a> Test cases, contextual buildings (CB), selected buildings (SB) and sensors (SS) count</figcaption>
+    <div class="table-scroll" tabindex="0" aria-label="Urban test cases"><table id="case-counts" data-sortable>
+      <thead><tr>{['Location','Coordinates','Morphological characters','CB','SB','SS'].map(h=><th scope="col">{h}</th>)}</tr></thead>
+      <tbody>{cases.map(row=><tr>{row.map((value,i)=>i===0?<th scope="row">{value}</th>:<td>{typeof value==='number'?value.toLocaleString('en-US'):value}</td>)}</tr>)}</tbody>
+      <tfoot><tr><th scope="row" colspan="3">Total</th><td>65,949</td><td>2,691</td><td>1,157,088</td></tr></tfoot>
+    </table></div>
+    <button type="button" class="js-control" data-table-csv="case-counts">Download table (CSV)</button>
+  </Fragment>}
+</figure>
