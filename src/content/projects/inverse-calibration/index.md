@@ -25,10 +25,11 @@ topics:
   - en: Model calibration
     zh: 模型校准
 technologies: []
-hero_image: ./thumb.png
+hero_image: ./thumbnail.png
+show_hero_on_page: false
 hero_alt:
-  en: Stacked-area chart showing gas end uses for hot water, gas equipment, and heating.
-  zh: 展示热水、燃气设备和供暖用气构成的堆叠面积图。
+  en: Cutaway building with electricity and gas profiles feeding an inverse neural network that estimates envelope, thermal-mass, and system parameters.
+  zh: 剖切建筑示意图，电力与燃气负荷曲线输入逆向神经网络，用于估计围护结构、热质量和系统参数。
 affiliation:
   en: Environmental Systems Lab, Cornell University
   zh: 康奈尔大学 Environmental Systems Lab
