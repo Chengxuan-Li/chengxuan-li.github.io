@@ -14,11 +14,11 @@ import { getText } from '../src/lib/i18n.ts';
 
 const SERIF = "'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif";
 const MONO = "Consolas, 'Cascadia Mono', Menlo, monospace";
-const PAPER = '#f7f6f2';
-const INK = '#17191c';
-const INK_2 = '#4b5460';
-const RULE = '#d8d5cd';
-const ACCENT = '#0e5a70';
+const PAPER = '#fafafa';
+const INK = '#161616';
+const INK_2 = '#505050';
+const RULE = '#dedede';
+const ACCENT = '#303030';
 
 function escapeXml(value: string): string {
   const map: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
@@ -70,4 +70,4 @@ await writePng('public/images/og/default.png', ogSvg(), 1200, 630);
 await writePng('public/favicon.png', favicon, 32, 32);
 await writePng('public/apple-touch-icon.png', favicon, 180, 180);
 await writePng('fixtures/content/projects/fixture-alpha/hero.png', fixtureHeroSvg('Fixture Alpha', ACCENT), 1600, 1000);
-await writePng('fixtures/content/projects/fixture-beta/hero.png', fixtureHeroSvg('Fixture Beta', '#b4561b'), 1600, 1000);
+await writePng('fixtures/content/projects/fixture-beta/hero.png', fixtureHeroSvg('Fixture Beta', '#707070'), 1600, 1000);

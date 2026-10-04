@@ -60,7 +60,7 @@ const nextLocale = otherLocale(locale);
   const root = document.documentElement;
   const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
   const media = window.matchMedia('(prefers-color-scheme: dark)');
-  const THEME_COLORS: Record<Theme, string> = { light: '#f7f6f2', dark: '#121416' };
+  const THEME_COLORS: Record<Theme, string> = { light: '#fafafa', dark: '#111111' };
 
   function stored(): Theme | null {
     try {

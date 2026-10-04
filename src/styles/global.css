@@ -18,18 +18,18 @@
   --font-mono: "Geist Mono Variable", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
 
-  --paper: #f7f6f2;
-  --paper-2: #edebe5;
-  --ink: #17191c;
-  --ink-2: #4b5460;
-  --ink-3: #65707c;
-  --rule: #d8d5cd;
-  --rule-strong: #b9b5ab;
-  --accent: #0e5a70;
-  --accent-ink: #0a4658;
-  --accent-soft: #dcebee;
+  --paper: #fafafa;
+  --paper-2: #f0f0f0;
+  --ink: #161616;
+  --ink-2: #505050;
+  --ink-3: #666666;
+  --rule: #dedede;
+  --rule-strong: #b8b8b8;
+  --accent: #303030;
+  --accent-ink: #111111;
+  --accent-soft: #e8e8e8;
   --on-accent: #ffffff;
-  --focus: #c05f00;
+  --focus: #111111;
 
   --step--1: 0.875rem;
   --step-0: 1rem;
@@ -49,34 +49,34 @@
  */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #121416;
-    --paper-2: #1a1d21;
-    --ink: #e6e3dc;
-    --ink-2: #aeb4bd;
-    --ink-3: #8b939d;
-    --rule: #2b3037;
-    --rule-strong: #3e444c;
-    --accent: #7cc4d6;
-    --accent-ink: #a5dbe8;
-    --accent-soft: #16303a;
-    --on-accent: #0f1a1e;
-    --focus: #f2a33a;
+    --paper: #111111;
+    --paper-2: #1d1d1d;
+    --ink: #f0f0f0;
+    --ink-2: #bcbcbc;
+    --ink-3: #a0a0a0;
+    --rule: #343434;
+    --rule-strong: #565656;
+    --accent: #dedede;
+    --accent-ink: #ffffff;
+    --accent-soft: #333333;
+    --on-accent: #111111;
+    --focus: #ffffff;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #121416;
-  --paper-2: #1a1d21;
-  --ink: #e6e3dc;
-  --ink-2: #aeb4bd;
-  --ink-3: #8b939d;
-  --rule: #2b3037;
-  --rule-strong: #3e444c;
-  --accent: #7cc4d6;
-  --accent-ink: #a5dbe8;
-  --accent-soft: #16303a;
-  --on-accent: #0f1a1e;
-  --focus: #f2a33a;
+  --paper: #111111;
+  --paper-2: #1d1d1d;
+  --ink: #f0f0f0;
+  --ink-2: #bcbcbc;
+  --ink-3: #a0a0a0;
+  --rule: #343434;
+  --rule-strong: #565656;
+  --accent: #dedede;
+  --accent-ink: #ffffff;
+  --accent-soft: #333333;
+  --on-accent: #111111;
+  --focus: #ffffff;
 }
 
 /* Form controls and scrollbars follow the chosen theme rather than the system one. */

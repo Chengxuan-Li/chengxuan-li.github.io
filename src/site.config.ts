@@ -1,4 +1,4 @@
-import { getText, type Locale, type LocalizedText } from './lib/i18n';
+import { getText, type Locale, type LocalizedText } from './lib/i18n.ts';
 
 /**
  * Site-wide facts and switches. Every value here is public.
