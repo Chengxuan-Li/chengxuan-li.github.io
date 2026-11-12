@@ -12,8 +12,7 @@ status: active
 start_date: 2024-08
 end_date: null
 published: true
-featured: true
-home_order: 2
+featured: false
 types: [research]
 topics:
   - en: Load Profile Inference

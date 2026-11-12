@@ -13,7 +13,8 @@ status: active
 start_date: 2026-10
 end_date: null
 published: true
-featured: false
+featured: true
+home_order: 2
 types:
   - software
   - engineering
