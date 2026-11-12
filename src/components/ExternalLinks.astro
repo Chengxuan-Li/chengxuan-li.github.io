@@ -1,6 +1,9 @@
 ---
 import { siteConfig } from '../site.config';
-import { localizedPath, t, type Locale } from '../lib/i18n';
+import { t, type Locale } from '../lib/i18n';
+import ActionButton from './ActionButton.astro';
+import ActionGroup from './ActionGroup.astro';
+import type { ActionIconName } from '../lib/action-icons';
 
 interface Props {
   variant?: 'hero' | 'footer' | 'cv';
@@ -11,19 +14,18 @@ interface Props {
 const { variant = 'hero', includeCv = false, locale = 'en' } = Astro.props;
 const { profiles } = siteConfig;
 
-const links: { label: string; href: string; external: boolean }[] = [];
-if (includeCv) links.push({ label: t(locale, 'nav.cv'), href: localizedPath('/cv/', locale), external: false });
-if (profiles.github) links.push({ label: 'GitHub', href: profiles.github, external: true });
-if (profiles.scholar) links.push({ label: 'Scholar', href: profiles.scholar, external: true });
-if (profiles.linkedin) links.push({ label: 'LinkedIn', href: profiles.linkedin, external: true });
-if (profiles.email) links.push({ label: locale === 'zh' ? '邮箱' : 'Email', href: `mailto:${profiles.email}`, external: false });
+const links: { label: string; href: string; external: boolean; icon: ActionIconName }[] = [];
+const primaryCv = siteConfig.cvPdfs.find((cv) => cv.primary) ?? siteConfig.cvPdfs[0];
+if (includeCv && primaryCv) links.push({ label: t(locale, 'nav.cv'), href: primaryCv.href, external: false, icon: 'pdf' });
+if (profiles.github) links.push({ label: 'GitHub', href: profiles.github, external: true, icon: 'github' });
+if (profiles.scholar) links.push({ label: 'Scholar', href: profiles.scholar, external: true, icon: 'website' });
+if (profiles.linkedin) links.push({ label: 'LinkedIn', href: profiles.linkedin, external: true, icon: 'linkedin' });
+if (profiles.email) links.push({ label: locale === 'zh' ? '邮箱' : 'Email', href: `mailto:${profiles.email}`, external: false, icon: 'email' });
 ---
 {links.length > 0 && (
-  <ul class:list={['links', `links--${variant}`]} aria-label={t(locale, 'aria.profiles')}>
+  <ActionGroup class={`links links--${variant}`} label={t(locale, 'aria.profiles')}>
     {links.map((link) => (
-      <li>
-        <a href={link.href} rel={link.external ? 'me noopener' : undefined}>{link.label}</a>
-      </li>
+      <ActionButton href={link.href} label={link.label} icon={link.icon} rel={link.external ? 'me noopener' : undefined} />
     ))}
-  </ul>
+  </ActionGroup>
 )}

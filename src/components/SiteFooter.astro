@@ -1,7 +1,7 @@
 ---
 import ExternalLinks from './ExternalLinks.astro';
 import { siteConfig } from '../site.config';
-import { fallbackLang, getText, type Locale } from '../lib/i18n';
+import type { Locale } from '../lib/i18n';
 
 interface Props {
   locale?: Locale;
@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <p class="site-footer__identity"><span class="site-footer__name">{siteConfig.name}</span> · <span lang={fallbackLang(siteConfig.affiliation, locale)}>{getText(siteConfig.affiliation, locale)}</span></p>
+    <p class="site-footer__identity"><span class="site-footer__name">{siteConfig.name}</span></p>
     <ExternalLinks variant="footer" locale={locale} />
     <p class="site-footer__copyright">© {year} {siteConfig.name}</p>
   </div>

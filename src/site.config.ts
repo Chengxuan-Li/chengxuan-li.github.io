@@ -16,6 +16,8 @@ export interface CvPdfLink {
   label: LocalizedText;
   /** Root-relative path under public/ to an approved CV PDF. */
   href: string;
+  /** Use this PDF for the single CV action on the homepage. */
+  primary?: boolean;
 }
 
 export interface SiteConfig {
@@ -75,7 +77,7 @@ export const siteConfig: SiteConfig = {
   },
   cvPdfs: [
     { label: { en: 'Short CV', zh: '精简版简历' }, href: '/cv/Chengxuan_Li_CV_Short.pdf' },
-    { label: { en: 'Long CV', zh: '完整版简历' }, href: '/cv/Chengxuan_Li_CV_Long.pdf' },
+    { label: { en: 'Long CV', zh: '完整版简历' }, href: '/cv/Chengxuan_Li_CV_Long.pdf', primary: true },
   ],
   ogImage: '/images/og/default.png',
 };

@@ -1,0 +1,11 @@
+---
+interface Props { class?: string; label?: string }
+const { class: className, label } = Astro.props;
+---
+<div class:list={['action-group', className]} role={label ? 'group' : undefined} aria-label={label}>
+  <slot />
+</div>
+
+<style>
+  .action-group { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+</style>

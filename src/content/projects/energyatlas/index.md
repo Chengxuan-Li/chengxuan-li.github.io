@@ -21,13 +21,13 @@ topics:
     zh: 机器学习
   - en: Optimization
     zh: 优化
-  - en: Digital twin
+  - en: Digital Twin
     zh: 数字孪生
-  - en: Smart-meter data
+  - en: Smart-Meter Data
     zh: 智能电表数据
   - SCADA
   - AMI
-  - en: Load forecasting
+  - en: Load Forecasting
     zh: 负荷预测
 technologies: [C#, ASP.NET, Python, DuckDB]
 affiliation: Environmental Systems Lab

@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Fonts — Geist Sans, Geist Mono, and Noto Serif SC, self-hosted from Fontsource (SIL OFL 1.1).
+   Fonts — Geist Sans for text, Geist Mono for code, and Noto Serif SC for Chinese, self-hosted
+   from Fontsource (SIL OFL 1.1).
    The @font-face rules are partitioned by unicode-range, so browsers fetch only the glyph chunks used.
    ========================================================================== */
 @import "@fontsource-variable/geist/index.css";
@@ -41,6 +42,7 @@
   --container: 76rem;
   --measure: 66ch;
   --gutter: clamp(1rem, 4vw, 2.5rem);
+  --header-height: 4.5rem;
 }
 
 /*
@@ -100,6 +102,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
 }
 
 body {
@@ -178,7 +181,7 @@ p {
   padding: 0.5rem 1rem;
   background: var(--paper);
   border: 1px solid var(--ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--step--1);
 }
 
@@ -198,11 +201,9 @@ p {
   border: 0;
 }
 
-/* Shared monospace "label" register: dates, tags, nav, section titles */
-.mono,
+/* Shared sans-serif labels: dates, tags, nav, section titles. */
 .eyebrow,
 .tag,
-.links,
 .site-nav a,
 .section-title,
 .section-action,
@@ -216,15 +217,28 @@ p {
 .pub__status,
 .news-item__links,
 .tech-line,
-.figure figcaption,
-.button {
+.figure figcaption {
+  font-family: var(--font-sans);
+}
+
+code,
+kbd,
+samp,
+pre {
   font-family: var(--font-mono);
+}
+
+.news-item__date,
+.news-item__when,
+.cv-item__when,
+.project-card__meta {
+  font-variant-numeric: tabular-nums;
 }
 
 .eyebrow {
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--ink-3);
   margin: 0 0 0.5rem;
 }
@@ -257,22 +271,16 @@ main.container {
 }
 
 .section-title {
-  font-size: 0.8125rem;
+  font-size: var(--step-2);
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.section-head__rule {
-  flex: 1;
-  height: 1px;
-  background: var(--rule);
-  align-self: center;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 .section-action {
-  font-size: 0.8125rem;
+  margin-left: auto;
+  color: var(--ink-2);
+  font-size: var(--step--1);
   white-space: nowrap;
   text-decoration: none;
 }
@@ -283,7 +291,6 @@ main.container {
 
 .page-head {
   padding-block: clamp(2rem, 5vw, 3rem) 1.5rem;
-  border-bottom: 1px solid var(--rule);
   margin-bottom: 2rem;
 }
 
@@ -322,7 +329,16 @@ main.container {
    Header / footer
    ========================================================================== */
 .site-header {
-  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-shrink: 0;
+  background: var(--paper);
+  border-bottom: 1px solid transparent;
+}
+
+.site-header[data-scrolled] {
+  border-bottom-color: var(--rule);
 }
 
 .site-header__inner {
@@ -376,8 +392,8 @@ main.container {
   border: 1px solid var(--rule-strong);
   border-radius: 999px;
   color: var(--ink-2);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
@@ -445,22 +461,20 @@ main.container {
 .site-nav a {
   display: inline-block;
   padding: 0.35rem 0;
-  border-bottom: 2px solid transparent;
-  font-size: 0.8125rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--ink-2);
   text-decoration: none;
 }
 
 .site-nav a:hover {
   color: var(--ink);
-  border-bottom-color: var(--rule-strong);
 }
 
 .site-nav a[aria-current="page"] {
   color: var(--ink);
-  border-bottom-color: var(--accent);
+  font-weight: 650;
 }
 
 .site-footer {
@@ -488,21 +502,8 @@ main.container {
   color: var(--ink);
 }
 
-/* Profile / contact link rows */
-.links {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  padding: 0;
-  margin: 0;
-  font-size: 0.8125rem;
-  letter-spacing: 0.03em;
-}
-
 .links--hero {
   margin-top: 0.5rem;
-  font-size: 0.875rem;
 }
 
 /* ==========================================================================
@@ -510,7 +511,6 @@ main.container {
    ========================================================================== */
 .hero {
   padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2.5rem, 6vw, 4rem);
-  border-bottom: 1px solid var(--rule);
 }
 
 .hero__name {
@@ -522,10 +522,10 @@ main.container {
 }
 
 .hero__role {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--ink-2);
   margin: 0;
 }
@@ -546,7 +546,7 @@ main.container {
 }
 
 /* ==========================================================================
-   Tags, buttons
+   Tags
    ========================================================================== */
 .tags {
   list-style: none;
@@ -559,8 +559,8 @@ main.container {
 
 .tag {
   font-size: 0.6875rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   color: var(--ink-2);
   border: 1px solid var(--rule-strong);
   border-radius: 2px;
@@ -578,35 +578,6 @@ main.container {
   letter-spacing: 0.02em;
   color: var(--ink-3);
   margin: 0.5rem 0 0;
-}
-
-.button {
-  display: inline-block;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  text-decoration: none;
-  transition: background-color 150ms ease, color 150ms ease;
-}
-
-.button:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.button--primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
-}
-
-.button--primary:hover {
-  background: var(--accent-ink);
-  border-color: var(--accent-ink);
-  color: var(--on-accent);
 }
 
 /* ==========================================================================
@@ -628,8 +599,6 @@ main.container {
 .project-card {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--rule-strong);
-  padding-top: 1rem;
 }
 
 .project-card__visual {
@@ -732,11 +701,6 @@ main.container {
   grid-template-columns: 7.5rem 1fr;
   gap: 0.35rem 1.5rem;
   padding: 0.85rem 0;
-  border-top: 1px solid var(--rule);
-}
-
-.news-list > .news-item:last-child {
-  border-bottom: 1px solid var(--rule);
 }
 
 .news-item__date,
@@ -751,8 +715,7 @@ main.container {
   display: block;
   margin-top: 0.3rem;
   font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--ink-3);
 }
 
@@ -821,11 +784,6 @@ main.container {
 
 .pub {
   padding: 0.85rem 0;
-  border-top: 1px solid var(--rule);
-}
-
-.pub-list > .pub:last-child {
-  border-bottom: 1px solid var(--rule);
 }
 
 .pub__authors {
@@ -855,8 +813,7 @@ main.container {
 .pub__status {
   font-style: normal;
   font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .pub__note {
@@ -889,31 +846,11 @@ main.container {
 }
 
 .cv-head__pdfs {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
   margin-top: 0.75rem;
-}
-
-.cv-head__pdf-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.cv-head__pdf-icon {
-  width: 1.1rem;
-  height: 1.1rem;
-  flex: 0 0 auto;
-  background: currentColor;
-  -webkit-mask: url('/icons/pdf-icon.svg') center / contain no-repeat;
-  mask: url('/icons/pdf-icon.svg') center / contain no-repeat;
 }
 
 .cv-section {
   margin-block: 2.5rem;
-  scroll-margin-top: 1rem;
 }
 
 .bio-tabs {
@@ -928,7 +865,6 @@ main.container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 1.5rem;
-  border-bottom: 1px solid var(--rule);
   margin-bottom: 1.1rem;
 }
 
@@ -937,10 +873,9 @@ main.container {
   color: var(--ink-3);
   background: transparent;
   border: 0;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  padding: 0.55rem 0 0.5rem;
-  margin: 0 0 -1px;
+  border-radius: 3px;
+  padding: 0.55rem 0.65rem;
+  margin: 0;
   font: inherit;
   font-size: 0.8125rem;
   cursor: pointer;
@@ -952,7 +887,8 @@ main.container {
 
 .bio-tabs__tab[aria-selected='true'] {
   color: var(--ink);
-  border-bottom-color: currentColor;
+  background: var(--paper-2);
+  font-weight: 600;
 }
 
 .bio-tabs__tab:focus-visible {
@@ -965,16 +901,11 @@ main.container {
 }
 
 .bio-tabs__panel + .bio-tabs__panel {
-  border-top: 1px solid var(--rule);
   padding-top: 1rem;
 }
 
 .bio-tabs[data-bio-tabs-ready] .bio-tabs__panel {
   padding-block: 0;
-}
-
-.bio-tabs[data-bio-tabs-ready] .bio-tabs__panel + .bio-tabs__panel {
-  border-top: 0;
 }
 
 .bio-tabs__panel p {
@@ -1005,11 +936,6 @@ main.container {
   grid-template-columns: 11rem 1fr;
   gap: 0.25rem 1.5rem;
   padding: 0.85rem 0;
-  border-top: 1px solid var(--rule);
-}
-
-.cv-list > .cv-item:last-child {
-  border-bottom: 1px solid var(--rule);
 }
 
 .cv-item__when {
@@ -1050,7 +976,7 @@ main.container {
   gap: 0.25rem 1.25rem;
   padding: 0;
   margin: 0.4rem 0 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
 }
 
@@ -1071,7 +997,6 @@ main.container {
    ========================================================================== */
 .project__head {
   padding-block: clamp(2rem, 5vw, 3rem) 1.5rem;
-  border-bottom: 1px solid var(--rule);
   margin-bottom: 2rem;
 }
 
@@ -1102,8 +1027,7 @@ main.container {
 
 .project-meta dt {
   font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--ink-3);
 }
 
@@ -1112,11 +1036,6 @@ main.container {
 }
 
 .project-links {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0;
   margin: 1.25rem 0 0;
 }
 
@@ -1138,12 +1057,11 @@ main.container {
 
 .project__outputs h3,
 .outputs-heading {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-2);
+  letter-spacing: -0.01em;
+  color: var(--ink);
   margin: 1.75rem 0 0.5rem;
 }
 
@@ -1157,7 +1075,6 @@ main.container {
 }
 
 .related-list li {
-  border-top: 1px solid var(--rule-strong);
   padding-top: 0.75rem;
 }
 
@@ -1232,7 +1149,7 @@ main.container {
 }
 
 .prose figcaption {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   color: var(--ink-2);
 }
@@ -1275,24 +1192,24 @@ main.container {
   font-size: var(--step--1);
 }
 
+:is(.prose, .paper-reader) table { border-block: 1px solid var(--rule-strong); }
+:is(.prose, .paper-reader) :is(th, td) { border-bottom: 1px solid var(--rule); }
+:is(.prose, .paper-reader) thead { border-bottom: 1px solid var(--rule-strong); }
+:is(.prose, .paper-reader) tbody tr:nth-child(even) { background: var(--paper-2); }
+:is(.prose, .paper-reader) tfoot { border-top: 1px solid var(--rule-strong); background: var(--paper-2); }
+
 .prose th,
 .prose td {
-  border-top: 1px solid var(--rule);
   padding: 0.45rem 0.75rem 0.45rem 0;
   text-align: left;
   vertical-align: top;
 }
 
-.prose tbody tr:last-child td {
-  border-bottom: 1px solid var(--rule);
-}
-
 .prose th {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--ink-2);
 }
 
@@ -1324,9 +1241,7 @@ main.container {
 }
 
 .prose hr {
-  border: 0;
-  border-top: 1px solid var(--rule);
-  margin: 2rem 0;
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1347,6 +1262,10 @@ main.container {
    Responsive
    ========================================================================== */
 @media (max-width: 40em) {
+  :root {
+    --header-height: 7rem;
+  }
+
   .news-item,
   .cv-item {
     grid-template-columns: 1fr;
@@ -1403,8 +1322,8 @@ main.container {
 
   .site-nav a {
     white-space: nowrap;
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
   }
 
   .bio-tabs[data-bio-tabs-ready] .bio-tabs__list {

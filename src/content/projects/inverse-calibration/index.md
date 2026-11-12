@@ -16,13 +16,13 @@ featured: true
 home_order: 2
 types: [research]
 topics:
-  - en: Load profile inference
+  - en: Load Profile Inference
     zh: 负荷曲线推断
-  - en: Inverse modeling
+  - en: Inverse Modeling
     zh: 逆向建模（inverse modeling）
-  - en: Surrogate learning
+  - en: Surrogate Learning
     zh: 代理学习（surrogate learning）
-  - en: Model calibration
+  - en: Model Calibration
     zh: 模型校准
 technologies: []
 hero_image: ./thumbnail.png

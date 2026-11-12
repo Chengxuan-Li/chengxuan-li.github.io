@@ -99,11 +99,11 @@ export const PROJECT_TYPE_LABELS: Record<ProjectData['types'][number], string> =
 
 export const PUBLICATION_STATUS_LABELS: Record<PublicationData['status'], string> = {
   published: 'Published',
-  'in-press': 'In press',
+  'in-press': 'In Press',
   accepted: 'Accepted',
   submitted: 'Submitted',
   preprint: 'Preprint',
-  'in-preparation': 'In preparation',
+  'in-preparation': 'In Preparation',
 };
 
 export const NEWS_TYPE_LABELS: Record<NewsData['type'], string> = {
@@ -119,8 +119,8 @@ export const NEWS_TYPE_LABELS: Record<NewsData['type'], string> = {
 };
 
 export const TALK_TYPE_LABELS: Record<TalkData['type'], string> = {
-  invited: 'Invited talk',
-  conference: 'Conference talk',
+  invited: 'Invited Talk',
+  conference: 'Conference Talk',
   seminar: 'Seminar',
   webinar: 'Webinar',
   poster: 'Poster',

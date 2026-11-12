@@ -4,6 +4,9 @@ import { formatDateRange, projectStatusLabel, projectTypeLabel } from '../lib/co
 import { fallbackLang, getText, t, type Locale } from '../lib/i18n';
 import TagList from './TagList.astro';
 import LabLinkedText from './LabLinkedText.astro';
+import ActionButton from './ActionButton.astro';
+import ActionGroup from './ActionGroup.astro';
+import { projectActionIcon } from '../lib/action-icons';
 
 interface Props {
   project: ProjectEntry;
@@ -23,7 +26,7 @@ const period = formatDateRange(data.start_date, data.end_date, { locale });
 </dl>
 <TagList items={data.topics} label={t(locale, 'label.topics')} locale={locale} />
 {data.links.length > 0 && (
-  <ul class="project-links" aria-label={t(locale, 'aria.projectLinks')}>
-    {data.links.map((link) => <li><a class="button" href={link.url} lang={fallbackLang(link.label, locale)}>{getText(link.label, locale)}</a></li>)}
-  </ul>
+  <ActionGroup class="project-links" label={t(locale, 'aria.projectLinks')}>
+    {data.links.map((link) => <ActionButton href={link.url} icon={projectActionIcon(link)} label={getText(link.label, locale)} lang={fallbackLang(link.label, locale)} />)}
+  </ActionGroup>
 )}
