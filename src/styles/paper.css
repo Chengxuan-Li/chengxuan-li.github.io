@@ -1,17 +1,16 @@
 /* Paper reading surface: text and figures share the available content width. */
 .paper-reader { --reading-width: 100%; padding-block: 1.5rem 4rem; }
-.paper-reader [id] { scroll-margin-top: 6rem; }
 .paper-head { margin: 0 0 3rem; }
 .paper-publication { color: var(--accent-ink); font-size: .95rem; margin: 0 0 1rem; }
 .paper-head h1 { font-size: clamp(1.9rem, 3.4vw, 3rem); line-height: 1.18; letter-spacing: -.035em; margin: 0 0 1.6rem; text-wrap: balance; }
 .paper-authors { font-size: 1.13rem; margin-bottom: .5rem; }
 .paper-reader sup { font-size: .65em; margin-left: .15em; }
 .paper-affiliation, .paper-correspondence { color: var(--ink-2); font-size: .9rem; margin-block: .4rem; }
-.paper-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; margin-block: 1.3rem; font-size: .88rem; }
-.paper-reader button, .paper-figure-dialog button { font: inherit; color: var(--accent-ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 4px; padding: .4rem .7rem; cursor: pointer; }
-.paper-reader button:hover, .paper-figure-dialog button:hover { background: var(--accent-soft); }
+.paper-actions { margin-block: 1.3rem; }
+.paper-reader button:not(.action-button), .paper-figure-dialog button:not(.action-button) { font: inherit; color: var(--accent-ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 4px; padding: .4rem .7rem; cursor: pointer; }
+.paper-reader button:not(.action-button):hover, .paper-figure-dialog button:not(.action-button):hover { background: var(--accent-soft); }
 .paper-layout { display: grid; grid-template-columns: 10rem minmax(0,1fr); gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
-.paper-toc { position: sticky; top: 6rem; font-size: .85rem; max-height: calc(100vh - 8rem); overflow: auto; }
+.paper-toc { position: sticky; top: calc(var(--header-height) + 1rem); font-size: .85rem; max-height: calc(100vh - var(--header-height) - 2rem); overflow: auto; }
 .paper-toc summary { font-weight: 650; margin-bottom: .8rem; cursor: pointer; }
 .paper-toc nav { display: grid; gap: .3rem; border-left: 1px solid var(--rule); }
 .paper-toc nav a { color: var(--ink-2); padding: .3rem 0 .3rem .85rem; border-left: 2px solid transparent; margin-left: -1px; text-decoration: none; line-height: 1.4; }
@@ -26,12 +25,14 @@
 .paper-reader .katex { font-size: 1.12em; }
 .paper-reader figure { margin: 2.2rem 0; }
 .paper-reader figcaption { font-size: .92rem; line-height: 1.55; color: var(--ink-2); margin-bottom: .8rem; }
-.paper-reader figcaption > a { font-weight: 650; color: var(--ink); text-decoration: none; }
+.paper-reader .caption-text > a { font-weight: 650; color: var(--ink); text-decoration: none; }
+.paper-caption { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .75rem; }
+.caption-text { flex: 1 1 18rem; min-width: 0; }
+.caption-actions { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .15rem; flex: 0 0 auto; }
 .paper-image { padding-block: 1rem; }
-.paper-image img { width: 100%; height: auto; background: white; border-radius: 4px; }
-.paper-image figcaption { margin-top: .65rem; }
+.paper-image img { width: 100%; height: auto; }
 .paper-algorithm { max-width: 100%; }
-.algorithm-body { padding: .8rem 0; border-block: 1.5px solid var(--ink-2); }
+.algorithm-body { padding: .8rem 0; }
 .algorithm-body h3 { font-size: 1rem; margin: 0 0 .85rem; padding-inline: .7rem; }
 .algorithm-body h3 a { text-decoration: none; color: inherit; }
 .algorithm-lines { padding-left: 2.6rem; margin: 0; font-size: .9rem; line-height: 1.8; }
@@ -44,56 +45,58 @@
 .equation-number { flex: none; }
 .paper-reader .table-scroll { width: 100%; max-width: 100%; overflow: auto; }
 .paper-reader table { border-collapse: collapse; width: 100%; font-size: .85rem; line-height: 1.5; }
-.paper-reader th, .paper-reader td { border-bottom: 1px solid var(--rule); padding: .6rem .65rem; text-align: left; vertical-align: top; }
-.paper-reader thead { border-block: 1.5px solid var(--ink-2); }
+.paper-reader th, .paper-reader td { padding: .6rem .65rem; text-align: left; vertical-align: top; }
 .paper-reader th { font-weight: 600; }
-.paper-reader tfoot { border-bottom: 1.5px solid var(--ink-2); font-weight: 600; }
-.paper-reader th button { padding: 0; background: transparent; border: 0; text-align: left; color: inherit; }
+.paper-reader tfoot { font-weight: 600; }
+.paper-reader th button:not(.action-button) { padding: 0; background: transparent; border: 0; text-align: left; color: inherit; }
   .paper-reader th[aria-sort=ascending] button::after { content: ' ↑'; }
 .paper-reader th[aria-sort=descending] button::after { content: ' ↓'; }
 .paper-reader caption { text-align: left; margin-bottom: .6rem; }
-.paper-chart { border-top: 1px solid var(--rule-strong); padding-top: 1rem; }
+.paper-chart { padding-top: 1rem; }
 .chart-controls { align-items: center; flex-wrap: wrap; gap: .6rem 1rem; padding: .5rem 0 1rem; font-size: .8rem; }
 .chart-controls label { display: inline-flex; align-items: center; gap: .4rem; }
 .chart-controls select { color: var(--ink); background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 4px; padding: .4rem; font: inherit; max-width: 100%; }
 .chart-controls fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .65rem; }
 .chart-controls legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .chart-controls input { accent-color: var(--accent); }
-.chart-scroll { overflow-x: auto; background: white; border: 1px solid var(--rule); border-radius: 4px; }
+.chart-scroll { overflow-x: auto; }
+.chart-canvas, .expanded-chart { --chart-ink: var(--ink); --chart-axis: var(--ink-3); --chart-grid: var(--rule); --chart-surface: var(--paper); --chart-focus: var(--focus); }
 .chart-canvas { min-width: 760px; }
 .chart-canvas svg { display: block; width: 100%; height: auto; }
 .chart-canvas:has(svg[width="600"]), .chart-canvas:has(svg[width="240"]) { min-width: 240px; }
-.chart-readout { min-height: 3.7em; margin-block: .7rem; padding: .55rem .75rem; border-left: 2px solid var(--accent); color: var(--ink-2); font-size: .82rem; }
-.chart-actions { gap: .5rem; flex-wrap: wrap; font-size: .8rem; margin-block: .6rem; }
 .chart-data { font-size: .85rem; margin-block: .9rem; }
 .chart-data summary { cursor: pointer; color: var(--accent-ink); }
+.chart-data-caption { margin-top: .75rem; }
 .chart-data .table-scroll { max-height: 25rem; margin-top: .8rem; }
 .chart-data thead { position: sticky; top: 0; background: var(--paper); }
 .chart-data td { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.paper-reader .paper-note { color: var(--ink-3); font-size: .81rem; line-height: 1.65; }
 .paper-references { list-style: none; padding: 0; max-width: var(--reading-width); font-size: .93rem; }
 .paper-references li { margin-bottom: 1rem; padding-left: 1.4rem; text-indent: -1.4rem; line-height: 1.7; }
 .citation-back { margin-left: .5em; text-decoration: none; }
-.paper-citation { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.paper-citation { margin-top: 3rem; padding-top: 1rem; }
 .bibtex { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .78rem; line-height: 1.7; background: var(--paper-2); padding: 1rem; border-radius: 4px; }
-.reference-preview { position: fixed; z-index: 100; max-width: min(420px,calc(100vw - 24px)); padding: .85rem; border: 1px solid var(--rule-strong); border-radius: 5px; box-shadow: 0 8px 28px #0002; background: var(--paper); color: var(--ink); font-size: .85rem; line-height: 1.6; pointer-events: none; }
-.return-reference { display: inline-block; font-size: .85rem; margin-bottom: 1rem; }
+.reference-preview, .paper-tooltip { position: fixed; z-index: 100; max-width: min(420px,calc(100vw - 24px)); padding: .75rem .85rem; border: 1px solid var(--rule-strong); border-radius: 5px; box-shadow: 0 8px 28px #0002; background: var(--paper); color: var(--ink); font-size: .85rem; line-height: 1.6; }
+.reference-preview { max-height: min(50vh,24rem); overflow: auto; }
+.chart-tooltip { pointer-events: none; }
+.return-reference { flex: none; margin: 0; }
 .paper-content :target { outline: 2px solid var(--accent); outline-offset: 6px; }
 .paper-status { position: fixed; bottom: 1rem; right: 1rem; padding: .6rem 1rem; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; z-index: 20; }
 .paper-status:empty { display: none; }
 .paper-figure-dialog { max-width: 96vw; width: 96vw; max-height: 94vh; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 1rem; }
 .paper-figure-dialog::backdrop { background: #0009; }
+.figure-dialog-toolbar { display: flex; justify-content: flex-end; position: sticky; top: 0; z-index: 1; background: var(--paper); }
 .paper-figure-dialog img { width: 100%; height: auto; margin-top: 1rem; }
-.paper-figure-dialog .expanded-chart { overflow: auto; background: white; margin-top: 1rem; }
+.paper-figure-dialog .expanded-chart { overflow: auto; margin-top: 1rem; }
 .expanded-chart svg { display: block; max-width: none; }
 .paper-reader .js-control { display: none; }
+.paper-reader .action-button.js-control { display: none; }
 .paper-reader[data-ready] .js-control { display: inline-block; }
-.paper-reader[data-ready] .chart-controls, .paper-reader[data-ready] .chart-actions { display: flex; }
-.paper-reader[data-ready] .chart-readout { display: block; }
+.paper-reader[data-ready] .action-button.js-control { display: inline-flex; }
+.paper-reader[data-ready] .chart-controls { display: flex; }
 .paper-reader [data-chart]:not([data-ready]) .js-control { display: none; }
 @media(max-width:60rem) {
   .paper-layout { display: block; }
-  .paper-toc { position: static; max-height: none; margin-bottom: 2rem; padding-block: .8rem; border-block: 1px solid var(--rule); }
+  .paper-toc { position: static; max-height: none; margin-bottom: 2rem; padding-block: .8rem; }
   .paper-toc nav { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .paper-top-link { display: none; }
   .paper-head { margin-bottom: 2rem; }
@@ -113,7 +116,7 @@
 @media print {
   @page { margin: 16mm; }
   body:has(.paper-reader) { background: white !important; color: black !important; }
-  body:has(.paper-reader) .site-header, body:has(.paper-reader) .site-footer, .paper-toc, .paper-actions, .paper-reader .js-control, .chart-data, .reference-preview, .return-reference, .paper-status, .paper-citation .bibtex { display: none !important; }
+  body:has(.paper-reader) .site-header, body:has(.paper-reader) .site-footer, .paper-toc, .paper-actions, .paper-reader .js-control, .caption-actions, .chart-data, .reference-preview, .paper-tooltip, .return-reference, .paper-status, .paper-citation .bibtex { display: none !important; }
   body:has(.paper-reader) main.container { max-width: none; padding-inline: 0; }
   .paper-layout { display: block; }
   .paper-reader { padding: 0; --ink: #111; --ink-2: #333; --ink-3: #555; --rule: #ccc; --accent-ink: #111; }
