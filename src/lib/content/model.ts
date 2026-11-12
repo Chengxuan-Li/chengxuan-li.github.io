@@ -1,5 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import type { z } from 'astro/zod';
+import type { LocalizedText } from '../i18n';
 import type {
   awardSchema,
   bioSchema,
@@ -23,7 +24,15 @@ export interface Entry<TData> {
 }
 
 export type ProjectVideoData = z.output<typeof projectVideoBaseSchema> & { poster?: ImageMetadata };
-export type ProjectData = z.output<typeof projectBaseSchema> & { hero_image?: ImageMetadata; videos?: ProjectVideoData[] };
+export interface ScreenshotPair { light: ImageMetadata; dark: ImageMetadata }
+export interface ProjectScreenshot extends ScreenshotPair { title: LocalizedText; alt?: LocalizedText; description?: LocalizedText }
+export type ProjectData = z.output<typeof projectBaseSchema> & {
+  hero_image?: ImageMetadata;
+  intro_video?: ProjectVideoData;
+  hero_stack?: ScreenshotPair[];
+  screenshots?: ProjectScreenshot[];
+  videos?: ProjectVideoData[];
+};
 export type PublicationData = z.output<typeof publicationSchema>;
 export type NewsData = z.output<typeof newsSchema>;
 export type ExperienceData = z.output<typeof experienceSchema>;

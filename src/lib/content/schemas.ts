@@ -153,6 +153,8 @@ export const projectBaseSchema = z.strictObject({
   summary: localizedTextSchema,
   /** Optional slightly longer framing used on the project page header. */
   positioning: localizedTextSchema.optional(),
+  /** Optional introduction before a product's screenshot showcase and main narrative. */
+  introduction: z.strictObject({ title: localizedTextSchema, text: localizedTextSchema }).optional(),
   presentation: z.enum(['project', 'paper']).default('project'),
   paper_pdf: z.string().regex(/^\/papers\/[a-z0-9-]+\.pdf$/, 'Use a local /papers/<name>.pdf path').optional(),
   status: z.enum(PROJECT_STATUSES).default('active'),

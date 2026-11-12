@@ -1,0 +1,30 @@
+---
+import type { ProjectScreenshot } from '../lib/content/model';
+import { getText, type Locale } from '../lib/i18n';
+import ThemedScreenshot from './ThemedScreenshot.astro';
+import ProjectFeature from './ProjectFeature.astro';
+
+interface Props { screenshots: ProjectScreenshot[]; locale: Locale }
+const { screenshots, locale } = Astro.props;
+---
+<div class="project-showcase" id="screenshots">
+  {screenshots.map((screenshot, index) => (
+    <ProjectFeature id={`feature-${index + 1}`} title={screenshot.title} text={screenshot.description} locale={locale}>
+        <ThemedScreenshot
+          light={screenshot.light}
+          dark={screenshot.dark}
+          alt={getText(screenshot.alt ?? screenshot.title, locale)}
+          maxWidth={800}
+          sizes="(max-width: 60rem) 92vw, 50rem"
+          link
+        />
+    </ProjectFeature>
+  ))}
+</div>
+
+<style>
+  .project-showcase { display: grid; gap: 4rem; margin-block: 0 4rem; }
+  @media (max-width: 60rem) {
+    .project-showcase { gap: 3rem; }
+  }
+</style>

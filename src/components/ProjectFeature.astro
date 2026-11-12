@@ -1,0 +1,37 @@
+---
+import { getText, type LocalizedText, type Locale } from '../lib/i18n';
+
+interface Props { id: string; title: LocalizedText; text?: LocalizedText; locale: Locale }
+const { id, title, text, locale } = Astro.props;
+---
+<section class="project-feature" aria-labelledby={id}>
+  <div class="project-feature__media"><slot /></div>
+  <div class="project-feature__text">
+    <h2 id={id}>{getText(title, locale)}</h2>
+    {text && <p>{getText(text, locale)}</p>}
+  </div>
+</section>
+
+<style>
+  .project-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 50rem) minmax(16rem, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .project-feature__media { min-width: 0; }
+  .project-feature__text { max-width: 32rem; }
+  .project-feature__text h2 {
+    font-size: var(--step-2);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+  .project-feature__text p { margin: 0; color: var(--ink-2); line-height: 1.65; }
+  @media (max-width: 60rem) {
+    .project-feature { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+    .project-feature__text { max-width: var(--measure); }
+  }
+</style>

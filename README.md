@@ -124,10 +124,14 @@ Talk `type` accepts `invited`, `conference`, `seminar`, `webinar`, `poster`, `wo
 Publication `type` accepts `journal`, `conference`, `workshop`, `preprint`, `thesis`, `report`, `abstract`,
 `other`. An optional top-level `abstract` field stores full abstract text for future use; the site does not
 currently render that text.
-- Typography: Geist Sans (Latin text) and Geist Mono (Latin labels, dates, navigation), plus Noto Serif SC
-  for Simplified Chinese characters, self-hosted from `@fontsource-variable/*` packages (SIL Open Font
+- Typography: Geist Sans (Latin text, labels, dates, and navigation) and Geist Mono (code and BibTeX),
+  plus Noto Serif SC for Simplified Chinese characters, self-hosted from `@fontsource-variable/*` packages (SIL Open Font
   License). Fonts are partitioned by Unicode range and fetched from the site's own origin; no external font
-  requests are made.
+  requests are made. Interface labels use natural title case without forced uppercase styling.
+- Action controls: `ActionButton.astro`, `ActionIcon.astro`, and `ActionGroup.astro` define the shared
+  shaded icon buttons and wrapping rows for profiles, CVs, project resources, and paper actions.
+  Set `primary: true` on a `cvPdfs` entry in `src/site.config.ts` to use it for the homepage's CV button.
+  ShadingZip's Presentation control is disabled until a URL is supplied in `PaperShell.astro`.
 - Colour theme: the site follows the browser's `prefers-color-scheme` by default. The sun/moon button in
   the header overrides it and stores the choice in `localStorage` (`theme`); choosing the theme the browser
   already uses clears the override. Logic in `src/lib/theme.ts`, wiring in `SiteHeader.astro`, and a
@@ -137,13 +141,21 @@ currently render that text.
 
 1. Copy `src/content/projects/_template/index.md` to `src/content/projects/<slug>/index.md`.
 2. Fill the frontmatter (`title`, `summary`, `status`, `start_date`, `end_date`, `types`, `topics`, …). Set
-   `featured: true` and a unique `home_order` to show it on the home page (about four projects fit).
+   `featured: true` and a unique `home_order` to include it in the three-project home-page selection.
    Set `published: false` to keep the project and its assets in the repository while hiding its cards,
    cross-links, and generated route; remove the field or set it to `true` to publish it again.
 3. Write the case study body: Problem, System / Method, My Contribution, Technical Details, Results.
    Put every project image (thumbnail, hero, inline figure, or video poster) next to `index.md`; reference
    inline figures as `![alt](./figure.png)` and use `hero_image`/`hero_alt` for the card thumbnail.
    Set `show_hero_on_page: true` to also show that image above the project narrative; it defaults to `false`.
+   For software screenshots, `hero_stack` accepts exactly three `{ light, dark }` image pairs for a
+   transparent, diagonally staggered card thumbnail only. An optional `screenshots` list accepts
+   `{ light, dark, title, alt?, description? }` records for a product showcase, with a large screenshot
+   beside each feature's explanation. Text fields support English/Chinese values. An optional
+   `introduction: { title, text }` appears before the showcase; the Markdown narrative follows it. Both image presentations
+   follow the site's theme toggle and system preference. Showcase images are capped at 800px and their native dimensions.
+   Add `intro_video` with the same fields as a `videos` entry to pair a film with the introduction in the
+   same media/text row. With `autoplay: true`, this opening film plays muted and loops when visible.
    Images are
    optimized at build time. Videos stay external: use the optional strict `videos` list with HTTPS
    YouTube, Vimeo, or direct `.mp4` URLs, required visible and accessible titles, and optional captions/posters.
@@ -266,7 +278,9 @@ npm run validate
 
 This type-checks, runs the unit tests, builds the site (schema, cross-reference, and raw-date validation run
 inside the build), and checks `dist/` for missing routes, broken internal links, missing canonical URLs, and
-any repository-name path prefix. For visual checks, run `npm run dev:fixtures` to see every layout populated
+any repository-name path prefix. The absolute repobs documentation URL is explicitly recognized as an
+independent GitHub Pages project deployment; its files are not part of this build.
+For visual checks, run `npm run dev:fixtures` to see every layout populated
 with clearly synthetic fixture data at mobile and desktop widths.
 
 If a build ever reports that a cached record's source file no longer exists, the content cache is stale:
