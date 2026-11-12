@@ -13,6 +13,12 @@ import { parse } from 'yaml';
 import { findFragmentIssues } from '../src/lib/paper/references.ts';
 
 export const SITE_URL = 'https://chengxuan-li.github.io';
+// These absolute URLs are served by independent GitHub Pages project deployments.
+// Root-relative paths and all other URLs on this origin still belong to this build.
+const EXTERNAL_PROJECT_URLS = new Set([
+  `${SITE_URL}/repobs/`,
+  `${SITE_URL}/repobs/assets/repobs-film.mp4`,
+]);
 export const FORBIDDEN_PREFIX = '/chengxuan-li.github.io/';
 export const STATIC_ROUTES = [
   '/', '/projects/', '/publications/', '/cv/', '/news/',
@@ -66,6 +72,7 @@ export function extractLocalRefs(html: string, siteUrl: string = SITE_URL): stri
     const isSrcset = /\s\d+[wx](,|$)/.test(raw);
     const candidates = isSrcset ? raw.split(',').map((part) => part.trim().split(/\s+/)[0]) : [raw];
     for (let candidate of candidates) {
+      if (EXTERNAL_PROJECT_URLS.has(candidate.split(/[?#]/)[0])) continue;
       if (candidate.startsWith(siteUrl)) candidate = candidate.slice(siteUrl.length) || '/';
       if (!candidate.startsWith('/') || candidate.startsWith('//')) continue;
       const clean = candidate.split('#')[0].split('?')[0];

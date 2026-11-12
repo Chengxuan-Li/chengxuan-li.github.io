@@ -22,7 +22,7 @@ import { roleLine, siteConfig } from '../site.config';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const content = await loadSiteContent();
-const featuredProjects = selectFeaturedProjects(content, 4);
+const featuredProjects = selectFeaturedProjects(content, 3);
 const latest = selectLatestActivity(content, 4, locale);
 const experiences = selectFeaturedExperiences(content, 3);
 const publications = selectFeaturedPublications(content, 5);

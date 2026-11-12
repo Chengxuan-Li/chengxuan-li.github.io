@@ -58,6 +58,19 @@ const nextLocale = otherLocale(locale);
   import { readStoredTheme, resolveTheme, STORAGE_KEY, toggleTheme, type Theme } from '../lib/theme';
 
   const root = document.documentElement;
+  const header = document.querySelector<HTMLElement>('.site-header');
+
+  if (header) {
+    const syncScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 0);
+    const syncHeight = () => root.style.setProperty('--header-height', `${header.getBoundingClientRect().height}px`);
+
+    window.addEventListener('scroll', syncScroll, { passive: true });
+    window.addEventListener('pageshow', syncScroll);
+    new ResizeObserver(syncHeight).observe(header);
+    syncScroll();
+    syncHeight();
+  }
+
   const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
   const media = window.matchMedia('(prefers-color-scheme: dark)');
   const THEME_COLORS: Record<Theme, string> = { light: '#fafafa', dark: '#111111' };

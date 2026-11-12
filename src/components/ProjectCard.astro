@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import TagList from './TagList.astro';
+import ScreenshotStack from './ScreenshotStack.astro';
 import type { ProjectEntry } from '../lib/content/model';
 import { formatDateRange, projectStatusLabel, projectTypeLabel } from '../lib/content/format';
 import { fallbackLang, getText, localizedPath, t, type Locale } from '../lib/i18n';
@@ -24,7 +25,7 @@ const dateRange = formatDateRange(data.start_date, data.end_date, { locale });
 ---
 <article class:list={['project-card', `project-card--${variant}`]}>
   <a class="project-card__visual" href={href} tabindex="-1" aria-hidden="true">
-    {data.hero_image ? (
+    {data.hero_stack ? <ScreenshotStack frames={data.hero_stack} alt="" /> : data.hero_image ? (
       <Image
         src={data.hero_image}
         alt=""

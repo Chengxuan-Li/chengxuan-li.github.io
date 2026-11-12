@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import type { ScreenshotPair } from '../lib/content/model';
+
+interface Props extends ScreenshotPair {
+  alt: string;
+  maxWidth?: number;
+  loading?: 'eager' | 'lazy';
+  sizes?: string;
+  link?: boolean;
+}
+const { light, dark, alt, maxWidth = 560, loading = 'lazy', sizes = '(max-width: 40rem) 92vw, 35rem', link = false } = Astro.props;
+const displayWidth = Math.min(maxWidth, light.width, dark.width);
+const variants = [{ theme: 'light', image: light }, { theme: 'dark', image: dark }];
+const Element = link ? 'a' : 'span';
+const widths = (nativeWidth: number) => [...new Set([320, 560, 840, 1120, Math.min(nativeWidth, maxWidth * 2)].filter(width => width <= nativeWidth && width <= maxWidth * 2))].sort((a,b) => a-b);
+---
+<span class="themed-screenshot" style={`--screenshot-width:${displayWidth}px`}>
+  {variants.map(({ theme, image }) => (
+    <Element class="themed-screenshot__variant" data-screenshot-theme={theme} href={link ? image.src : undefined} target={link ? '_blank' : undefined} rel={link ? 'noopener noreferrer' : undefined}>
+      <Image src={image} alt={alt} widths={widths(image.width)} sizes={sizes} loading={loading} />
+    </Element>
+  ))}
+</span>
+
+<style>
+  .themed-screenshot { display: block; width: 100%; max-width: var(--screenshot-width); }
+  .themed-screenshot__variant { display: block; }
+  .themed-screenshot :global(img) { display: block; width: 100%; height: auto; }
+  [data-screenshot-theme='dark'] { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) [data-screenshot-theme='light'] { display: none; }
+    :global(:root:not([data-theme='light'])) [data-screenshot-theme='dark'] { display: block; }
+  }
+  :global(:root[data-theme='dark']) [data-screenshot-theme='light'] { display: none; }
+  :global(:root[data-theme='dark']) [data-screenshot-theme='dark'] { display: block; }
+</style>

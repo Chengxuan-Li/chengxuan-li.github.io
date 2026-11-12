@@ -57,6 +57,18 @@ async function validDist(root: string): Promise<void> {
 }
 
 describe('extractLocalRefs', () => {
+  it('recognizes the published repobs film without skipping other asset or root-relative checks', () => {
+    expect(extractLocalRefs(`<video><source src="${SITE}/repobs/assets/repobs-film.mp4"></video>`, SITE)).toEqual([]);
+    const html = `<video><source src="${SITE}/repobs/assets/repobs-film.mp4"></video><img src="${SITE}/repobs/assets/missing.png"><source src="/repobs/assets/repobs-film.mp4">`;
+    expect(extractLocalRefs(html, SITE)).toEqual(['/repobs/assets/missing.png', '/repobs/assets/repobs-film.mp4']);
+  });
+
+  it('recognizes the independently deployed repobs documentation while checking other site links', () => {
+    expect(extractLocalRefs(`<a href="${SITE}/repobs/">Documentation</a><a href="${SITE}/projects/repobs/">Project</a><a href="${SITE}/repobs-missing/">Unknown</a>`, SITE))
+      .toEqual(['/projects/repobs/', '/repobs-missing/']);
+    expect(extractLocalRefs('<a href="/repobs/">Local path</a>', SITE)).toEqual(['/repobs/']);
+  });
+
   it('collects root-relative href/src/srcset targets and normalizes site-absolute URLs', () => {
     const html = `<a href="/projects/?x=1#top">a</a><img src="${SITE}/images/og/default.png"><img srcset="/_astro/a.webp 480w, /_astro/b.webp 800w"><a href="https://example.com/">e</a><a href="mailto:x@y.z">m</a><a href="//cdn.example/x">p</a><a href="#top">f</a><meta content="width=device-width">`;
     expect(extractLocalRefs(html, SITE)).toEqual(['/_astro/a.webp', '/_astro/b.webp', '/images/og/default.png', '/projects/']);

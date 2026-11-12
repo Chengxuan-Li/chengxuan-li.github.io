@@ -89,7 +89,7 @@ describe('splitAuthors', () => {
 
 describe('labels and urls', () => {
   it('has a label for every status and news type', () => {
-    expect(PUBLICATION_STATUS_LABELS['in-press']).toBe('In press');
+    expect(PUBLICATION_STATUS_LABELS['in-press']).toBe('In Press');
     expect(NEWS_TYPE_LABELS.other).toBe('Update');
   });
   it('detects external urls', () => {

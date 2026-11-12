@@ -14,7 +14,7 @@ export const percent = (n: number, digits=2) => `${(100*n).toFixed(digits)}%`;
 const text = (x:number,y:number,s:string,extra='') => `<text x="${x}" y="${y}" ${extra}>${escape(s)}</text>`;
 const mark = (info:string) => `data-point tabindex="-1" role="img" aria-label="${escape(info)}" data-info="${escape(info)}"`;
 function svg(width:number,height:number,body:string,label:string) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="group" aria-label="${escape(label)}"><style>text{font:12px Arial,sans-serif;fill:#24282d} [data-point]:focus{outline:none;stroke:#005fcc;stroke-width:3px} .axis{stroke:#8d949b;stroke-width:1} .grid{stroke:#d9dde1;stroke-width:.65} .panel-label{font-weight:700;font-size:15px}</style><rect width="100%" height="100%" fill="white"/>${body}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="group" aria-label="${escape(label)}"><style>text{font:12px "Geist Variable",Arial,sans-serif;fill:var(--chart-ink,#24282d)} [data-point]:focus,[data-point].is-active{outline:none} [data-point]:is(:focus,.is-active):not(g),[data-point]:is(:focus,.is-active)>rect{stroke:var(--chart-focus,#005fcc);stroke-width:3px;vector-effect:non-scaling-stroke} .axis{stroke:var(--chart-axis,#8d949b);stroke-width:1} .grid{stroke:var(--chart-grid,#d9dde1);stroke-width:.65} .panel-label{font-weight:700;font-size:15px}</style>${body}</svg>`;
 }
 export function tradeoffChart(points:TradePoint[], baseline:BaselinePoint[], opts:ChartOptions):string {
   const lats=opts.latitude==='all'?[0,15,30,45,60]:[Number(opts.latitude)];
@@ -50,9 +50,9 @@ export function tradeoffChart(points:TradePoint[], baseline:BaselinePoint[], opt
     }
     if(opts.baseline){
       const series=baseline.filter(p=>p.latitude===lat).sort((a,b)=>a.cost-b.cost);
-      body+=`<path d="${line<BaselinePoint>().x(p=>x(p.cost)).y(p=>y(p.error))(series)}" fill="none" stroke="#303030" stroke-width="1.6" stroke-dasharray="6 4"/>`;
+      body+=`<path d="${line<BaselinePoint>().x(p=>x(p.cost)).y(p=>y(p.error))(series)}" fill="none" stroke="var(--chart-ink,#303030)" stroke-width="1.6" stroke-dasharray="6 4"/>`;
       for(const p of series){const info=`${lat}° · random baseline · actual cost ${percent(p.cost,4)} · WMAPE ${percent(p.error,4)} · 95% CI of repeat mean ${percent(p.low,4)}–${percent(p.high,4)} (25 repeats)`;
-        body+=`<path d="M0 -4L4 0L0 4L-4 0Z" transform="translate(${x(p.cost)},${y(p.error)})" fill="#303030" ${mark(info)}><title>${escape(info)}</title></path>`;
+        body+=`<path d="M0 -4L4 0L0 4L-4 0Z" transform="translate(${x(p.cost)},${y(p.error)})" fill="var(--chart-ink,#303030)" ${mark(info)}><title>${escape(info)}</title></path>`;
       }
     }
     body+='</g>';
@@ -75,7 +75,7 @@ export function roseChart(rows:RoseBar[],opts:ChartOptions):string {
       const info=`${lat}° · ${row.direction}° from north · ${row.label} · ${row.count} / ${row.total} facade surfaces (${percent(row.proportion,2)})`;
       body+=`<path transform="translate(${cx},${cy})" d="${path}" fill="${row.color}" opacity="${opts.band==='all'||Number(opts.band)===row.band?1:.15}" stroke="white" stroke-width=".45" ${mark(info)}><title>${escape(info)}</title></path>`;
     }
-    for(const f of [.25,.5,.75,1])body+=`<circle cx="${cx}" cy="${cy}" r="${R*f}" fill="none" stroke="#65707c" stroke-opacity=".35"/>`+text(cx+3,cy-R*f+4,`${f*100}%`,'style="font-size:9px;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round"');
+    for(const f of [.25,.5,.75,1])body+=`<circle cx="${cx}" cy="${cy}" r="${R*f}" fill="none" stroke="var(--chart-axis,#65707c)" stroke-opacity=".35"/>`+text(cx+3,cy-R*f+4,`${f*100}%`,'style="font-size:9px;paint-order:stroke;stroke:var(--chart-surface,white);stroke-width:3px;stroke-linejoin:round"');
     for(const [j,dir] of ['N','NE','E','SE','S','SW','W','NW'].entries()){
       const a=j*Math.PI/4;
       body+=text(cx+(R+17)*Math.sin(a),cy-(R+17)*Math.cos(a)+4,dir,'text-anchor="middle"');
@@ -121,5 +121,5 @@ export function tableRows(kind:ChartKind,data:ChartData,opts=defaults()): {heade
 }
 export function dataTable(kind:ChartKind,data:ChartData,opts=defaults()):string {
   const {headers,rows}=tableRows(kind,data,opts);
-  return `<table><caption>Figure data. Ratios are fractions; multiply by 100 for percentages.</caption><thead><tr>${headers.map(h=>`<th scope="col">${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${escape(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  return `<table><caption class="visually-hidden">Figure data. Ratios are fractions; multiply by 100 for percentages.</caption><thead><tr>${headers.map(h=>`<th scope="col">${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${escape(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }

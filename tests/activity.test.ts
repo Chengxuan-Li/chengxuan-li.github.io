@@ -67,7 +67,7 @@ describe('buildActivityStream', () => {
   });
 
   it('labels each entry by what happened', () => {
-    expect(stream.map((entry) => entry.label)).toEqual(['Media', 'Publication', 'Award', 'Invited talk', 'Publication']);
+    expect(stream.map((entry) => entry.label)).toEqual(['Media', 'Publication', 'Award', 'Invited Talk', 'Publication']);
   });
 
   it('summarizes each source from its own fields', () => {
@@ -75,7 +75,7 @@ describe('buildActivityStream', () => {
     expect(summary('publication:paper')).toBe('A venue');
     expect(summary('publication:accepted')).toBe('Some conference · Accepted');
     expect(summary('award:prize')).toBe('A body · Worth $1.');
-    expect(summary('talk:keynote')).toBe('Invited talk · An event, A city');
+    expect(summary('talk:keynote')).toBe('Invited Talk · An event, A city');
     expect(summary('news:irregular')).toBe('A note.');
   });
 

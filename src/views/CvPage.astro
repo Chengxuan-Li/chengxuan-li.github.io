@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ExternalLinks from '../components/ExternalLinks.astro';
+import ActionButton from '../components/ActionButton.astro';
+import ActionGroup from '../components/ActionGroup.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import EducationListItem from '../components/EducationListItem.astro';
 import ExperienceListItem from '../components/ExperienceListItem.astro';
@@ -50,14 +52,11 @@ const description = locale === 'zh'
     <div class="cv-head__actions">
       <ExternalLinks variant="cv" locale={locale} />
       {siteConfig.cvPdfs.length > 0 && (
-        <div class="cv-head__pdfs">
+        <ActionGroup class="cv-head__pdfs">
           {siteConfig.cvPdfs.map((cvPdf) => (
-            <a class="button button--primary cv-head__pdf-link" href={cvPdf.href} aria-label={`${getText(cvPdf.label, locale)} (PDF)`}>
-              <span class="cv-head__pdf-icon" aria-hidden="true"></span>
-              <span>{getText(cvPdf.label, locale)}</span>
-            </a>
+            <ActionButton href={cvPdf.href} icon="pdf" label={getText(cvPdf.label, locale)} aria-label={`${getText(cvPdf.label, locale)} (PDF)`} />
           ))}
-        </div>
+        </ActionGroup>
       )}
     </div>
   </header>

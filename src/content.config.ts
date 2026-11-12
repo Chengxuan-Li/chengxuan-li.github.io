@@ -10,6 +10,7 @@ import {
   newsSchema,
   projectBaseSchema,
   projectVideoSchema,
+  localizedTextSchema,
   publicationSchema,
   skillGroupSchema,
   talkSchema,
@@ -33,6 +34,13 @@ const projects = defineCollection({
   schema: ({ image }) =>
     projectBaseSchema.extend({
       hero_image: image().optional(),
+      intro_video: projectVideoSchema(image()).optional(),
+      hero_stack: z.array(z.strictObject({ light: image(), dark: image() })).length(3).optional(),
+      screenshots: z.array(z.strictObject({
+        light: image(), dark: image(), title: localizedTextSchema,
+        alt: localizedTextSchema.optional(),
+        description: localizedTextSchema.optional(),
+      })).min(1).optional(),
       videos: z.array(projectVideoSchema(image())).min(1).optional(),
     }),
 });

@@ -33,6 +33,24 @@ technologies: [Python]
 #   zh: 康奈尔大学
 # hero_image: ./hero.png            # (optional) image placed next to this file; 1600px wide or more
 # show_hero_on_page: true           # default false; enable to also show the card image above the narrative
+# hero_stack:                      # optional, exactly three paired screenshots; replaces only the card thumbnail
+#   - { light: ./timeline.png, dark: ./timeline-dark.png }
+#   - { light: ./agent.png, dark: ./agent-dark.png }
+#   - { light: ./review.png, dark: ./review-dark.png }
+# introduction:                    # optional section before the screenshot showcase
+#   title: { en: Problem, zh: 问题 }
+#   text: { en: Describe the problem the product solves., zh: 描述产品要解决的问题。 }
+# intro_video:                     # optional video beside the introduction, using the same layout as screenshots
+#   url: https://example.com/product-film.mp4
+#   title: { en: Product film, zh: 产品短片 }
+#   poster: ./film-poster.jpg
+#   autoplay: true                 # muted, looping playback while visible
+# screenshots:                     # optional themed showcase; images up to 800px beside feature descriptions
+#   - light: ./timeline.png
+#     dark: ./timeline-dark.png
+#     title: { en: Repository timeline, zh: 仓库时间线 }
+#     alt: { en: Branches and commits on a timeline., zh: 时间线上的分支与提交。 }
+#     description: { en: Explain the feature shown here., zh: 说明截图中展示的功能。 } # optional
 # hero_alt:                        # required when hero_image is informative; en may be "" if decorative
 #   en: What the figure shows.
 #   zh: 图片所展示的内容。

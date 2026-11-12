@@ -4,8 +4,13 @@ import { render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectMeta from '../components/ProjectMeta.astro';
+import ActionButton from '../components/ActionButton.astro';
+import ActionGroup from '../components/ActionGroup.astro';
+import { projectActionIcon } from '../lib/action-icons';
 import PaperShell from '../components/paper/PaperShell.astro';
 import ResponsiveFigure from '../components/ResponsiveFigure.astro';
+import ProjectShowcase from '../components/ProjectShowcase.astro';
+import ProjectFeature from '../components/ProjectFeature.astro';
 import ProjectVideo from '../components/ProjectVideo.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import PublicationListItem from '../components/PublicationListItem.astro';
@@ -33,6 +38,7 @@ const { Content, headings } = await render(bodyEntry);
 const bodyFallback = locale === 'zh' && !translation;
 const software = data.links.filter((link) => ['code', 'demo', 'docs', 'data'].includes(link.kind));
 const hasOutputs = relations.publications.length > 0 || software.length > 0 || relations.talks.length > 0;
+const softwareOnly = software.length > 0 && relations.publications.length === 0 && relations.talks.length === 0;
 
 let ogImage: string | undefined;
 if (data.hero_image) {
@@ -54,6 +60,21 @@ if (data.hero_image) {
 
     {data.show_hero_on_page && data.hero_image && <ResponsiveFigure src={data.hero_image} alt={getText(data.hero_alt, locale)} caption={data.hero_caption ? getText(data.hero_caption, locale) : undefined} loading="eager" />}
 
+    {data.introduction && (data.intro_video ? (
+      <div class="project-introduction project-introduction--video">
+        <ProjectFeature id="project-introduction" title={data.introduction.title} text={data.introduction.text} locale={locale}>
+          <ProjectVideo video={data.intro_video} locale={locale} variant="showcase" />
+        </ProjectFeature>
+      </div>
+    ) : (
+      <section class="prose project-introduction" aria-labelledby="project-introduction">
+        <h2 id="project-introduction">{getText(data.introduction.title, locale)}</h2>
+        <p>{getText(data.introduction.text, locale)}</p>
+      </section>
+    ))}
+
+    {data.screenshots && <ProjectShowcase screenshots={data.screenshots} locale={locale} />}
+
     <div class="prose" lang={bodyFallback ? 'en' : undefined}>
       <Content />
       {data.videos && (
@@ -66,7 +87,7 @@ if (data.hero_image) {
 
     {hasOutputs && (
       <section class="section project__outputs" aria-labelledby="outputs">
-        <SectionHeading id="outputs" title={t(locale, 'section.outputs')} />
+        <SectionHeading id="outputs" title={t(locale, softwareOnly ? 'section.software' : 'section.outputs')} />
         {relations.publications.length > 0 && (
           <Fragment>
             <h3>{t(locale, 'section.publications')}</h3>
@@ -75,8 +96,8 @@ if (data.hero_image) {
         )}
         {software.length > 0 && (
           <Fragment>
-            <h3>{t(locale, 'section.software')}</h3>
-            <ul class="link-list">{software.map((link) => <li><a href={link.url} lang={fallbackLang(link.label, locale)}>{getText(link.label, locale)}</a></li>)}</ul>
+            {!softwareOnly && <h3>{t(locale, 'section.software')}</h3>}
+            <ActionGroup>{software.map((link) => <ActionButton href={link.url} icon={projectActionIcon(link)} label={getText(link.label, locale)} lang={fallbackLang(link.label, locale)} />)}</ActionGroup>
           </Fragment>
         )}
         {relations.talks.length > 0 && (
@@ -99,3 +120,9 @@ if (data.hero_image) {
   </article>
   )}
 </BaseLayout>
+
+<style>
+  .project > .project-introduction { margin-bottom: 4rem; }
+  .project > .project-introduction:not(.project-introduction--video) { max-width: 50rem; }
+  @media (max-width: 60rem) { .project > .project-introduction { margin-bottom: 3rem; } }
+</style>

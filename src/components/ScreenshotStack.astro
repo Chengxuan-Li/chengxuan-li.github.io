@@ -1,0 +1,53 @@
+---
+import type { ScreenshotPair } from '../lib/content/model';
+import ThemedScreenshot from './ThemedScreenshot.astro';
+
+interface Props { frames: ScreenshotPair[]; alt: string }
+const { frames, alt } = Astro.props;
+---
+<div class="screenshot-stack" role={alt ? 'img' : undefined} aria-label={alt || undefined}>
+  <div class="screenshot-stack__scene">
+    {frames.map((frame, index) => (
+      <div class="screenshot-stack__frame" style={`--layer:${index}`}>
+        <ThemedScreenshot {...frame} alt="" maxWidth={1280} sizes="(max-width: 44em) 66vw, (max-width: 76em) 33vw, 24rem" />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .screenshot-stack {
+    --stack-shadow: 0 5px 16px -8px rgb(0 0 0 / .18), 0 0 10px rgb(0 0 0 / .05);
+    --stack-edge: rgb(0 0 0 / .1);
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 10;
+  }
+  .screenshot-stack__scene {
+    position: absolute;
+    inset: 0;
+  }
+  .screenshot-stack__frame {
+    position: absolute;
+    width: calc(66% - var(--layer) * 1.5%);
+    left: calc(5% + var(--layer) * 12%);
+    top: calc(7% + var(--layer) * 12%);
+    z-index: var(--layer);
+    border: 1px solid var(--stack-edge);
+    border-radius: 8px;
+    box-shadow: var(--stack-shadow);
+  }
+  .screenshot-stack__frame :global(.themed-screenshot) { border-radius: inherit; overflow: hidden; }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .screenshot-stack {
+      --stack-shadow: 0 5px 16px -8px rgb(0 0 0 / .4), 0 0 10px rgb(255 255 255 / .08);
+      --stack-edge: rgb(255 255 255 / .12);
+    }
+  }
+  :global(:root[data-theme='dark']) .screenshot-stack {
+    --stack-shadow: 0 5px 16px -8px rgb(0 0 0 / .4), 0 0 10px rgb(255 255 255 / .08);
+    --stack-edge: rgb(255 255 255 / .12);
+  }
+</style>

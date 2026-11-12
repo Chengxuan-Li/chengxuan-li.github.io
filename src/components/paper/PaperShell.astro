@@ -2,6 +2,8 @@
 import type { ProjectEntry, PublicationEntry } from '../../lib/content/model';
 import { getText, type Locale } from '../../lib/i18n';
 import '../../styles/paper.css';
+import ActionButton from '../ActionButton.astro';
+import ActionGroup from '../ActionGroup.astro';
 interface Props { project: ProjectEntry; publication: PublicationEntry; headings: {depth: number; slug: string; text: string}[]; locale: Locale }
 const {project, publication, headings} = Astro.props;
 const title = getText(project.data.title);
@@ -18,11 +20,12 @@ const bibtex = `@${publication.data.type === 'journal' ? 'article' : 'inproceedi
     <p class="paper-authors">{authors.map((name, i) => <Fragment>{i > 0 && ', '}{name}<sup>1{i === 0 ? ', *' : ''}</sup></Fragment>)}</p>
     <p class="paper-affiliation"><sup>1</sup> <a href="https://es.aap.cornell.edu/">Environmental Systems Lab</a>, College of Architecture, Art and Planning, Cornell University</p>
     <p class="paper-correspondence">* Corresponding author: <a href="mailto:cl2749@cornell.edu">cl2749@cornell.edu</a></p>
-    <div class="paper-actions">
-      {project.data.paper_pdf && <a href={project.data.paper_pdf} download>Download PDF</a>}
-      <button type="button" data-print class="js-control">Print paper</button>
-      <a href="#paper-citation">Cite this paper</a>
-    </div>
+    <ActionGroup class="paper-actions">
+      {project.data.paper_pdf && <ActionButton href={project.data.paper_pdf} icon="pdf" label="PDF" download />}
+      <ActionButton icon="presentation" label="Presentation" disabled title="Presentation link coming soon" />
+      <ActionButton icon="printer" label="Print" data-print class="js-control" />
+      <ActionButton href="#paper-citation" icon="quote" label="Cite" />
+    </ActionGroup>
   </header>
   <div class="paper-layout">
     <aside class="paper-toc" aria-label="Paper navigation">
@@ -33,12 +36,14 @@ const bibtex = `@${publication.data.type === 'journal' ? 'article' : 'inproceedi
       <slot />
       <section class="paper-citation" id="paper-citation">
         <h2>Citation</h2><p>{citation}</p>
-        <div class="paper-actions"><button type="button" data-copy-citation class="js-control">Copy BibTeX</button></div>
+        <ActionGroup class="paper-actions"><ActionButton icon="copy" label="Copy BibTeX" data-copy-citation class="js-control" /></ActionGroup>
         <pre class="bibtex"><code>{bibtex}</code></pre>
       </section>
     </div>
   </div>
   <div class="reference-preview" role="tooltip" id="reference-preview" hidden></div>
+  <template data-return-reference><ActionButton href="#paper-top" icon="return" label="Return to Reference" size="small" class="return-reference" /></template>
+  <template data-figure-close><ActionButton icon="close" label="Close expanded figure" iconOnly /></template>
   <p class="paper-status" role="status" aria-live="polite"></p>
 </article>
 <script>import '../../lib/paper/reader';</script>
