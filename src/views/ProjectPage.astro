@@ -48,7 +48,7 @@ if (data.hero_image) {
 ---
 <BaseLayout title={getText(data.title, locale)} description={getText(data.summary, locale)} ogImage={ogImage} ogType="article" locale={locale}>
   {data.presentation === 'paper' && relations.publications[0] ? (
-    <PaperShell project={project} publication={relations.publications[0]} headings={headings} locale={locale}><Content /></PaperShell>
+    <PaperShell project={project} publication={relations.publications[0]} awards={relations.awards} headings={headings} locale={locale}><Content /></PaperShell>
   ) : (
   <article class="project">
     <header class="project__head">

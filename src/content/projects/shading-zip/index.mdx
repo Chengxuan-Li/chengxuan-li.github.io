@@ -6,6 +6,7 @@ summary:
   zh: 通过选择代表性传感器进行计算，在平均 WMAPE 为 2.6% 的情况下减少 67.4% 的光线追踪计算，并保留完整的传感器与表面结果。
 presentation: paper
 paper_pdf: /papers/shadingzip-manuscript.pdf
+paper_presentation: /papers/shadingzip-asim-2026-presentation.pptx
 status: active
 start_date: 2026
 published: true
@@ -44,6 +45,13 @@ import {selection,reconstruction,wmape} from '../../../lib/paper/shadingzip';
 Urban building energy models require time-resolved solar access at the envelope sensor level, making exhaustive ray tracing expensive. **ShadingZip reduces ray-tracing evaluations by 67.4% at a 2.6% WMAPE** by selectively computing shading for representative sensors within each building. Representatives are identified using sensor metadata (MF), exploratory shading observations (SF), or both (MF+SF); unobserved periods are reconstructed from assigned representatives. ShadingZip is evaluated on 2,691 buildings from ten morphological contexts of over 65,000 buildings under five latitudes. Accuracy is measured using error at building- and surface-aggregation levels. SF and MF+SF outperform MF once the cost of exploratory ray tracing is accepted, although MF+SF provides no consistent advantage over SF. A balanced configuration—SF with 3 exploratory periods and representative ratio 0.20—used 32.6% of exhaustive ray-tracing, with WMAPE below 5% in 49 of the 50 case–latitude combinations. ShadingZip provides a scalable and controllable tradeoff between shading accuracy and workload while preserving full building and surface shading result coverage.
 
 **Keywords:** Urban Building Energy Modeling, Solar shading, Clustering, Selective computation
+
+## Video abstract
+
+<video controls playsInline preload="none" width="1920" height="1080" aria-label="ShadingZip video abstract">
+  <source src="/papers/shadingzip-video-abstract.mp4" type="video/mp4" />
+  <a href="/papers/shadingzip-video-abstract.mp4">Watch the ShadingZip video abstract</a>
+</video>
 
 ## Introduction
 

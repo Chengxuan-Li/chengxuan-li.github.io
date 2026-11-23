@@ -1,11 +1,11 @@
 ---
-import type { ProjectEntry, PublicationEntry } from '../../lib/content/model';
+import type { AwardEntry, ProjectEntry, PublicationEntry } from '../../lib/content/model';
 import { getText, type Locale } from '../../lib/i18n';
 import '../../styles/paper.css';
 import ActionButton from '../ActionButton.astro';
 import ActionGroup from '../ActionGroup.astro';
-interface Props { project: ProjectEntry; publication: PublicationEntry; headings: {depth: number; slug: string; text: string}[]; locale: Locale }
-const {project, publication, headings} = Astro.props;
+interface Props { project: ProjectEntry; publication: PublicationEntry; awards: AwardEntry[]; headings: {depth: number; slug: string; text: string}[]; locale: Locale }
+const {project, publication, awards, headings} = Astro.props;
 const title = getText(project.data.title);
 const authors = publication.data.authors;
 const venue = publication.data.venue ? getText(publication.data.venue) : '';
@@ -15,14 +15,14 @@ const bibtex = `@${publication.data.type === 'journal' ? 'article' : 'inproceedi
 ---
 <article class="paper-reader" lang="en">
   <header class="paper-head" id="paper-top">
-    <p class="paper-publication">{venue}{venue && ' · '}{statusLabel}</p>
+    <p class="paper-publication">{venue}{venue && ' · '}{statusLabel}{awards.map((award) => ` · ${getText(award.data.title)}`)}</p>
     <h1>{title}</h1>
     <p class="paper-authors">{authors.map((name, i) => <Fragment>{i > 0 && ', '}{name}<sup>1{i === 0 ? ', *' : ''}</sup></Fragment>)}</p>
     <p class="paper-affiliation"><sup>1</sup> <a href="https://es.aap.cornell.edu/">Environmental Systems Lab</a>, College of Architecture, Art and Planning, Cornell University</p>
     <p class="paper-correspondence">* Corresponding author: <a href="mailto:cl2749@cornell.edu">cl2749@cornell.edu</a></p>
     <ActionGroup class="paper-actions">
       {project.data.paper_pdf && <ActionButton href={project.data.paper_pdf} icon="pdf" label="PDF" download />}
-      <ActionButton icon="presentation" label="Presentation" disabled title="Presentation link coming soon" />
+      {project.data.paper_presentation && <ActionButton href={project.data.paper_presentation} icon="presentation" label="Presentation" download />}
       <ActionButton icon="printer" label="Print" data-print class="js-control" />
       <ActionButton href="#paper-citation" icon="quote" label="Cite" />
     </ActionGroup>

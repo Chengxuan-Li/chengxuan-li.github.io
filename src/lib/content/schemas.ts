@@ -157,6 +157,7 @@ export const projectBaseSchema = z.strictObject({
   introduction: z.strictObject({ title: localizedTextSchema, text: localizedTextSchema }).optional(),
   presentation: z.enum(['project', 'paper']).default('project'),
   paper_pdf: z.string().regex(/^\/papers\/[a-z0-9-]+\.pdf$/, 'Use a local /papers/<name>.pdf path').optional(),
+  paper_presentation: z.string().regex(/^\/papers\/[a-z0-9-]+\.pptx$/, 'Use a local /papers/<name>.pptx path').optional(),
   status: z.enum(PROJECT_STATUSES).default('active'),
   start_date: flexDate,
   end_date: flexDate.nullable().default(null),
