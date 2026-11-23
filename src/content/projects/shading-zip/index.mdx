@@ -40,18 +40,18 @@ import ImageFigure from '../../../components/paper/ImageFigure.astro';
 import workflow from './workflow.png';
 import {selection,reconstruction,wmape} from '../../../lib/paper/shadingzip';
 
+## Video abstract
+
+<video autoplay muted playsInline controls width="1920" height="1080" aria-label="ShadingZip video abstract">
+  <source src="/papers/shadingzip-video-abstract.mp4" type="video/mp4" />
+  <a href="/papers/shadingzip-video-abstract.mp4">Watch the ShadingZip video abstract</a>
+</video>
+
 ## Abstract
 
 Urban building energy models require time-resolved solar access at the envelope sensor level, making exhaustive ray tracing expensive. **ShadingZip reduces ray-tracing evaluations by 67.4% at a 2.6% WMAPE** by selectively computing shading for representative sensors within each building. Representatives are identified using sensor metadata (MF), exploratory shading observations (SF), or both (MF+SF); unobserved periods are reconstructed from assigned representatives. ShadingZip is evaluated on 2,691 buildings from ten morphological contexts of over 65,000 buildings under five latitudes. Accuracy is measured using error at building- and surface-aggregation levels. SF and MF+SF outperform MF once the cost of exploratory ray tracing is accepted, although MF+SF provides no consistent advantage over SF. A balanced configuration—SF with 3 exploratory periods and representative ratio 0.20—used 32.6% of exhaustive ray-tracing, with WMAPE below 5% in 49 of the 50 case–latitude combinations. ShadingZip provides a scalable and controllable tradeoff between shading accuracy and workload while preserving full building and surface shading result coverage.
 
 **Keywords:** Urban Building Energy Modeling, Solar shading, Clustering, Selective computation
-
-## Video abstract
-
-<video controls playsInline preload="none" width="1920" height="1080" aria-label="ShadingZip video abstract">
-  <source src="/papers/shadingzip-video-abstract.mp4" type="video/mp4" />
-  <a href="/papers/shadingzip-video-abstract.mp4">Watch the ShadingZip video abstract</a>
-</video>
 
 ## Introduction
 
